@@ -3,6 +3,7 @@ package com.marvin.splashedinkkotlin.db
 import android.content.Context
 import com.marvin.splashedinkkotlin.bean.DownloadListsBean
 import org.jetbrains.anko.db.insert
+import org.jetbrains.anko.db.select
 
 /**
  * Created by Administrator on 2017/7/29.
@@ -21,10 +22,13 @@ class DatabaseUtils {
             return result
         }
 
-        fun select_download_lists(context: Context, offset: Int, count: Int) {
+        fun select_download_lists(context: Context, offset: Int, count: Int): List<Triple<String, String, String>>? {
+            var result: List<Triple<String, String, String>>? = null
+
             MyDatabaseOpenHelper.getInstance(context).use {
-//                select("download_lists").parseList()
+                result = select("download_lists").parseList(MyRowParser())
             }
+            return result
         }
     }
 }
