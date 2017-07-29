@@ -1,0 +1,22 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="dp_8">8dp</dimen>
+    <dimen name="dp_40">40dp</dimen>
+    <dimen name="dp_60">60dp</dimen>
+    <dimen name="dp_200">200dp</dimen>
+
+    <dimen name="popup_item_high">45dp</dimen>
+    <dimen name="popup_item_width">120dp</dimen>
+
+    <!--text size-->
+    <dimen name="text_small_size">12sp</dimen>
+    <dimen name="text_middle_size">14sp</dimen>
+    <dimen name="text_big_size">16sp</dimen>
+    <dimen name="text_appbar_size">20sp</dimen>
+    <dimen name="text_huge_size">24sp</dimen>
+
+    <dimen name="time_picker_title_height">40dp</dimen>
+</resources>

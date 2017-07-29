@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#515151</color>
+    <color name="colorPrimaryDark">#515151</color>
+    <color name="colorAccent">#515151</color>
+    <color name="activity_background">#ededed</color>
+
+    <color name="color_dirver_line">#d7d7d7</color>
+
+    <color name="color_white">#FFFFFF</color>
+</resources>

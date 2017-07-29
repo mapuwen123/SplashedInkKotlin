@@ -1,0 +1,44 @@
+package com.marvin.splashedinkkotlin.base
+
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import com.marvin.splashedinkkotlin.utils.ActivityUtils
+
+/**
+ * Created by Administrator on 2017/7/26.
+ */
+abstract class BaseActivity<V, P : BasePresenter<V>> : AppCompatActivity() {
+    companion object {
+        val TAG: String = this::class.java.simpleName
+    }
+
+    lateinit var presenter: P
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ActivityUtils.addActivity(this)
+        setContentView(getLayoutId())
+        presenter = initPresenter()
+        presenter.attach(this as V)
+        actionbarInit()
+        dataInit()
+    }
+
+    protected abstract fun getLayoutId(): Int
+
+    protected abstract fun initPresenter(): P
+
+    protected abstract fun actionbarInit()
+
+    protected abstract fun dataInit()
+
+    override fun onDestroy() {
+        presenter.dettach()
+        ActivityUtils.removeActivity(this)
+        super.onDestroy()
+    }
+
+    fun exit() {
+        ActivityUtils.removeAllActivity()
+    }
+}
