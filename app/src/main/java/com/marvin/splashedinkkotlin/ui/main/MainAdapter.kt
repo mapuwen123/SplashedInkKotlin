@@ -6,15 +6,19 @@ import android.graphics.Color
 import android.support.annotation.LayoutRes
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.Toast
 import com.bumptech.glide.Glide
-
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.marvin.splashedinkkotlin.MyApplication
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.bean.PhotoBean
+import com.marvin.splashedinkkotlin.db.DatabaseUtils
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.backgroundColor
-
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
+import zlc.season.rxdownload2.RxDownload
 
 /**
  * Created by Administrator on 2017/7/11.
@@ -32,22 +36,27 @@ class MainAdapter(private val context: Context, @LayoutRes layoutResId: Int, dat
                 .load(item.urls!!.regular)
                 .transition(withCrossFade())
                 .into(image)
-        //        helper.setText(R.id.name, item.getUser().getName());
-        //        FrameLayout background = helper.getView(R.id.background);
-        //        ImageView image = helper.getView(R.id.item_image);
-        //        background.setBackgroundColor(Color.parseColor(item.getColor()));
-        //        Glide.with(context)
-        //                .load(item.getUrls().getRegular())
-        //                .transition(withCrossFade())
-        //                .into(image);
-        //        ImageView download = helper.getView(R.id.download);
-        //        download.setOnClickListener(view -> {
-        //            showDialog();
-        //            MyApplication.retrofitService.getDownLoadUrl(item.getId())
-        //                    .subscribeOn(Schedulers.newThread())
-        //                    .observeOn(AndroidSchedulers.mainThread())
-        //                    .subscribe(new DownLoadUrlObservable(item.getId(), item.getUrls().getRegular()));
-        //        });
+        val download = helper?.getView<ImageView>(R.id.download)
+        download.setOnClickListener {
+            run {
+                showDialog()
+                MyApplication.retrofitService.getDownLoadUrl(item?.id!!)
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe {
+                            download_bean ->
+                            run {
+                                progress?.dismiss()
+                                RxDownload.getInstance(context)
+                                        .serviceDownload(download_bean.url, item?.id + ".jpg")
+                                        .subscribe {
+                                            Toast.makeText(context, "任务已加入下载队列", Toast.LENGTH_SHORT)
+                                        }
+                                DatabaseUtils.insert_download_lists(context, item?.id!!, download_bean.url!!, item?.urls?.regular!!)
+                            }
+                        }
+            }
+        }
     }
 
     private fun showDialog() {
@@ -55,55 +64,5 @@ class MainAdapter(private val context: Context, @LayoutRes layoutResId: Int, dat
         progress!!.setMessage("下载准备中,请稍后...")
         progress!!.show()
     }
-
-    //    // 解除订阅
-    //    private Disposable disposable;
-    //
-    //    public class DownLoadUrlObservable implements Observer<DownLoadBean> {
-    //        private String photo_id;
-    //        private String preview_url;
-    //
-    //        public DownLoadUrlObservable(String photo_id, String preview_url) {
-    //            this.photo_id = photo_id;
-    //            this.preview_url = preview_url;
-    //        }
-    //
-    //        @Override
-    //        public void onSubscribe(@NonNull Disposable d) {
-    //            disposable = d;
-    //        }
-    //
-    //        @Override
-    //        public void onNext(@NonNull DownLoadBean downLoadBean) {
-    //            progress.dismiss();
-    //            String download_url = downLoadBean.getUrl();
-    //            RxDownload.getInstance(context)
-    //                    .serviceDownload(download_url, photo_id + ".jpg")
-    //                    .subscribe((Consumer<Object>) o -> {
-    //                        ToastUtil.getInstance(context)
-    //                                .setDuration(Toast.LENGTH_SHORT)
-    //                                .setText("任务已加入下载队列")
-    //                                .show();
-    //                    });
-    //            Realm.getDefaultInstance().executeTransactionAsync(realm -> {
-    //                DiskDownloadBean diskDownloadBean = realm.createObject(DiskDownloadBean.class);
-    //                diskDownloadBean.setDownload_id(id);
-    //                diskDownloadBean.setPhoto_id(photo_id);
-    //                diskDownloadBean.setUrl(download_url);
-    //                diskDownloadBean.setPreview_url(preview_url);
-    //            });
-    //        }
-    //
-    //        @Override
-    //        public void onError(@NonNull Throwable e) {
-    //            disposable.dispose();
-    //            progress.dismiss();
-    //        }
-    //
-    //        @Override
-    //        public void onComplete() {
-    //            disposable.dispose();
-    //            progress.dismiss();
-    //        }
-    //    }
 }
+

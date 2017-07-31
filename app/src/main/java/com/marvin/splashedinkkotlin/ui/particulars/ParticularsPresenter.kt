@@ -14,7 +14,7 @@ import io.reactivex.schedulers.Schedulers
  * Created by Administrator on 2017/7/28.
  */
 class ParticularsPresenter : BasePresenter<ParticularsView>(), Observer<PhotoStatusBean> {
-    val model = ParticularsModel()
+    private val model = ParticularsModel()
 
     fun getPhotoStatus(photoId: String) {
         model.getPhotoStatus(photoId)

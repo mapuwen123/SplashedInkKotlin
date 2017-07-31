@@ -11,7 +11,7 @@ import io.reactivex.schedulers.Schedulers
  * Created by Administrator on 2017/7/28.
  */
 class MainPresenter : BasePresenter<MainView>(), Observer<MutableList<PhotoBean>> {
-    val model = MainModel()
+    private val model = MainModel()
 
     fun getPhotos(page: Int, per_page: Int) {
         if (page == 1) {

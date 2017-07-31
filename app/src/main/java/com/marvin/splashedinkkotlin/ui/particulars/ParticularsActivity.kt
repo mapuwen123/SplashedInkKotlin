@@ -15,6 +15,7 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.base.BaseActivity
+import com.marvin.splashedinkkotlin.db.DatabaseUtils
 import com.marvin.splashedinkkotlin.widget.ParallaxScrollView
 import kotlinx.android.synthetic.main.activity_particulars.*
 import kotlinx.android.synthetic.main.profile_details.*
@@ -54,8 +55,9 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
 
     override fun actionbarInit() {
         setSupportActionBar(toolbar)
+        supportActionBar?.title = "Particulars"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        toolbar.setNavigationOnClickListener { view -> onBackPressed() }
+        toolbar.setNavigationOnClickListener { onBackPressed() }
     }
 
     override fun dataInit() {
@@ -168,6 +170,7 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
                 .subscribe {
                     toast("任务已加入下载队列")
                 }
+        DatabaseUtils.insert_download_lists(this, photo_id, url, image_url)
 //        Realm.getDefaultInstance().executeTransactionAsync { realm: Realm? ->
 //            run {
 //                val diskDownloadBean = realm?.createObject(DiskDownloadBean::class.java)

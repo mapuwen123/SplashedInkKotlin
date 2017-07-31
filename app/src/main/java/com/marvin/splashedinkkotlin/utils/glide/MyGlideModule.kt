@@ -20,7 +20,7 @@ class MyGlideModule : GlideModule {
 
     override fun applyOptions(context: Context?, builder: GlideBuilder?) {
         if (builder != null) {
-            builder.setDiskCache(DiskLruCacheFactory(BuildConfig.AppDir + "/IMGCache", DEFAULT_DISK_CACHE_SIZE))
+            builder.setDiskCache(DiskLruCacheFactory(BuildConfig.image_cache, DEFAULT_DISK_CACHE_SIZE))
         }
     }
 }

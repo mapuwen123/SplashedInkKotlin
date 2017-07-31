@@ -7,7 +7,7 @@ import org.jetbrains.anko.db.*
 /**
  * Created by Administrator on 2017/7/29.
  */
-class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "SplashedInkKotlin", null, 1) {
+class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "splashed_ink_kotlin", null, 1) {
     companion object {
         private var instance: MyDatabaseOpenHelper? = null
 
@@ -24,10 +24,11 @@ class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "Splashe
                 true,
                 "photo_id" to TEXT + PRIMARY_KEY,
                 "url" to TEXT,
-                "preview_url" to TEXT)
+                "preview_url" to TEXT,
+                "path" to TEXT)
     }
 
     override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
-        p0?.dropTable("download_lists", true)
+//        p0?.dropTable("download_lists", true)
     }
 }

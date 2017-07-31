@@ -56,6 +56,8 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.adapter = adapter
 
+        swipe.setOnRefreshListener(this)
+
         presenter.getPhotos(page, per_page)
     }
 
