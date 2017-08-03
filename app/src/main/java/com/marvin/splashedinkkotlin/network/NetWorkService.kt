@@ -15,11 +15,16 @@ interface NetWorkService {
     @GET("photos?client_id=f7f954a8249404b33049059a8cce4b5147303f10b2089965dc0232c29d02f653")
     fun getPhotoList(@Query("page") page: Int,
                      @Query("per_page") per_page: Int,
-                     @Query("order_by") order_by: String) : Observable<MutableList<PhotoBean>>
+                     @Query("order_by") order_by: String): Observable<MutableList<PhotoBean>>
 
     @GET("photos/{photoId}?client_id=f7f954a8249404b33049059a8cce4b5147303f10b2089965dc0232c29d02f653")
-    fun getPhotoStatus(@Path("photoId") photoId: String) : Observable<PhotoStatusBean>
+    fun getPhotoStatus(@Path("photoId") photoId: String): Observable<PhotoStatusBean>
 
     @GET("photos/{photoId}/download?client_id=f7f954a8249404b33049059a8cce4b5147303f10b2089965dc0232c29d02f653")
-    fun getDownLoadUrl(@Path("photoId") photoId: String) : Observable<DownLoadBean>
+    fun getDownLoadUrl(@Path("photoId") photoId: String): Observable<DownLoadBean>
+
+    @GET("search/photos?client_id=f7f954a8249404b33049059a8cce4b5147303f10b2089965dc0232c29d02f653")
+    fun searchPhoto(@Query("query") query: String,
+                    @Query("page") page: Int,
+                    @Query("per_page") per_page: Int): Observable<MutableList<PhotoBean>>
 }

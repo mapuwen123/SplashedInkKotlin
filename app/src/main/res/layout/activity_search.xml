@@ -6,29 +6,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
-    tools:context=".ui.main.MainActivity">
+    tools:context="com.marvin.splashedinkkotlin.ui.search.SearchActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <FrameLayout
-            android:id="@+id/toolbar_container"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways|snap">
 
-            <include
-                android:id="@+id/toolbar"
-                layout="@layout/toolbar" />
-
-            <com.miguelcatalan.materialsearchview.MaterialSearchView
-                android:id="@+id/search_view"
+            <EditText
+                android:id="@+id/edit_search"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:hint="搜索照片"
+                android:gravity="center_vertical"
+                android:background="@null"/>
 
-        </FrameLayout>
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 

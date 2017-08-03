@@ -11,14 +11,14 @@ import android.support.v7.widget.Toolbar
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.FrameLayout
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.base.BaseActivity
 import com.marvin.splashedinkkotlin.ui.download.DownloadActivity
+import com.marvin.splashedinkkotlin.ui.main.adapter.PagerAdapter
+import com.marvin.splashedinkkotlin.ui.main.fragment.LatestFragment
 import com.marvin.splashedinkkotlin.ui.main.fragment.OldestFragment
 import com.marvin.splashedinkkotlin.ui.main.fragment.PopularFragment
-import com.marvin.splashedinkkotlin.ui.pager_main.PagerAdapter
-import com.marvin.splashedinkkotlin.ui.pager_main.fragment.LatestFragment
+import com.marvin.splashedinkkotlin.ui.search.SearchActivity
 import kotlinx.android.synthetic.main.activity_pager_main.*
 import kotlinx.android.synthetic.main.drawer_main.*
 import org.jetbrains.anko.toast
@@ -27,7 +27,8 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
         NavigationView.OnNavigationItemSelectedListener,
         LatestFragment.OnFragmentInteractionListener,
         OldestFragment.OnFragmentInteractionListener,
-        PopularFragment.OnFragmentInteractionListener {
+        PopularFragment.OnFragmentInteractionListener,
+        Toolbar.OnMenuItemClickListener {
     private var mDrawerToggle: ActionBarDrawerToggle? = null
 
     private val tabs: MutableList<String> = ArrayList()
@@ -70,13 +71,7 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
         mDrawerToggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close)
         drawer.addDrawerListener(mDrawerToggle as ActionBarDrawerToggle)
         toolbar.setNavigationOnClickListener { drawer.openDrawer(Gravity.LEFT) }
-
-        val layoutparams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT)
-        layoutparams.setMargins(0, getStatusBarHeight(), 0, 0)
-        search_view.layoutParams = layoutparams
-        search_view.setVoiceSearch(false)
-        search_view.setSuggestions(resources.getStringArray(R.array.hint_array))
-
+        toolbar.setOnMenuItemClickListener(this)
     }
 
     override fun dataInit() {
@@ -92,6 +87,8 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
 
         view_tab.setupWithViewPager(view_pager)
         indicator.setViewPager(view_pager)
+
+        navigation.setNavigationItemSelectedListener(this)
     }
 
     override fun showProgress() {
@@ -112,8 +109,15 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
-        val item = menu?.findItem(R.id.search_item)
-        search_view.setMenuItem(item)
+        return true
+    }
+
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.search_item -> {
+                startActivity(Intent(this, SearchActivity::class.java))
+            }
+        }
         return true
     }
 

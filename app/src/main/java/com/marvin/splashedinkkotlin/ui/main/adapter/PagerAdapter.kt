@@ -1,4 +1,4 @@
-package com.marvin.splashedinkkotlin.ui.pager_main
+package com.marvin.splashedinkkotlin.ui.main.adapter
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager

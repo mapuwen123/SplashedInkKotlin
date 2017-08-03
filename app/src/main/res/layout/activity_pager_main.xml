@@ -6,39 +6,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
-    tools:context="com.marvin.splashedinkkotlin.ui.pager_main.PagerMainActivity">
+    tools:context="com.marvin.splashedinkkotlin.ui.main.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <FrameLayout
-            android:id="@+id/toolbar_container"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:layout_scrollFlags="scroll|enterAlways|snap">
 
-            <include
-                android:id="@+id/toolbar"
-                layout="@layout/toolbar" />
+            <include layout="@layout/toolbar" />
 
-            <com.miguelcatalan.materialsearchview.MaterialSearchView
-                android:id="@+id/search_view"
+            <android.support.design.widget.TabLayout
+                android:id="@+id/view_tab"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:tabIndicatorColor="@color/color_white">
 
-        </FrameLayout>
+            </android.support.design.widget.TabLayout>
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/view_tab"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:tabIndicatorColor="@color/color_white">
-
-
-        </android.support.design.widget.TabLayout>
+        </LinearLayout>
 
     </android.support.design.widget.AppBarLayout>
 

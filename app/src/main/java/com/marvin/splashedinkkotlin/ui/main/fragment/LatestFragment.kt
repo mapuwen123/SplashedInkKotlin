@@ -1,4 +1,4 @@
-package com.marvin.splashedinkkotlin.ui.pager_main.fragment
+package com.marvin.splashedinkkotlin.ui.main.fragment
 
 import android.app.ActivityOptions
 import android.content.Context
@@ -21,7 +21,7 @@ import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_latest.*
 import org.jetbrains.anko.support.v4.toast
 
 /**
@@ -64,7 +64,7 @@ class LatestFragment : Fragment(),
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-//        adapter = MainAdapter(activity, R.layout.main_item, data)
+        adapter = MainAdapter(activity, R.layout.main_item, data)
         adapter?.setOnLoadMoreListener(this, recycler)
         adapter?.onItemClickListener = this
         adapter?.openLoadAnimation()
@@ -169,7 +169,7 @@ class LatestFragment : Fragment(),
     }
 
     override fun onComplete() {
-        swipe.isRefreshing = false
+        swipe?.isRefreshing = false
         disposable?.dispose()
     }
 
@@ -179,7 +179,7 @@ class LatestFragment : Fragment(),
 
     override fun onError(e: Throwable) {
         e.message?.let { toast(it) }
-        swipe.isRefreshing = false
+        swipe?.isRefreshing = false
         disposable?.dispose()
     }
 

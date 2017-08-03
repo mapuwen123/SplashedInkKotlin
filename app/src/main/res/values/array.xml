@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="hint_array">
-        <item>aa</item>
+        <item>a</item>
+        <item>aas</item>
+        <item>aafa</item>
+        <item>aabaa</item>
+        <item>aababaa</item>
+        <item>aaabnaaa</item>
+        <item>aaahaaaa</item>
+        <item>aaasaaaaa</item>
+        <item>aabaaaaaaa</item>
+        <item>aaaahaaaaaa</item>
+        <item>aaabaaaaamaaa</item>
+        <item>aaaaaaaabaaaa</item>
+        <item>aamaaaaaaaaaaa</item>
         <item>bb</item>
         <item>cc</item>
         <item>dd</item>

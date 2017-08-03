@@ -32,7 +32,7 @@ class MainPresenter : BasePresenter<MainView>(), Observer<MutableList<PhotoBean>
     }
 
     override fun onNext(t: MutableList<PhotoBean>) {
-        mView?.upData(t)
+//        mView?.upData(t)
     }
 
     override fun onComplete() {
