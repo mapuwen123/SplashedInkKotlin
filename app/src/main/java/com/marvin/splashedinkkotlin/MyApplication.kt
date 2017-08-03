@@ -2,6 +2,7 @@ package com.marvin.splashedinkkotlin
 
 import android.app.Application
 import android.content.Context
+import android.graphics.Typeface
 import com.marvin.splashedinkkotlin.base.BaseRetrofit
 import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.network.NetWorkService
@@ -27,6 +28,11 @@ class MyApplication : Application() {
 
         context = applicationContext
 
+        val  type_face = Typeface.createFromAsset(assets, "fonts/Courier.ttf")
+        val field = Typeface::class.java.getDeclaredField("SERIF")
+        field.isAccessible = true
+        field.set(null, type_face)
+
         // retrofit初始化
         retrofit = BaseRetrofit.getRetrofit(this)!!
         retrofitService = retrofit.create(NetWorkService::class.java)
@@ -51,9 +57,6 @@ class MyApplication : Application() {
                 File(BuildConfig.image_cache).mkdirs()
             }
         }
-
-        Logger.d(BuildConfig.image_cache)
-        Logger.d(BuildConfig.download_file)
     }
 
 

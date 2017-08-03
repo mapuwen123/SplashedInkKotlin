@@ -25,6 +25,7 @@ class DownloadActivity : BaseActivity<DownloadView, DownloadPresenter>(), Downlo
 
     override fun actionbarInit() {
         setSupportActionBar(toolbar)
+        toolbar.setPadding(0, getStatusBarHeight(), 0, 0)
         supportActionBar?.title = "Download"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener { onBackPressed() }

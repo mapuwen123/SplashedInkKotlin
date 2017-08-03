@@ -9,7 +9,7 @@ import io.reactivex.Observable
  */
 class MainModel {
     fun getPhotos(page: Int, per_page: Int): Observable<MutableList<PhotoBean>> {
-        val observable = MyApplication.retrofitService.getPhotoList(page, per_page)
+        val observable = MyApplication.retrofitService.getPhotoList(page, per_page, "latest")
         return observable
     }
 }

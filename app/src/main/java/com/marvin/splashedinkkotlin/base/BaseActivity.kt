@@ -41,4 +41,13 @@ abstract class BaseActivity<V, P : BasePresenter<V>> : AppCompatActivity() {
     fun exit() {
         ActivityUtils.removeAllActivity()
     }
+
+    fun getStatusBarHeight(): Int {
+        var result = 0
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = resources.getDimensionPixelSize(resourceId)
+        }
+        return result
+    }
 }

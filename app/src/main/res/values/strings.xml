@@ -3,4 +3,15 @@
 
     <string name="no_net">当前网络异常,请检查网络设置</string>
     <string name="open_set">打开设置</string>
+
+    <string name="drawer_open">打开</string>
+    <string name="drawer_close">关闭</string>
+
+    <string name="bmb_text_home">主页</string>
+    <string name="bmb_text_download">下载管理</string>
+    <string name="bmb_text_set">设置</string>
+    <string name="bmb_text_about">关于</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:id="@+id/page">
+
+        <item
+            android:id="@+id/home_item"
+            android:icon="@drawable/ic_home"
+            android:title="@string/bmb_text_home" />
+
+        <item
+            android:id="@+id/download_item"
+            android:icon="@drawable/main_menu_item"
+            android:title="@string/bmb_text_download" />
+
+    </group>
+
+    <group android:id="@+id/set">
+
+        <item
+            android:id="@+id/set_item"
+            android:icon="@drawable/ic_set"
+            android:title="@string/bmb_text_set" />
+
+        <item
+            android:id="@+id/about_item"
+            android:icon="@drawable/ic_about"
+            android:title="@string/bmb_text_about" />
+
+    </group>
+</menu>

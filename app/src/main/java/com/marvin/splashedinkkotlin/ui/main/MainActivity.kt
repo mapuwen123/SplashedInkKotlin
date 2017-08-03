@@ -1,41 +1,59 @@
 package com.marvin.splashedinkkotlin.ui.main
 
-import android.app.ActivityOptions
 import android.content.Intent
+import android.content.res.Configuration
+import android.net.Uri
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
+import android.support.design.widget.NavigationView
+import android.support.v4.app.Fragment
+import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import com.chad.library.adapter.base.BaseQuickAdapter
+import android.widget.FrameLayout
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.base.BaseActivity
-import com.marvin.splashedinkkotlin.bean.PhotoBean
 import com.marvin.splashedinkkotlin.ui.download.DownloadActivity
-import com.marvin.splashedinkkotlin.ui.particulars.ParticularsActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import com.marvin.splashedinkkotlin.ui.main.fragment.OldestFragment
+import com.marvin.splashedinkkotlin.ui.main.fragment.PopularFragment
+import com.marvin.splashedinkkotlin.ui.pager_main.PagerAdapter
+import com.marvin.splashedinkkotlin.ui.pager_main.fragment.LatestFragment
+import kotlinx.android.synthetic.main.activity_pager_main.*
+import kotlinx.android.synthetic.main.drawer_main.*
 import org.jetbrains.anko.toast
 
 class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
-        BaseQuickAdapter.RequestLoadMoreListener,
-        SwipeRefreshLayout.OnRefreshListener,
-        BaseQuickAdapter.OnItemClickListener,
-        Toolbar.OnMenuItemClickListener {
+        NavigationView.OnNavigationItemSelectedListener,
+        LatestFragment.OnFragmentInteractionListener,
+        OldestFragment.OnFragmentInteractionListener,
+        PopularFragment.OnFragmentInteractionListener {
+    private var mDrawerToggle: ActionBarDrawerToggle? = null
 
-    private var data: MutableList<PhotoBean> = ArrayList()
-    private val adapter: MainAdapter = MainAdapter(this, R.layout.main_item, data)
+    private val tabs: MutableList<String> = ArrayList()
 
-    private var page = 1
-    private val per_page = 20
+    private val fragments: MutableList<Fragment> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        mDrawerToggle?.syncState()
+        super.onPostCreate(savedInstanceState)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return mDrawerToggle?.onOptionsItemSelected(item)!! || super.onOptionsItemSelected(item)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        mDrawerToggle?.onConfigurationChanged(newConfig)
+    }
+
     override fun getLayoutId(): Int {
-        return R.layout.activity_main
+        return R.layout.drawer_main
     }
 
     override fun initPresenter(): MainPresenter {
@@ -43,30 +61,45 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
     }
 
     override fun actionbarInit() {
-        setSupportActionBar(toolbar as Toolbar?)
+        val toolbar: Toolbar = findViewById(R.id.toolbar) as Toolbar
+        setSupportActionBar(toolbar)
+        toolbar.setPadding(0, getStatusBarHeight(), 0, 0)
+        supportActionBar?.title = getString(R.string.app_name)
 
-        (toolbar as Toolbar?)?.setOnMenuItemClickListener(this)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        mDrawerToggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close)
+        drawer.addDrawerListener(mDrawerToggle as ActionBarDrawerToggle)
+        toolbar.setNavigationOnClickListener { drawer.openDrawer(Gravity.LEFT) }
+
+        val layoutparams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT)
+        layoutparams.setMargins(0, getStatusBarHeight(), 0, 0)
+        search_view.layoutParams = layoutparams
+        search_view.setVoiceSearch(false)
+        search_view.setSuggestions(resources.getStringArray(R.array.hint_array))
+
     }
 
     override fun dataInit() {
-        adapter.setOnLoadMoreListener(this)
-        adapter.onItemClickListener = this
-        adapter.openLoadAnimation()
+        tabs.add("最新")
+        tabs.add("最旧")
+        tabs.add("最热")
+        fragments.add(LatestFragment.newInstance(tabs.get(0)))
+        fragments.add(OldestFragment.newInstance(tabs.get(1)))
+        fragments.add(PopularFragment.newInstance(tabs.get(2)))
 
-        recycler.layoutManager = LinearLayoutManager(this)
-        recycler.adapter = adapter
+        val adapter = PagerAdapter(tabs, fragments, supportFragmentManager)
+        view_pager.adapter = adapter
 
-        swipe.setOnRefreshListener(this)
-
-        presenter.getPhotos(page, per_page)
+        view_tab.setupWithViewPager(view_pager)
+        indicator.setViewPager(view_pager)
     }
 
     override fun showProgress() {
-        swipe.isRefreshing = true
+
     }
 
     override fun hideProgress() {
-        swipe.isRefreshing = false
+
     }
 
     override fun error(err: String) {
@@ -77,55 +110,41 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
         toast(msg)
     }
 
-    override fun upData(data: MutableList<PhotoBean>) {
-        if (data.size != 0) {
-            if (page == 1) {
-                this.data.clear()
-                this.data.addAll(data)
-                adapter.notifyDataSetChanged()
-            } else {
-                adapter.addData(data)
-            }
-            if (data.size < 20) {
-                adapter.loadMoreEnd()
-            } else {
-                adapter.loadMoreComplete()
-            }
-        } else {
-            adapter.loadMoreEnd()
-        }
-    }
-
-    override fun onLoadMoreRequested() {
-        page = ++page
-        presenter.getPhotos(page, per_page)
-    }
-
-    override fun onRefresh() {
-        page = 1
-        presenter.getPhotos(page, per_page)
-    }
-
-    override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-        val options = ActivityOptions.makeSceneTransitionAnimation(this, view, "image")
-        val intent = Intent(this, ParticularsActivity::class.java)
-        intent.putExtra("PHOTO_ID", data.get(position).id)
-        intent.putExtra("IMAGE_URL", data.get(position).urls?.regular)
-        intent.putExtra("HEIGHT", view?.height)
-        startActivity(intent, options.toBundle())
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
+        val item = menu?.findItem(R.id.search_item)
+        search_view.setMenuItem(item)
         return true
     }
 
-    override fun onMenuItemClick(p0: MenuItem?): Boolean {
-        when (p0?.itemId) {
-            R.id.drawload_item -> {
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        drawer.closeDrawer(Gravity.LEFT)
+        when (item.itemId) {
+            R.id.home_item -> {
+
+            }
+            R.id.download_item -> {
                 startActivity(Intent(this, DownloadActivity::class.java))
+            }
+            R.id.set_item -> {
+
+            }
+            R.id.about_item -> {
+
             }
         }
         return true
+    }
+
+    override fun onLatestFragmentInteraction(uri: Uri) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onOldestFragmentInteraction(uri: Uri) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onPopularFragmentInteraction(uri: Uri) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
