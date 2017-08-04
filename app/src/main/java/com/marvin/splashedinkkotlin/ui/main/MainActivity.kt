@@ -84,6 +84,7 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
 
         val adapter = PagerAdapter(tabs, fragments, supportFragmentManager)
         view_pager.adapter = adapter
+        view_pager.offscreenPageLimit = 2
 
         view_tab.setupWithViewPager(view_pager)
         indicator.setViewPager(view_pager)

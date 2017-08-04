@@ -12,6 +12,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -23,11 +24,6 @@ import com.marvin.splashedinkkotlin.ui.particulars.ParticularsActivity
 import com.marvin.splashedinkkotlin.ui.search.adapter.SearchAdapter
 import kotlinx.android.synthetic.main.activity_search.*
 import org.jetbrains.anko.toast
-import android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS
-import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
-import android.content.Context.INPUT_METHOD_SERVICE
-import android.view.inputmethod.InputMethodManager
-import kotlinx.android.synthetic.main.activity_search.view.*
 
 
 class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView,
