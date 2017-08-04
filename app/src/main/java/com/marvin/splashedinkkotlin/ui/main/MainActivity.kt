@@ -13,6 +13,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.base.BaseActivity
+import com.marvin.splashedinkkotlin.ui.about.AboutActivity
 import com.marvin.splashedinkkotlin.ui.download.DownloadActivity
 import com.marvin.splashedinkkotlin.ui.main.adapter.PagerAdapter
 import com.marvin.splashedinkkotlin.ui.main.fragment.LatestFragment
@@ -135,7 +136,7 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
 
             }
             R.id.about_item -> {
-
+                startActivity(Intent(this, AboutActivity::class.java))
             }
         }
         return true

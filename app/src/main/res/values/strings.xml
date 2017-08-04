@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Splashed Ink</string>
 
+    <string name="action_download">下载管理</string>
+    <string name="action_particulars">详情</string>
+    <string name="action_set">设置</string>
+    <string name="action_about">关于</string>
+
     <string name="no_net">当前网络异常,请检查网络设置</string>
     <string name="open_set">打开设置</string>
 
@@ -14,7 +19,43 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    
+
     <string name="search_null_init">请输入关键字搜索</string>
     <string name="search_null_callback">未查找到相关照片</string>
+
+    <string name="web_my_github">https://github.com/mapuwen123</string>
+    <string name="my_email">mapuwen@outlook.com</string>
+    <string name="web_project_url">https://github.com/mapuwen123/SplashedInkKotlin</string>
+
+    <string name="name_anko">Anko</string>
+    <string name="msg_anko">Anko is a Kotlin library which makes Android application development faster and easier. It makes your code clean and easy to read, and lets you forget about rough edges of the Android SDK for Java.</string>
+    <string name="web_anko">https://github.com/Kotlin/anko</string>
+
+    <string name="name_anko_sqlite">Anko SQLite</string>
+    <string name="msg_anko_sqlite">Have you ever been tired of parsing SQLite query results using Android cursors? Anko SQLite provides lots of helpers to simplify working with SQLite databases.</string>
+    <string name="web_anko_sqlite">@string/web_anko</string>
+
+    <string name="name_glide">Glide</string>
+    <string name="msg_glide">Glide is a fast and efficient open source media management and image loading framework for Android that wraps media decoding, memory and disk caching, and resource pooling into a simple and easy to use interface.</string>
+    <string name="web_glide">https://github.com/bumptech/glide</string>
+
+    <string name="name_base_recycler_view_adapter_helper">BaseRecyclerViewAdapterHelper</string>
+    <string name="msg_base_recycler_view_adapter_helper">Powerful and flexible RecyclerAdapter, Please feel free to use this. (Welcome to Star and Fork)</string>
+    <string name="web_base_recycler_view_adapter_helper">https://github.com/CymChad/BaseRecyclerViewAdapterHelper</string>
+
+    <string name="name_retrofit">Retrofit</string>
+    <string name="msg_retrofit">Type-safe HTTP client for Android and Java by Square, Inc.For more information please see the website.</string>
+    <string name="web_retrofit">https://github.com/square/retrofit</string>
+
+    <string name="name_rxjava">RxJava</string>
+    <string name="msg_rxjava">RxJava is a Java VM implementation of Reactive Extensions: a library for composing asynchronous and event-based programs by using observable sequences.</string>
+    <string name="web_rxjava">https://github.com/ReactiveX/RxJava</string>
+
+    <string name="name_rxdownload">RxDownload</string>
+    <string name="msg_rxdownload">The download tool based on RxJava . Support multi-threaded download and breakpoint download, intelligent judge whether to support multi-threaded download and breakpoint download.</string>
+    <string name="web_rxdownload">https://github.com/ssseasonnn/RxDownload</string>
+
+    <string name="name_ink_page_indicator">InkPageIndicator</string>
+    <string name="msg_ink_page_indicator">InkPageIndicator created by @nickbutcher for Plaid https://github.com/nickbutcher/plaid and backported by me for API 14+ (4.0+)</string>
+    <string name="web_ink_page_indicator">https://github.com/DavidPacioianu/InkPageIndicator</string>
 </resources>

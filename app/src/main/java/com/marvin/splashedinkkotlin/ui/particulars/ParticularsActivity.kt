@@ -56,7 +56,7 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
     override fun actionbarInit() {
         setSupportActionBar(toolbar)
         toolbar.setPadding(0, getStatusBarHeight(), 0, 0)
-        supportActionBar?.title = "Particulars"
+        supportActionBar?.title = getString(R.string.action_particulars)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener { onBackPressed() }
     }
