@@ -7,10 +7,7 @@ import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
-import android.view.KeyEvent
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
@@ -39,6 +36,11 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView,
     private var page = 1
 
     private val per_page = 20
+
+    private var tv_search_null: TextView? = null
+
+    private var imm: InputMethodManager? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -60,6 +62,8 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView,
     }
 
     override fun dataInit() {
+        imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager //得到InputMethodManager的实例
+
         edit_search.clearFocus()
         val history_search_adapter = ArrayAdapter<String>(this, R.layout.search_item, DatabaseUtils.select_history_search(this))
         edit_search.setAdapter(history_search_adapter)
@@ -68,6 +72,10 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView,
         swipe.setOnRefreshListener(this)
 
         adapter = SearchAdapter(this, R.layout.main_item, data)
+        val empty = layoutInflater.inflate(R.layout.search_null_init, null)
+        tv_search_null = empty.findViewById(R.id.tv_search_null)
+        tv_search_null?.text = getString(R.string.search_null_init)
+        adapter?.emptyView = empty
         adapter?.setOnLoadMoreListener(this, recycler)
         adapter?.onItemClickListener = this
         adapter?.openLoadAnimation()
@@ -85,7 +93,9 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView,
     }
 
     override fun error(err: String) {
-        toast(err)
+        this.data.clear()
+        adapter?.notifyDataSetChanged()
+        tv_search_null?.text = err
     }
 
     override fun success(msg: String) {
@@ -93,21 +103,27 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView,
     }
 
     override fun upData(data: SearchBean) {
-        if (data.results?.size != 0) {
-            if (page == 1) {
+        if (page == 1) {
+            if (data.results?.size != 0) {
                 this.data.clear()
                 data.results?.let { this.data.addAll(it) }
                 adapter?.notifyDataSetChanged()
             } else {
-                data.results?.let { adapter?.addData(it) }
-            }
-            if (data.results?.size!! < 20) {
-                adapter?.loadMoreEnd()
-            } else {
-                adapter?.loadMoreComplete()
+                this.data.clear()
+                adapter?.notifyDataSetChanged()
+                tv_search_null?.text = getString(R.string.search_null_callback)
             }
         } else {
-            adapter?.loadMoreEnd()
+            if (data.results?.size != 0) {
+                data.results?.let { adapter?.addData(it) }
+                if (data.results?.size!! < 20) {
+                    adapter?.loadMoreEnd()
+                } else {
+                    adapter?.loadMoreComplete()
+                }
+            } else {
+                adapter?.loadMoreEnd()
+            }
         }
     }
 
@@ -131,9 +147,8 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView,
             page = 1
             presenter.doSearch(edit_search.text.toString(), page, per_page)
             edit_search.dismissDropDown()
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager //得到InputMethodManager的实例
-            if (imm.isActive()) {//如果开启
-                imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS)//关闭软键盘，开启方法相同，这个方法是切换开启与关闭状态的
+            if (imm?.isActive()!!) {//如果开启
+                imm?.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS)//关闭软键盘，开启方法相同，这个方法是切换开启与关闭状态的
             }
             return true
         }

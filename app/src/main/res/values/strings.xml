@@ -14,4 +14,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    
+    <string name="search_null_init">请输入关键字搜索</string>
+    <string name="search_null_callback">未查找到相关照片</string>
 </resources>
