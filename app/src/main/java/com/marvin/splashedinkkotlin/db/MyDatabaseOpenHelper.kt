@@ -26,6 +26,9 @@ class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "splashe
                 "url" to TEXT,
                 "preview_url" to TEXT,
                 "path" to TEXT)
+        p0?.createTable("history_search",
+                true,
+                "search_text" to TEXT + PRIMARY_KEY)
     }
 
     override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {

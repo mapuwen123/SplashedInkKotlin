@@ -55,5 +55,28 @@ class DatabaseUtils {
             return result
         }
 
+        fun insert_history_search(context: Context, search_text: String): Long {
+            var result = 0L
+            MyDatabaseOpenHelper.getInstance(context).use {
+                result = insert("history_search",
+                        "search_text" to search_text)
+            }
+            return result
+        }
+
+        fun select_history_search(context: Context): MutableList<String>? {
+            var datas: MutableList<String>? = ArrayList()
+            MyDatabaseOpenHelper.getInstance(context).use {
+                val cursor = query("history_search", null, null, null, null, null, null)
+                if (cursor.count > 0) {
+                    while (cursor.moveToNext()) {
+                        datas?.add(cursor.getString(0))
+                    }
+                    cursor.close()
+                }
+            }
+            return datas
+        }
+
     }
 }

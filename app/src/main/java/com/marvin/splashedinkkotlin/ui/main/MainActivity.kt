@@ -78,9 +78,9 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
         tabs.add("最新")
         tabs.add("最旧")
         tabs.add("最热")
-        fragments.add(LatestFragment.newInstance(tabs.get(0)))
-        fragments.add(OldestFragment.newInstance(tabs.get(1)))
-        fragments.add(PopularFragment.newInstance(tabs.get(2)))
+        fragments.add(LatestFragment.newInstance(tabs[0]))
+        fragments.add(OldestFragment.newInstance(tabs[1]))
+        fragments.add(PopularFragment.newInstance(tabs[2]))
 
         val adapter = PagerAdapter(tabs, fragments, supportFragmentManager)
         view_pager.adapter = adapter

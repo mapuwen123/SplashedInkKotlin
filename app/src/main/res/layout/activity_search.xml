@@ -20,11 +20,14 @@
             android:background="@color/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways|snap">
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/edit_search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:completionThreshold="1"
+                android:singleLine="true"
                 android:hint="搜索照片"
+                android:imeOptions="actionSearch"
                 android:gravity="center_vertical"
                 android:background="@null"/>
 

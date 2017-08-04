@@ -45,8 +45,8 @@ class LatestFragment : Fragment(),
     private val data: MutableList<PhotoBean> = ArrayList()
 
     private var adapter: MainAdapter? = null
-    private var page = 1
 
+    private var page = 1
     private val per_page = 20
 
     override fun onCreate(savedInstanceState: Bundle?) {
