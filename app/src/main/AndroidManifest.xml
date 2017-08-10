@@ -37,7 +37,7 @@
         <activity android:name=".ui.particulars.ParticularsActivity" />
         <activity android:name=".ui.download.DownloadActivity" />
         <activity android:name=".ui.search.SearchActivity" />
-        <activity android:name=".ui.about.AboutActivity"></activity>
+        <activity android:name=".ui.about.AboutActivity" />
     </application>
 
 </manifest>
