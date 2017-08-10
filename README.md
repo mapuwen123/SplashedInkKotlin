@@ -3,6 +3,8 @@
 
 基于unsplash api的壁纸下载App
 
+项目使用Kotlin编写
+
 <a href="/img/20170810155705.jpg"><img src="/img/20170810155705.jpg" width="30%"/></a>
 <a href="/img/20170810155652.jpg"><img src="/img/20170810155652.jpg" width="30%"/></a>
 <a href="/img/20170810155658.jpg"><img src="/img/20170810155658.jpg" width="30%"/></a>
