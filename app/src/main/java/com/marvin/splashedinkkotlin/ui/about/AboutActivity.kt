@@ -90,11 +90,12 @@ class AboutActivity : BaseActivity<AboutView, AboutPresenter>(), AboutView,
     }
 
     fun sendMail(mail_addr: String) {
-        val intent = Intent(Intent.ACTION_SENDTO)
-        val uri = Uri.parse(mail_addr)
-        intent.data = uri
+        val uri = arrayOf(mail_addr)
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.putExtra(Intent.EXTRA_EMAIL, uri)
         intent.putExtra(Intent.EXTRA_SUBJECT, "问题反馈")
         intent.putExtra(Intent.EXTRA_TEXT, "内容")
-        startActivity(intent)
+        intent.type = "message/rfc822"
+        startActivity(Intent.createChooser(intent, "mail"))
     }
 }

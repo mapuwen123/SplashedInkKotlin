@@ -93,7 +93,7 @@
                 android:id="@+id/linear_github"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:background="?android:attr/selectableItemBackground"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -116,7 +116,7 @@
                 android:id="@+id/linear_mail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:background="?android:attr/selectableItemBackground"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -139,7 +139,7 @@
                 android:id="@+id/linear_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:background="?android:attr/selectableItemBackground"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -177,7 +177,8 @@
                 android:id="@+id/linear_anko"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:background="?android:attr/selectableItemBackground"
+                android:paddingBottom="@dimen/dp_8"
                 android:orientation="vertical">
 
                 <TextView
@@ -204,15 +205,15 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2px"
-                android:layout_marginTop="@dimen/dp_8"
                 android:background="@color/color_dirver_line" />
 
             <LinearLayout
                 android:id="@+id/linear_anko_sqlite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/dp_8"
+                android:background="?android:attr/selectableItemBackground"
                 android:orientation="vertical">
 
                 <TextView
@@ -239,15 +240,15 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2px"
-                android:layout_marginTop="@dimen/dp_8"
                 android:background="@color/color_dirver_line" />
 
             <LinearLayout
                 android:id="@+id/linear_glide"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/dp_8"
+                android:background="?android:attr/selectableItemBackground"
                 android:orientation="vertical">
 
                 <TextView
@@ -274,15 +275,15 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2px"
-                android:layout_marginTop="@dimen/dp_8"
                 android:background="@color/color_dirver_line" />
 
             <LinearLayout
                 android:id="@+id/linear_base_recycler_view_adapter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/dp_8"
+                android:background="?android:attr/selectableItemBackground"
                 android:orientation="vertical">
 
                 <TextView
@@ -309,15 +310,15 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2px"
-                android:layout_marginTop="@dimen/dp_8"
                 android:background="@color/color_dirver_line" />
 
             <LinearLayout
                 android:id="@+id/linear_retrofit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/dp_8"
+                android:background="?android:attr/selectableItemBackground"
                 android:orientation="vertical">
 
                 <TextView
@@ -344,15 +345,15 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2px"
-                android:layout_marginTop="@dimen/dp_8"
                 android:background="@color/color_dirver_line" />
 
             <LinearLayout
                 android:id="@+id/linear_rxjava"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/dp_8"
+                android:background="?android:attr/selectableItemBackground"
                 android:orientation="vertical">
 
                 <TextView
@@ -379,15 +380,15 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2px"
-                android:layout_marginTop="@dimen/dp_8"
                 android:background="@color/color_dirver_line" />
 
             <LinearLayout
                 android:id="@+id/linear_rxdownload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/dp_8"
+                android:background="?android:attr/selectableItemBackground"
                 android:orientation="vertical">
 
                 <TextView
@@ -414,16 +415,15 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2px"
-                android:layout_marginTop="@dimen/dp_8"
                 android:background="@color/color_dirver_line" />
 
             <LinearLayout
                 android:id="@+id/linear_ink_page_indicator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/dp_8"
+                android:background="?android:attr/selectableItemBackground"
                 android:orientation="vertical">
 
                 <TextView
