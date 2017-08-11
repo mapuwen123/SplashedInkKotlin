@@ -52,7 +52,7 @@ class MyApplication : Application() {
                 .maxRetryCount(3)
                 .maxDownloadNumber(5)
 
-        if (SDCardUtil.isSDCardEnable()) {
+        if (SDCardUtil.isSDCardEnable) {
             if (!File(BuildConfig.image_cache).exists()) {
                 File(BuildConfig.image_cache).mkdirs()
             }
