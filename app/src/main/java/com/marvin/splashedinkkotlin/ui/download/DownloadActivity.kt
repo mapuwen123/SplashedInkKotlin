@@ -6,7 +6,6 @@ import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.base.BaseActivity
 import com.marvin.splashedinkkotlin.bean.DiskDownloadBean
 import kotlinx.android.synthetic.main.activity_down_load.*
-import org.jetbrains.anko.doAsync
 
 class DownloadActivity : BaseActivity<DownloadView, DownloadPresenter>(), DownloadView {
     private val data: MutableList<DiskDownloadBean> = ArrayList()
