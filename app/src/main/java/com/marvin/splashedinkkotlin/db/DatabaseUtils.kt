@@ -2,7 +2,6 @@ package com.marvin.splashedinkkotlin.db
 
 import android.content.Context
 import com.marvin.splashedinkkotlin.bean.DiskDownloadBean
-import com.marvin.splashedinkkotlin.bean.PhotoBean
 import org.jetbrains.anko.db.insert
 
 /**
