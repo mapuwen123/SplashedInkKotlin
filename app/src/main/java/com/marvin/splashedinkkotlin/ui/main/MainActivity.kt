@@ -20,6 +20,7 @@ import com.marvin.splashedinkkotlin.ui.main.fragment.LatestFragment
 import com.marvin.splashedinkkotlin.ui.main.fragment.OldestFragment
 import com.marvin.splashedinkkotlin.ui.main.fragment.PopularFragment
 import com.marvin.splashedinkkotlin.ui.search.SearchActivity
+import com.marvin.splashedinkkotlin.ui.set.SetActivity
 import kotlinx.android.synthetic.main.activity_pager_main.*
 import kotlinx.android.synthetic.main.drawer_main.*
 import org.jetbrains.anko.toast
@@ -133,7 +134,7 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
                 startActivity(Intent(this, DownloadActivity::class.java))
             }
             R.id.set_item -> {
-
+                startActivity(Intent(this, SetActivity::class.java))
             }
             R.id.about_item -> {
                 startActivity(Intent(this, AboutActivity::class.java))
