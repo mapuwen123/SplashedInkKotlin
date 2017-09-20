@@ -21,9 +21,9 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file("C:\\Users\\Administrator\\Marvin's.jks")
+            storeFile file("C:\\Users\\mapw\\Marvin's.jks")
             storePassword "274226"
-            keyAlias "Marvin's keystore"
+            keyAlias "marvin"
             keyPassword "274226"
         }
     }
@@ -50,7 +50,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+//    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:26.0.0-alpha1'
