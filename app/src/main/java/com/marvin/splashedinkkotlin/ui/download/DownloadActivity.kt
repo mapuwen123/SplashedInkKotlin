@@ -1,6 +1,5 @@
 package com.marvin.splashedinkkotlin.ui.download
 
-import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.base.BaseActivity
@@ -10,10 +9,6 @@ import kotlinx.android.synthetic.main.activity_down_load.*
 class DownloadActivity : BaseActivity<DownloadView, DownloadPresenter>(), DownloadView {
     private val data: MutableList<DiskDownloadBean> = ArrayList()
     private val adapter = DownloadAdapter(this, R.layout.download_item, data)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun getLayoutId(): Int {
         return R.layout.activity_down_load

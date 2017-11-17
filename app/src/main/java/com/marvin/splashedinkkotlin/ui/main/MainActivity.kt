@@ -64,7 +64,7 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
     }
 
     override fun actionbarInit() {
-        val toolbar: Toolbar = findViewById(R.id.toolbar) as Toolbar
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         toolbar.setPadding(0, getStatusBarHeight(), 0, 0)
         supportActionBar?.title = getString(R.string.app_name)

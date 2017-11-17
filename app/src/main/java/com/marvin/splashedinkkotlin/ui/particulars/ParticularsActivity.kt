@@ -15,8 +15,12 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.base.BaseActivity
+import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.db.DatabaseUtils
 import com.marvin.splashedinkkotlin.widget.ParallaxScrollView
+import com.orhanobut.logger.Logger
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_particulars.*
 import kotlinx.android.synthetic.main.profile_details.*
 import kotlinx.android.synthetic.main.profile_header.*
@@ -25,7 +29,9 @@ import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.wallpaperManager
-import zlc.season.rxdownload2.RxDownload
+import zlc.season.rxdownload3.RxDownload
+import zlc.season.rxdownload3.core.Mission
+import zlc.season.rxdownload3.core.Succeed
 
 class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(), ParticularsView,
         View.OnClickListener,
@@ -38,6 +44,8 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
     var manager: WallpaperManager? = null
 
     var progress_dialog: ProgressDialog? = null
+
+    private var disposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +73,7 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
         photo_id = intent.getStringExtra("PHOTO_ID")
         height = intent.getIntExtra("HEIGHT", 0)
         image_url = intent.getStringExtra("IMAGE_URL")
-
+        Logger.i(image_url)
         manager = wallpaperManager
 
         image.layoutParams.height = height
@@ -166,20 +174,20 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
     }
 
     override fun setDownloadUrl(url: String) {
-        RxDownload.getInstance(this)
-                .serviceDownload(url, photo_id + ".jpg")
-                .subscribe {
-                    toast("任务已加入下载队列")
+        val mission = Mission(url, photo_id + ".jpg", BuildConfig.download_file)
+        toast("任务已加入下载队列")
+        disposable = RxDownload.create(mission)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { status ->
+                    when (status) {
+                        is Succeed -> {
+                            photo_id?.let { DatabaseUtils.delete_download_lists(this, it) }
+                            DatabaseUtils.insert_download_lists(this, photo_id, url, image_url, "0")
+                            disposable?.dispose()
+                        }
+                    }
                 }
-        DatabaseUtils.insert_download_lists(this, photo_id, url, image_url)
-//        Realm.getDefaultInstance().executeTransactionAsync { realm: Realm? ->
-//            run {
-//                val diskDownloadBean = realm?.createObject(DiskDownloadBean::class.java)
-//                diskDownloadBean?.photo_id = photo_id
-//                diskDownloadBean?.url = url
-//                diskDownloadBean?.preview_url = image_url
-//            }
-//        }
+        DatabaseUtils.insert_download_lists(this, photo_id, url, image_url, "1")
     }
 
     fun showProgressDialog(message: CharSequence) {

@@ -10,4 +10,5 @@ class DiskDownloadBean {
     var photo_id: String? = null
     var url: String? = null
     var preview_url: String? = null
+    var isSuccess: String? = null
 }

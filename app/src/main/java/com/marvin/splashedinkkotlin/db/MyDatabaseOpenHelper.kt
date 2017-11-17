@@ -25,7 +25,8 @@ class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "splashe
                 "photo_id" to TEXT + PRIMARY_KEY,
                 "url" to TEXT,
                 "preview_url" to TEXT,
-                "path" to TEXT)
+                "path" to TEXT,
+                "issuccess" to TEXT)
         p0?.createTable("history_search",
                 true,
                 "search_text" to TEXT + PRIMARY_KEY)

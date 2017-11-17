@@ -10,7 +10,8 @@ import com.marvin.splashedinkkotlin.utils.SDCardUtil
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import retrofit2.Retrofit
-import zlc.season.rxdownload2.RxDownload
+import zlc.season.rxdownload3.core.DownloadConfig
+import zlc.season.rxdownload3.notification.NotificationFactoryImpl
 import java.io.File
 
 /**
@@ -28,7 +29,7 @@ class MyApplication : Application() {
 
         context = applicationContext
 
-        val  type_face = Typeface.createFromAsset(assets, "fonts/Courier.ttf")
+        val type_face = Typeface.createFromAsset(assets, "fonts/Courier.ttf")
         val field = Typeface::class.java.getDeclaredField("SERIF")
         field.isAccessible = true
         field.set(null, type_face)
@@ -45,12 +46,19 @@ class MyApplication : Application() {
         })
 
         // rxdownload初始化
-        RxDownload.getInstance(this)
-                .retrofit(retrofit)
-                .defaultSavePath(BuildConfig.download_file)
-                .maxThread(3)
-                .maxRetryCount(3)
-                .maxDownloadNumber(5)
+        val builder = DownloadConfig.Builder.create(this)
+                .setFps(20)                         //设置更新频率
+                .enableAutoStart(true)              //自动开始下载
+                .enableService(true)                        //启用Service
+                .enableNotification(true)                   //启用Notification
+
+        DownloadConfig.init(builder)
+//        RxDownload.getInstance(this)
+//                .retrofit(retrofit)
+//                .defaultSavePath(BuildConfig.download_file)
+//                .maxThread(3)
+//                .maxRetryCount(3)
+//                .maxDownloadNumber(5)
 
         if (SDCardUtil.isSDCardEnable) {
             if (!File(BuildConfig.image_cache).exists()) {

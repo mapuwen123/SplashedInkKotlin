@@ -1,6 +1,7 @@
 package com.marvin.splashedinkkotlin.utils.glide
 
 import android.content.Context
+import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.Registry
 import com.bumptech.glide.integration.okhttp3.OkHttpLibraryGlideModule
@@ -14,8 +15,8 @@ import com.marvin.splashedinkkotlin.common.BuildConfig
  * Created by Administrator on 2017/7/26.
  */
 class MyGlideModule : GlideModule {
-    override fun registerComponents(context: Context?, registry: Registry?) {
-        OkHttpLibraryGlideModule().registerComponents(context, registry)
+    override fun registerComponents(context: Context?, glide: Glide?, registry: Registry?) {
+        OkHttpLibraryGlideModule().registerComponents(context, glide, registry)
     }
 
     override fun applyOptions(context: Context?, builder: GlideBuilder?) {

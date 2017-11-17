@@ -9,14 +9,15 @@ import org.jetbrains.anko.db.insert
  */
 class DatabaseUtils {
     companion object {
-        fun insert_download_lists(context: Context, photo_id: String, url: String, preview_url: String): Long {
+        fun insert_download_lists(context: Context, photo_id: String, url: String, preview_url: String, is_success: String): Long {
             var result = 0L
 
             MyDatabaseOpenHelper.getInstance(context).use {
                 result = insert("download_lists",
                         "photo_id" to photo_id,
                         "url" to url,
-                        "preview_url" to preview_url)
+                        "preview_url" to preview_url,
+                        "issuccess" to is_success)
             }
             return result
         }
@@ -33,6 +34,7 @@ class DatabaseUtils {
                         disk.photo_id = cursor.getString(0)
                         disk.url = cursor.getString(1)
                         disk.preview_url = cursor.getString(2)
+                        disk.isSuccess = cursor.getString(3)
                         datas?.add(disk)
                     }
                     cursor.close()
@@ -53,6 +55,17 @@ class DatabaseUtils {
             }
             return result
         }
+
+//        fun update_download_lists(context: Context, photo_id: String, is_success: Int) {
+//            var result = 0
+//            val whereArgs = arrayOf(photo_id)
+//
+//            MyDatabaseOpenHelper.getInstance(context).use {
+//                result = update("download_lists",
+//                        is_success.toString(),
+//                        )
+//            }
+//        }
 
         fun insert_history_search(context: Context, search_text: String): Long {
             var result = 0L

@@ -14,11 +14,15 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.marvin.splashedinkkotlin.MyApplication
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.bean.PhotoBean
+import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.db.DatabaseUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.backgroundColor
-import zlc.season.rxdownload2.RxDownload
+import zlc.season.rxdownload3.RxDownload
+import zlc.season.rxdownload3.core.Mission
+import zlc.season.rxdownload3.core.Succeed
 
 /**
  * Created by Administrator on 2017/7/11.
@@ -26,6 +30,7 @@ import zlc.season.rxdownload2.RxDownload
 
 class MainAdapter(private val context: Context, @LayoutRes layoutResId: Int, data: MutableList<PhotoBean>?) : BaseQuickAdapter<PhotoBean, BaseViewHolder>(layoutResId, data) {
     private var progress: ProgressDialog? = null
+    private var disposable: Disposable? = null
 
     override fun convert(helper: BaseViewHolder, item: PhotoBean) {
         helper.setText(R.id.name, item.user!!.name)
@@ -43,16 +48,23 @@ class MainAdapter(private val context: Context, @LayoutRes layoutResId: Int, dat
                 MyApplication.retrofitService.getDownLoadUrl(item?.id!!)
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe {
-                            download_bean ->
+                        .subscribe { download_bean ->
                             run {
                                 progress?.dismiss()
-                                RxDownload.getInstance(context)
-                                        .serviceDownload(download_bean.url, item?.id + ".jpg")
-                                        .subscribe {
-                                            Toast.makeText(context, "任务已加入下载队列", Toast.LENGTH_SHORT)
+                                Toast.makeText(context, "任务已加入下载队列", Toast.LENGTH_SHORT).show()
+                                val mission = Mission(download_bean.url!!, item?.id + ".jpg", BuildConfig.download_file)
+                                disposable = RxDownload.create(mission)
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe { status ->
+                                            when (status) {
+                                                is Succeed -> {
+                                                    item.id?.let { DatabaseUtils.delete_download_lists(context, it) }
+                                                    DatabaseUtils.insert_download_lists(context, item?.id!!, download_bean.url!!, item?.urls?.regular!!, "0")
+                                                    disposable?.dispose()
+                                                }
+                                            }
                                         }
-                                DatabaseUtils.insert_download_lists(context, item?.id!!, download_bean.url!!, item?.urls?.regular!!)
+                                DatabaseUtils.insert_download_lists(context, item?.id!!, download_bean.url!!, item?.urls?.regular!!, "1")
                             }
                         }
             }
