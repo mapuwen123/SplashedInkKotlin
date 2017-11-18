@@ -11,7 +11,6 @@ import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import retrofit2.Retrofit
 import zlc.season.rxdownload3.core.DownloadConfig
-import zlc.season.rxdownload3.http.OkHttpClientFactory
 import java.io.File
 
 /**
