@@ -11,11 +11,11 @@ import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import retrofit2.Retrofit
 import zlc.season.rxdownload3.core.DownloadConfig
-import zlc.season.rxdownload3.notification.NotificationFactoryImpl
+import zlc.season.rxdownload3.http.OkHttpClientFactory
 import java.io.File
 
 /**
- * Created by Administrator on 2017/7/26.
+ * Created by Marvin on 2017/7/26.
  */
 class MyApplication : Application() {
     companion object {
@@ -53,12 +53,6 @@ class MyApplication : Application() {
                 .enableNotification(true)                   //启用Notification
 
         DownloadConfig.init(builder)
-//        RxDownload.getInstance(this)
-//                .retrofit(retrofit)
-//                .defaultSavePath(BuildConfig.download_file)
-//                .maxThread(3)
-//                .maxRetryCount(3)
-//                .maxDownloadNumber(5)
 
         if (SDCardUtil.isSDCardEnable) {
             if (!File(BuildConfig.image_cache).exists()) {
