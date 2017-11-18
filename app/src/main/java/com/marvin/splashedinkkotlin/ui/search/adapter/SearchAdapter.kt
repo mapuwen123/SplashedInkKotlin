@@ -57,8 +57,7 @@ class SearchAdapter(private val context: Context, @LayoutRes layoutResId: Int, d
                                         .subscribe { status ->
                                             when (status) {
                                                 is Succeed -> {
-                                                    item.id?.let { DatabaseUtils.delete_download_lists(context, it) }
-                                                    DatabaseUtils.insert_download_lists(context, item?.id!!, download_bean.url!!, item?.urls?.regular!!, "0")
+                                                    DatabaseUtils.update_download_lists(context, item?.id!!, "0")
                                                     disposable?.dispose()
                                                 }
                                             }

@@ -181,8 +181,7 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
                 .subscribe { status ->
                     when (status) {
                         is Succeed -> {
-                            photo_id?.let { DatabaseUtils.delete_download_lists(this, it) }
-                            DatabaseUtils.insert_download_lists(this, photo_id, url, image_url, "0")
+                            DatabaseUtils.update_download_lists(this, photo_id, "0")
                             disposable?.dispose()
                         }
                     }

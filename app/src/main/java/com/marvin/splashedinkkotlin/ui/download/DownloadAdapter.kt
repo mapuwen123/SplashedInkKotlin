@@ -69,8 +69,7 @@ class DownloadAdapter(private val activity: DownloadActivity, @LayoutRes layoutR
                                 activity.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(File(BuildConfig.download_file
                                         + "/" + item.photo_id + ".jpg"))))
 
-                                item.photo_id?.let { DatabaseUtils.delete_download_lists(activity, it) }
-                                DatabaseUtils.insert_download_lists(activity, item.photo_id!!, item.url!!, item.preview_url!!, "0")
+                                DatabaseUtils.update_download_lists(activity, item.photo_id!!, "0")
 
                                 //下载成功后取消订阅
                                 disposable?.dispose()
