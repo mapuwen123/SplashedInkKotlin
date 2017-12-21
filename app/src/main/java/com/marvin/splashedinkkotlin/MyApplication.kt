@@ -7,8 +7,10 @@ import com.marvin.splashedinkkotlin.base.BaseRetrofit
 import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.network.NetWorkService
 import com.marvin.splashedinkkotlin.utils.SDCardUtil
+import com.marvin.splashedinkkotlin.utils.SPUtils
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
+import org.jetbrains.anko.share
 import retrofit2.Retrofit
 import zlc.season.rxdownload3.core.DownloadConfig
 import java.io.File
@@ -27,6 +29,8 @@ class MyApplication : Application() {
         super.onCreate()
 
         context = applicationContext
+
+        BuildConfig.image_quality = (SPUtils[context, "QUALITY", 2] as Int?)!!
 
         val type_face = Typeface.createFromAsset(assets, "fonts/Courier.ttf")
         val field = Typeface::class.java.getDeclaredField("SERIF")

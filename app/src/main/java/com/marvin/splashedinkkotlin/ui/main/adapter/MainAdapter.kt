@@ -37,8 +37,17 @@ class MainAdapter(private val context: Context, @LayoutRes layoutResId: Int, dat
         val background = helper.getView<FrameLayout>(R.id.background)
         val image = helper.getView<ImageView>(R.id.item_image)
         background.backgroundColor = Color.parseColor(item.color)
+        var imageUrl: String = when (BuildConfig.image_quality) {
+            BuildConfig.imgQuality["RAW"] -> item.urls?.raw.toString()
+            BuildConfig.imgQuality["FULL"] -> item.urls?.full.toString()
+            BuildConfig.imgQuality["REGULAR"] -> item.urls?.regular.toString()
+            BuildConfig.imgQuality["SMALL"] -> item.urls?.small.toString()
+            BuildConfig.imgQuality["THUMB"] -> item.urls?.thumb.toString()
+            else -> ({
+            }).toString()
+        }
         Glide.with(context)
-                .load(item.urls!!.regular)
+                .load(imageUrl)
                 .transition(withCrossFade())
                 .into(image)
         val download = helper?.getView<ImageView>(R.id.download)

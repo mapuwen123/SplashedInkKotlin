@@ -9,7 +9,6 @@ import io.reactivex.Observable
  */
 class SearchModel {
     fun doSearch(query: String, page: Int, per_page: Int): Observable<SearchBean> {
-        val observable = MyApplication.retrofitService.searchPhoto(query, page, per_page)
-        return observable
+        return MyApplication.retrofitService.searchPhoto(query, page, per_page)
     }
 }

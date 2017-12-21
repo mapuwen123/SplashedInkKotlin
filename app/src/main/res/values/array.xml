@@ -1,22 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="hint_array">
-        <item>a</item>
-        <item>aas</item>
-        <item>aafa</item>
-        <item>aabaa</item>
-        <item>aababaa</item>
-        <item>aaabnaaa</item>
-        <item>aaahaaaa</item>
-        <item>aaasaaaaa</item>
-        <item>aabaaaaaaa</item>
-        <item>aaaahaaaaaa</item>
-        <item>aaabaaaaamaaa</item>
-        <item>aaaaaaaabaaaa</item>
-        <item>aamaaaaaaaaaaa</item>
-        <item>bb</item>
-        <item>cc</item>
-        <item>dd</item>
-        <item>ee</item>
+    <string-array name="quality_array">
+        <item>超清</item>
+        <item>高清</item>
+        <item>普通</item>
+        <item>快速</item>
+        <item>极速</item>
     </string-array>
 </resources>

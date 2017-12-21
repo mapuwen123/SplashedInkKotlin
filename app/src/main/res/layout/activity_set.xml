@@ -16,42 +16,58 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/set_quality"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_60"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:background="@color/color_white"
-        android:layout_marginTop="@dimen/activity_vertical_margin">
+        android:gravity="center_vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:text="图片质量"/>
+            android:text="图片质量" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/set_tv_quality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:text="100mb" />
+
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2px"
         android:background="@color/color_dirver_line" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/set_clear"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_60"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:background="@color/color_white">
+        android:background="@color/color_white"
+        android:gravity="center_vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:text="清空缓存"/>
+            android:text="清空缓存" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/set_tv_cache"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:text="100mb" />
+
+    </RelativeLayout>
 
 </LinearLayout>

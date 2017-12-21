@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.marvin.splashedinkkotlin.MyApplication
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.bean.PhotoBean
+import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.ui.main.adapter.MainAdapter
 import com.marvin.splashedinkkotlin.ui.particulars.ParticularsActivity
 import io.reactivex.Observer
@@ -184,7 +185,16 @@ class OldestFragment : Fragment(),
         val options = ActivityOptions.makeSceneTransitionAnimation(activity, view, "image")
         val intent = Intent(activity, ParticularsActivity::class.java)
         intent.putExtra("PHOTO_ID", data.get(position).id)
-        intent.putExtra("IMAGE_URL", data.get(position).urls?.regular)
+        var imageUrl: String = when (BuildConfig.image_quality) {
+            BuildConfig.imgQuality["RAW"] -> data[position].urls?.raw.toString()
+            BuildConfig.imgQuality["FULL"] -> data[position].urls?.full.toString()
+            BuildConfig.imgQuality["REGULAR"] -> data[position].urls?.regular.toString()
+            BuildConfig.imgQuality["SMALL"] -> data[position].urls?.small.toString()
+            BuildConfig.imgQuality["THUMB"] -> data[position].urls?.thumb.toString()
+            else -> ({
+            }).toString()
+        }
+        intent.putExtra("IMAGE_URL", imageUrl)
         intent.putExtra("HEIGHT", view?.height)
         startActivity(intent, options.toBundle())
     }

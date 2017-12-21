@@ -3,6 +3,7 @@ package com.marvin.splashedinkkotlin.utils
 import android.content.Context
 import android.os.Environment
 import android.os.StatFs
+import com.marvin.splashedinkkotlin.MyApplication
 
 import com.orhanobut.logger.Logger
 
@@ -39,6 +40,17 @@ class SDCardUtil private constructor() {
          */
         val sdCardPath: String
             get() = Environment.getExternalStorageDirectory().absolutePath + File.separator
+
+        val diskCachePath: String
+            get() {
+                var cachePath: String
+                if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) || !Environment.isExternalStorageRemovable()) {
+                    cachePath = MyApplication.context.externalCacheDir.absolutePath
+                } else {
+                    cachePath = MyApplication.context.cacheDir.absolutePath
+                }
+                return cachePath
+            }
 
         /**
          * 获取SD卡的剩余容量 单位byte
