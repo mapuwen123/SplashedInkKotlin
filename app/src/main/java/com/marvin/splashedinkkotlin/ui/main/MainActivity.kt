@@ -37,10 +37,6 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
 
     private val fragments: MutableList<Fragment> = ArrayList()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onPostCreate(savedInstanceState: Bundle?) {
         mDrawerToggle?.syncState()
         super.onPostCreate(savedInstanceState)

@@ -2,9 +2,7 @@ package com.marvin.splashedinkkotlin.ui.about
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.view.View
-
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.base.BaseActivity
 import com.marvin.splashedinkkotlin.utils.PackageUtils
@@ -12,9 +10,6 @@ import kotlinx.android.synthetic.main.activity_about.*
 
 class AboutActivity : BaseActivity<AboutView, AboutPresenter>(), AboutView,
         View.OnClickListener {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun getLayoutId(): Int {
         return R.layout.activity_about
@@ -81,7 +76,7 @@ class AboutActivity : BaseActivity<AboutView, AboutPresenter>(), AboutView,
         }
     }
 
-    fun openBrowser(url: String) {
+    private fun openBrowser(url: String) {
         val intent = Intent()
         intent.action = "android.intent.action.VIEW"
         val uri = Uri.parse(url)
@@ -89,7 +84,7 @@ class AboutActivity : BaseActivity<AboutView, AboutPresenter>(), AboutView,
         startActivity(intent)
     }
 
-    fun sendMail(mail_addr: String) {
+    private fun sendMail(mail_addr: String) {
         val uri = arrayOf(mail_addr)
         val intent = Intent(Intent.ACTION_SEND)
         intent.putExtra(Intent.EXTRA_EMAIL, uri)
