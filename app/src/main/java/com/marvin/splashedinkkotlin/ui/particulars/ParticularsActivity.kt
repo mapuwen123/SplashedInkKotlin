@@ -4,7 +4,6 @@ import android.app.ProgressDialog
 import android.app.WallpaperManager
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.os.Bundle
 import android.transition.Explode
 import android.view.View
 import android.view.Window
@@ -46,10 +45,6 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
     var progress_dialog: ProgressDialog? = null
 
     private var disposable: Disposable? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun getLayoutId(): Int {
         window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)

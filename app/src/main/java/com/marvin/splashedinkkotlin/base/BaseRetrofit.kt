@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 /**
- * Created by mapuw on 2016/12/9.
+ * Created by Marvin
  */
 
 abstract class BaseRetrofit : RuntimeException() {
