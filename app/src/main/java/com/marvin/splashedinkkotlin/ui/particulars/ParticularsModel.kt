@@ -10,12 +10,10 @@ import io.reactivex.Observable
  */
 class ParticularsModel {
     fun getPhotoStatus(photoId: String): Observable<PhotoStatusBean> {
-        val observable = MyApplication.retrofitService.getPhotoStatus(photoId)
-        return observable
+        return MyApplication.retrofitService.getPhotoStatus(photoId)
     }
 
     fun getDownloadUrl(photoId: String): Observable<DownLoadBean> {
-        val observable = MyApplication.retrofitService.getDownLoadUrl(photoId)
-        return observable
+        return MyApplication.retrofitService.getDownLoadUrl(photoId)
     }
 }
