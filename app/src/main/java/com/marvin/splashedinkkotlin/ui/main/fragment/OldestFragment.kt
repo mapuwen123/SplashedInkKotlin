@@ -54,19 +54,18 @@ class OldestFragment : Fragment(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-            mParam1 = arguments.getString(ARG_PARAM1)
+            mParam1 = arguments!!.getString(ARG_PARAM1)
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater!!.inflate(R.layout.fragment_oldest, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        adapter = MainAdapter(activity, R.layout.main_item, data)
+        adapter = MainAdapter(activity as Context, R.layout.main_item, data)
         adapter?.setOnLoadMoreListener(this, recycler)
         adapter?.onItemClickListener = this
         adapter?.openLoadAnimation()
