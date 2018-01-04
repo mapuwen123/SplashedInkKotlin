@@ -16,8 +16,8 @@ import com.marvin.splashedinkkotlin.base.BaseActivity
 import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.db.DatabaseUtils
 import com.marvin.splashedinkkotlin.utils.glide.GlideApp
+import com.marvin.splashedinkkotlin.utils.snackbar
 import com.marvin.splashedinkkotlin.widget.ParallaxScrollView
-import com.orhanobut.logger.Logger
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_particulars.*
@@ -38,7 +38,7 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
 
     var photo_id: String = ""
     var height: Int = 0
-    var image_url = ""
+    var image_url: String = ""
 
     var manager: WallpaperManager? = null
 
@@ -68,7 +68,6 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
         photo_id = intent.getStringExtra("PHOTO_ID")
         height = intent.getIntExtra("HEIGHT", 0)
         image_url = intent.getStringExtra("IMAGE_URL")
-        Logger.i(image_url)
         manager = wallpaperManager
 
         image.layoutParams.height = height
@@ -81,6 +80,19 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
         btn_download.setOnClickListener(this)
         btn_share.setOnClickListener(this)
         btn_window.setOnClickListener(this)
+
+        size.setOnClickListener(this)
+        time.setOnClickListener(this)
+        color.setOnClickListener(this)
+        aperture.setOnClickListener(this)
+        addr.setOnClickListener(this)
+        focal.setOnClickListener(this)
+        camera.setOnClickListener(this)
+        exposure.setOnClickListener(this)
+
+        likes.setOnClickListener(this)
+        views.setOnClickListener(this)
+        downloads.setOnClickListener(this)
 
         presenter.getPhotoStatus(photo_id)
     }
@@ -168,6 +180,10 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
         text_downloads.text = downloads
     }
 
+    override fun showSnackbar(message: String) {
+        snackbar(scroll, message)
+    }
+
     override fun setDownloadUrl(url: String) {
         val mission = Mission(url, photo_id + ".jpg", BuildConfig.download_file)
         toast("任务已加入下载队列")
@@ -194,12 +210,8 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-            R.id.btn_download -> {
-                presenter.getDownloadUrl(photo_id)
-            }
-            R.id.btn_share -> {
-                presenter.doShare(this, image_url)
-            }
+            R.id.btn_download -> presenter.getDownloadUrl(photo_id)
+            R.id.btn_share -> presenter.doShare(this, image_url)
             R.id.btn_window -> {
                 showProgressDialog("正在设置壁纸,请稍后...")
                 GlideApp.with(this)
@@ -214,6 +226,17 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
 
                         })
             }
+            R.id.size -> presenter.onTextClick(0, text_size)
+            R.id.time -> presenter.onTextClick(1, text_time)
+            R.id.color -> presenter.onTextClick(2, text_color)
+            R.id.aperture -> presenter.onTextClick(3, text_aperture)
+            R.id.addr -> presenter.onTextClick(4, text_addr)
+            R.id.focal -> presenter.onTextClick(5, text_focal)
+            R.id.camera -> presenter.onTextClick(6, text_camera)
+            R.id.exposure -> presenter.onTextClick(7, text_exposure)
+            R.id.likes -> presenter.onTextClick(8, text_likes)
+            R.id.views -> presenter.onTextClick(9, text_views)
+            R.id.downloads -> presenter.onTextClick(10, text_downloads)
         }
     }
 

@@ -2,6 +2,7 @@ package com.marvin.splashedinkkotlin.ui.particulars
 
 import android.content.Context
 import android.content.Intent
+import android.widget.TextView
 import com.marvin.splashedinkkotlin.base.BasePresenter
 import com.marvin.splashedinkkotlin.bean.DownLoadBean
 import com.marvin.splashedinkkotlin.bean.PhotoStatusBean
@@ -15,6 +16,20 @@ import io.reactivex.schedulers.Schedulers
  */
 class ParticularsPresenter : BasePresenter<ParticularsView>(), Observer<PhotoStatusBean> {
     private val model = ParticularsModel()
+
+    private val typeNameMap = mapOf(
+            0 to "尺寸",
+            1 to "曝光时间",
+            2 to "颜色",
+            3 to "光圈",
+            4 to "地点",
+            5 to "焦距",
+            6 to "设备",
+            7 to "曝光",
+            8 to "喜欢",
+            9 to "查看",
+            10 to "下载"
+    )
 
     fun getPhotoStatus(photoId: String) {
         model.getPhotoStatus(photoId)
@@ -37,6 +52,11 @@ class ParticularsPresenter : BasePresenter<ParticularsView>(), Observer<PhotoSta
         intent.putExtra(Intent.EXTRA_TEXT, url)
         intent.type = "text/plain"
         context.startActivity(Intent.createChooser(intent, "分享到"))
+    }
+
+    fun onTextClick(type: Int, text: TextView) {
+        var typeName = typeNameMap[type].toString()
+        mView?.let { it.showSnackbar(typeName + "：" + text.text) }
     }
 
     private var disposable: Disposable? = null

@@ -22,4 +22,5 @@ interface ParticularsView : BaseView {
     fun setViews(views: String)
     fun setDownloads(downloads: String)
     fun setDownloadUrl(url: String)
+    fun showSnackbar(message: String)
 }
