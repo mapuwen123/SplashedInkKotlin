@@ -7,7 +7,6 @@ import android.graphics.Color
 import android.transition.Explode
 import android.view.View
 import android.view.Window
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
@@ -16,6 +15,7 @@ import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.base.BaseActivity
 import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.db.DatabaseUtils
+import com.marvin.splashedinkkotlin.utils.glide.GlideApp
 import com.marvin.splashedinkkotlin.widget.ParallaxScrollView
 import com.orhanobut.logger.Logger
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -72,7 +72,7 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
         manager = wallpaperManager
 
         image.layoutParams.height = height
-        Glide.with(this)
+        GlideApp.with(this)
                 .load(image_url)
                 .transition(withCrossFade())
                 .into(image)
@@ -108,7 +108,7 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
     override fun setAuthorHeader(url: String) {
         val options = RequestOptions()
         options.circleCrop()
-        Glide.with(this)
+        GlideApp.with(this)
                 .load(url)
                 .apply(options)
                 .transition(withCrossFade())
@@ -202,7 +202,7 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
             }
             R.id.btn_window -> {
                 showProgressDialog("正在设置壁纸,请稍后...")
-                Glide.with(this)
+                GlideApp.with(this)
                         .asBitmap()
                         .load(image_url)
                         .into(object : SimpleTarget<Bitmap>() {

@@ -24,9 +24,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="HardcodedDebugMode">
-        <meta-data
-            android:name="com.marvin.splashedinkkotlin.utils.glide.MyGlideModule"
-            android:value="GlideModule" />
 
         <activity
             android:name=".ui.splash.SplashActivity"

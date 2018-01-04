@@ -6,7 +6,6 @@ import android.provider.MediaStore
 import android.support.annotation.LayoutRes
 import android.view.View
 import android.widget.ImageView
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -14,6 +13,7 @@ import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.bean.DiskDownloadBean
 import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.db.DatabaseUtils
+import com.marvin.splashedinkkotlin.utils.glide.GlideApp
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import org.jetbrains.anko.backgroundResource
@@ -30,7 +30,7 @@ class DownloadAdapter(private val activity: DownloadActivity, @LayoutRes layoutR
 
     override fun convert(helper: BaseViewHolder?, item: DiskDownloadBean?) {
         helper?.setText(R.id.text_photo_id, item?.photo_id)
-        Glide.with(activity)
+        GlideApp.with(activity)
                 .load(item?.preview_url)
                 .transition(withCrossFade())
                 .into(helper?.getView(R.id.background))

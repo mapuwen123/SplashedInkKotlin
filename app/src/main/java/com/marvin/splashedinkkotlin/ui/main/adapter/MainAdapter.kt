@@ -7,7 +7,6 @@ import android.support.annotation.LayoutRes
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -16,6 +15,7 @@ import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.bean.PhotoBean
 import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.db.DatabaseUtils
+import com.marvin.splashedinkkotlin.utils.glide.GlideApp
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -46,7 +46,7 @@ class MainAdapter(private val context: Context, @LayoutRes layoutResId: Int, dat
             else -> ({
             }).toString()
         }
-        Glide.with(context)
+        GlideApp.with(context)
                 .load(imageUrl)
                 .transition(withCrossFade())
                 .into(image)
