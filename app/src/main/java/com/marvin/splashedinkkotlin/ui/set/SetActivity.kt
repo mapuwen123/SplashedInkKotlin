@@ -4,6 +4,8 @@ import android.view.View
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.base.BaseActivity
 import com.marvin.splashedinkkotlin.common.BuildConfig
+import com.marvin.splashedinkkotlin.utils.PackageUtils
+import com.tencent.bugly.beta.Beta
 import kotlinx.android.synthetic.main.activity_set.*
 import org.jetbrains.anko.*
 import java.io.File
@@ -32,6 +34,9 @@ class SetActivity : BaseActivity<SetView, SetPresenter>(), SetView, View.OnClick
 
         set_quality.setOnClickListener(this)
         set_clear.setOnClickListener(this)
+        set_update.setOnClickListener(this)
+
+        set_tv_update.text = PackageUtils.getVersionName(this)
     }
 
     override fun showProgress() {
@@ -78,6 +83,9 @@ class SetActivity : BaseActivity<SetView, SetPresenter>(), SetView, View.OnClick
                     yesButton { presenter.clearCache(BuildConfig.image_cache) }
                     noButton { dialog -> dialog.dismiss() }
                 }.show()
+            }
+            R.id.set_update -> {
+                Beta.checkUpgrade()
             }
         }
     }

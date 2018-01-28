@@ -1,5 +1,6 @@
 package com.marvin.splashedinkkotlin
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.graphics.Typeface
@@ -10,7 +11,9 @@ import com.marvin.splashedinkkotlin.utils.SDCardUtil
 import com.marvin.splashedinkkotlin.utils.SPUtils
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
-import org.jetbrains.anko.share
+import com.tencent.bugly.Bugly
+import com.tencent.bugly.beta.Beta
+import com.tencent.bugly.crashreport.CrashReport
 import retrofit2.Retrofit
 import zlc.season.rxdownload3.core.DownloadConfig
 import java.io.File
@@ -22,6 +25,7 @@ class MyApplication : Application() {
     companion object {
         lateinit var retrofit: Retrofit
         lateinit var retrofitService: NetWorkService
+        @SuppressLint("StaticFieldLeak")
         lateinit var context: Context
     }
 
@@ -36,6 +40,10 @@ class MyApplication : Application() {
         val field = Typeface::class.java.getDeclaredField("SERIF")
         field.isAccessible = true
         field.set(null, type_face)
+
+        // Bugly初始化
+        Bugly.init(context, BuildConfig.buglyKey, BuildConfig.isDebug)
+        Beta.autoCheckUpgrade = true
 
         // retrofit初始化
         retrofit = BaseRetrofit.getRetrofit(this)!!
