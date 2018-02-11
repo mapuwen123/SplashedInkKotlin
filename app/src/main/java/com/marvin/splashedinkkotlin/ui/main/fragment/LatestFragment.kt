@@ -184,7 +184,8 @@ class LatestFragment : Fragment(),
     }
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-        val options = ActivityOptions.makeSceneTransitionAnimation(activity, view, "image")
+        val options = ActivityOptions.makeSceneTransitionAnimation(activity, view,
+                "image")
         val intent = Intent(activity, ParticularsActivity::class.java)
         intent.putExtra("PHOTO_ID", data[position].id)
         var imageUrl: String = when (BuildConfig.image_quality) {

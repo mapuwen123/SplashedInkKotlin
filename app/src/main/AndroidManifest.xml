@@ -26,7 +26,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="HardcodedDebugMode">
-
         <activity
             android:name=".ui.splash.SplashActivity"
             android:theme="@style/Sqlash">
@@ -42,7 +41,6 @@
         <activity android:name=".ui.search.SearchActivity" />
         <activity android:name=".ui.about.AboutActivity" />
         <activity android:name=".ui.set.SetActivity" />
-
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
@@ -57,6 +55,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
+        <activity android:name=".ui.PicExamineActivity.PicExamineActivity"></activity>
     </application>
 
 </manifest>

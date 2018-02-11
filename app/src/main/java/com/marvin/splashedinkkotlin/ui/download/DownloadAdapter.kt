@@ -17,6 +17,7 @@ import com.marvin.splashedinkkotlin.utils.glide.GlideApp
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import org.jetbrains.anko.backgroundResource
+import org.jetbrains.anko.toast
 import zlc.season.rxdownload3.RxDownload
 import zlc.season.rxdownload3.core.*
 import java.io.File
@@ -24,7 +25,10 @@ import java.io.File
 /**
  * Created by Administrator on 2017/7/31.
  */
-class DownloadAdapter(private val activity: DownloadActivity, @LayoutRes layoutResId: Int, data: MutableList<DiskDownloadBean>?) : BaseQuickAdapter<DiskDownloadBean, BaseViewHolder>(layoutResId, data) {
+class DownloadAdapter(private val activity: DownloadActivity,
+                      @LayoutRes layoutResId: Int,
+                      data: MutableList<DiskDownloadBean>?) :
+        BaseQuickAdapter<DiskDownloadBean, BaseViewHolder>(layoutResId, data) {
 
     private var disposable: Disposable? = null
 
@@ -37,7 +41,9 @@ class DownloadAdapter(private val activity: DownloadActivity, @LayoutRes layoutR
         val iv_down_status = helper?.getView<ImageView>(R.id.iv_down_status)
         val iv_down_reset_look = helper?.getView<ImageView>(R.id.iv_down_reset_look)
 
-        val mission = Mission(item?.url!!, item.photo_id + ".jpg", BuildConfig.download_file)
+        val mission = Mission(item?.url!!,
+                item.photo_id + ".jpg",
+                BuildConfig.download_file)
         if (item.isSuccess == "0") {
             helper?.setText(R.id.text_photo_id, item.photo_id)
             iv_down_status?.backgroundResource = R.drawable.download_complete
@@ -65,23 +71,31 @@ class DownloadAdapter(private val activity: DownloadActivity, @LayoutRes layoutR
                                 iv_down_status?.backgroundResource = R.drawable.download_complete
                                 iv_down_reset_look?.backgroundResource = R.drawable.download_look
                                 iv_down_reset_look?.tag = "true-false"
-                                MediaStore.Images.Media.insertImage(activity.contentResolver, BuildConfig.download_file, item.photo_id + ".jpg", null)
-                                activity.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(File(BuildConfig.download_file
-                                        + "/" + item.photo_id + ".jpg"))))
+                                MediaStore.Images.Media.insertImage(activity.contentResolver,
+                                        BuildConfig.download_file,
+                                        item.photo_id + ".jpg",
+                                        null)
+                                activity.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                                        Uri.fromFile(File(BuildConfig.download_file
+                                                + "/" + item.photo_id + ".jpg"))))
 
-                                DatabaseUtils.update_download_lists(activity, item.photo_id!!, "0")
+                                DatabaseUtils.update_download_lists(activity,
+                                        item.photo_id!!,
+                                        "0")
 
                                 //下载成功后取消订阅
                                 disposable?.dispose()
                             }
                             is Suspend -> {
-                                helper?.setText(R.id.text_photo_id, item.photo_id + ":" + status.percent())
+                                helper?.setText(R.id.text_photo_id,
+                                        item.photo_id + ":" + status.percent())
                                 iv_down_status?.backgroundResource = R.drawable.download_midway
                                 iv_down_reset_look?.backgroundResource = R.drawable.download_start
                                 iv_down_reset_look?.tag = "false-false"
                             }
                             is Downloading -> {
-                                helper?.setText(R.id.text_photo_id, item.photo_id + ":" + status.percent())
+                                helper?.setText(R.id.text_photo_id,
+                                        item.photo_id + ":" + status.percent())
                                 iv_down_status?.backgroundResource = R.drawable.download_midway
                                 iv_down_reset_look?.backgroundResource = R.drawable.download_pause
                                 iv_down_reset_look?.tag = "false-true"
@@ -90,7 +104,9 @@ class DownloadAdapter(private val activity: DownloadActivity, @LayoutRes layoutR
                     }
         }
         iv_down_reset_look?.setOnClickListener(adapterItemClick(activity, mission, item.photo_id!!))
-        helper?.getView<ImageView>(R.id.iv_down_close)?.setOnClickListener(adapterItemClick(activity, mission, item.photo_id!!))
+        helper?.getView<ImageView>(R.id.iv_down_close)?.setOnClickListener(adapterItemClick(activity,
+                mission,
+                item.photo_id!!))
     }
 
     inner class adapterItemClick(private val activity: DownloadActivity,
@@ -100,14 +116,12 @@ class DownloadAdapter(private val activity: DownloadActivity, @LayoutRes layoutR
             when (p0?.id) {
                 R.id.iv_down_reset_look -> {
                     if (p0.tag.toString().split("-")[0] == "true") {
-
+                        activity.toast("点击查看")
                     } else {
-
                         if (p0.tag.toString().split("-")[1] == "true") {
                             RxDownload.stop(mission).subscribe()
                             p0.tag = "false-false"
                         } else {
-
                             RxDownload.start(mission).subscribe()
                             p0.tag = "false-true"
                         }
