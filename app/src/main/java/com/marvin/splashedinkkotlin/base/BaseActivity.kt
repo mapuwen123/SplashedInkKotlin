@@ -33,7 +33,6 @@ abstract class BaseActivity<V, P : BasePresenter<V>> : AppCompatActivity() {
     protected abstract fun dataInit()
 
     override fun onDestroy() {
-        presenter.dettach()
         ActivityUtils.removeActivity(this)
         super.onDestroy()
     }

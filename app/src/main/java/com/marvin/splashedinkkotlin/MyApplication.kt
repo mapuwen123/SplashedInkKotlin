@@ -13,7 +13,6 @@ import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.beta.Beta
-import com.tencent.bugly.crashreport.CrashReport
 import retrofit2.Retrofit
 import zlc.season.rxdownload3.core.DownloadConfig
 import java.io.File

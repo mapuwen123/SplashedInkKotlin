@@ -24,25 +24,25 @@ android {
         }
     }
     signingConfigs {
-        release {
-            storeFile file("C:\\Users\\Marvin\\Marvin's.jks")
-            storePassword "274226"
-            keyAlias "marvin"
-            keyPassword "274226"
-        }
+//        release {
+//            storeFile file("C:\\Users\\Marvin\\Marvin's.jks")
+//            storePassword "274226"
+//            keyAlias "marvin"
+//            keyPassword "274226"
+//        }
     }
     buildTypes {
         debug {
             // 配置混淆
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
         }
         release {
             // 配置混淆
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
         }
     }
     sourceSets {
@@ -61,7 +61,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //noinspection GradleCompatible
