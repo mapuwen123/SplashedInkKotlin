@@ -59,7 +59,7 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".ui.PicExamineActivity.PicExamineActivity"></activity>
+        <!--<activity android:name=".ui.PicExamineActivity.PicExamineActivity"></activity>-->
     </application>
 
 </manifest>
