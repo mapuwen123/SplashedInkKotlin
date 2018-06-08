@@ -49,7 +49,7 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
         sTime = System.currentTimeMillis()
         var diff = sTime - fTime
         if (diff <= 2000) {
-            super.onBackPressed()
+            exit()
         } else {
             fTime = System.currentTimeMillis()
             toast("再次返回退出应用")
