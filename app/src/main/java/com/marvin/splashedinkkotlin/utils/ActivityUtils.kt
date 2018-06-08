@@ -66,7 +66,7 @@ object ActivityUtils {
         try {
             removeAllActivity()
             val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-            activityManager.restartPackage(context.packageName)
+            activityManager.killBackgroundProcesses(context.packageName)
             System.exit(0)
         } catch (e: Exception) {
         }
