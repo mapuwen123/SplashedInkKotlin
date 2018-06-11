@@ -45,7 +45,7 @@ class MyApplication : Application() {
         Beta.autoCheckUpgrade = true
 
         // retrofit初始化
-        retrofit = BaseRetrofit.getRetrofit(this)!!
+        retrofit = BaseRetrofit.getRetrofit()!!
         retrofitService = retrofit.create(NetWorkService::class.java)
 
         // logger初始化

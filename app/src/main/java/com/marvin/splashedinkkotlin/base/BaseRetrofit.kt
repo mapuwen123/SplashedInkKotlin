@@ -1,6 +1,5 @@
 package com.marvin.splashedinkkotlin.base
 
-import android.content.Context
 import android.text.TextUtils
 import com.marvin.splashedinkkotlin.common.APIConfig
 import okhttp3.Interceptor
@@ -21,7 +20,7 @@ abstract class BaseRetrofit : RuntimeException() {
         private var mRetrofit: Retrofit? = null
 
 
-        fun getRetrofit(context: Context): Retrofit? {
+        fun getRetrofit(): Retrofit? {
             if (mRetrofit == null) {
 
                 //设定30秒超时,拦截http请求进行监控重写或重试,打印网络请求
