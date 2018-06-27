@@ -55,8 +55,8 @@ class ParticularsPresenter : BasePresenter<ParticularsView>(), Observer<PhotoSta
     }
 
     fun onTextClick(type: Int, text: TextView) {
-        var typeName = typeNameMap[type].toString()
-        mView?.let { it.showSnackbar(typeName + "：" + text.text) }
+        val typeName = typeNameMap[type].toString()
+        mView?.showSnackbar("$typeName: ${text.text}")
     }
 
     private var disposable: Disposable? = null
