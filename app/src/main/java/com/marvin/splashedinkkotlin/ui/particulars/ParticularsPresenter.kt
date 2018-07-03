@@ -87,9 +87,9 @@ class ParticularsPresenter : BasePresenter<ParticularsView>(), Observer<PhotoSta
 
         t.location?.title?.let { mView?.setAddr(it) }
 
-        t.likes?.let { mView?.setLikes(it.toString()) }
-        t.views?.let { mView?.setViews(it.toString()) }
-        t.downloads?.let { mView?.setDownloads(it.toString()) }
+        t.likes.let { mView?.setLikes(it.toString()) }
+        t.views.let { mView?.setViews(it.toString()) }
+        t.downloads.let { mView?.setDownloads(it.toString()) }
     }
 
     override fun onError(e: Throwable) {
