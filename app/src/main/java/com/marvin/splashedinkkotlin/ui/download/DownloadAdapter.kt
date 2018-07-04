@@ -37,7 +37,7 @@ class DownloadAdapter(private val activity: DownloadActivity,
         GlideApp.with(activity)
                 .load(item?.preview_url)
                 .transition(withCrossFade())
-                .into(helper?.getView(R.id.background))
+                .into(helper!!.getView(R.id.background))
         val iv_down_status = helper?.getView<ImageView>(R.id.iv_down_status)
         val iv_down_reset_look = helper?.getView<ImageView>(R.id.iv_down_reset_look)
 

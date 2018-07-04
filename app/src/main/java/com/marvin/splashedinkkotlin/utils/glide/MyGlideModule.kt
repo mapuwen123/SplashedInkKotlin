@@ -16,11 +16,11 @@ import com.marvin.splashedinkkotlin.common.BuildConfig
  */
 @GlideModule
 class MyGlideModule : AppGlideModule() {
-    override fun registerComponents(context: Context?, glide: Glide?, registry: Registry?) {
+    override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
         OkHttpLibraryGlideModule().registerComponents(context, glide, registry)
     }
 
-    override fun applyOptions(context: Context?, builder: GlideBuilder?) {
-        builder?.setDiskCache(DiskLruCacheFactory(BuildConfig.image_cache, DEFAULT_DISK_CACHE_SIZE.toLong()))
+    override fun applyOptions(context: Context, builder: GlideBuilder) {
+        builder.setDiskCache(DiskLruCacheFactory(BuildConfig.image_cache, DEFAULT_DISK_CACHE_SIZE.toLong()))
     }
 }

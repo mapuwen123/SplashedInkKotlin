@@ -218,7 +218,7 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
                         .asBitmap()
                         .load(image_url)
                         .into(object : SimpleTarget<Bitmap>() {
-                            override fun onResourceReady(resource: Bitmap?, transition: Transition<in Bitmap>?) {
+                            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                                 manager?.setBitmap(resource)
                                 hideProgressDialog()
                                 toast("设置完成")
