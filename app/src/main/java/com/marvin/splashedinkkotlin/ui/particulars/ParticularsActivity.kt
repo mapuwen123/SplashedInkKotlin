@@ -1,5 +1,6 @@
 package com.marvin.splashedinkkotlin.ui.particulars
 
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.app.WallpaperManager
 import android.graphics.Bitmap
@@ -127,12 +128,14 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
                 .into(header_image)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun setAuthorName(name: String) {
-        from.text = "来自于 " + name
+        from.text = "来自于 $name"
     }
 
+    @SuppressLint("SetTextI18n")
     override fun setCreateTime(time: String) {
-        create_time.text = "创作于 " + time
+        create_time.text = "创作于 $time"
     }
 
     override fun setSize(size: String) {
@@ -185,7 +188,7 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
     }
 
     override fun setDownloadUrl(url: String) {
-        val mission = Mission(url, photo_id + ".jpg", BuildConfig.download_file)
+        val mission = Mission(url,  "$photo_id.jpg", BuildConfig.download_file)
         toast("任务已加入下载队列")
         disposable = RxDownload.create(mission)
                 .observeOn(AndroidSchedulers.mainThread())
