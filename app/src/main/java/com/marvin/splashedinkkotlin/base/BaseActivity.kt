@@ -7,6 +7,7 @@ import com.marvin.splashedinkkotlin.utils.ActivityUtils
 /**
  * Created by Administrator on 2017/7/26.
  */
+@Suppress("UNCHECKED_CAST")
 abstract class BaseActivity<V, P : BasePresenter<V>> : AppCompatActivity() {
     companion object {
         val TAG: String = this::class.java.simpleName

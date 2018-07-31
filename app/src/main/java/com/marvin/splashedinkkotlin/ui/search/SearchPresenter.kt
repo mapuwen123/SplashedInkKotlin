@@ -14,7 +14,7 @@ class SearchPresenter : BasePresenter<SearchView>(), Observer<SearchBean> {
     private val model = SearchModel()
 
     fun doSearch(query: String, page: Int, per_page: Int) {
-        if (query.equals("")) {
+        if (query == "") {
             mView?.error("请输入搜索关键词")
         } else {
             mView?.showProgress()

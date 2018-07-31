@@ -94,7 +94,7 @@ class DatabaseUtils {
          * 用户搜索记录-查询
          */
         fun select_history_search(context: Context): MutableList<String>? {
-            var datas: MutableList<String>? = ArrayList()
+            val datas: MutableList<String>? = ArrayList()
             MyDatabaseOpenHelper.getInstance(context).use {
                 val cursor = query("history_search", null, null, null, null, null, null)
                 if (cursor.count > 0) {

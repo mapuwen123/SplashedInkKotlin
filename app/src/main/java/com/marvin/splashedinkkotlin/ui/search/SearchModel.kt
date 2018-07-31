@@ -8,7 +8,6 @@ import io.reactivex.Observable
  * Created by Administrator on 2017/8/3.
  */
 class SearchModel {
-    fun doSearch(query: String, page: Int, per_page: Int): Observable<SearchBean> {
-        return MyApplication.retrofitService.searchPhoto(query, page, per_page)
-    }
+    fun doSearch(query: String, page: Int, per_page: Int): Observable<SearchBean> =
+            MyApplication.retrofitService.searchPhoto(query, page, per_page)
 }
