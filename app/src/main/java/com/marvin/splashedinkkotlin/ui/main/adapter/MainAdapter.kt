@@ -54,7 +54,7 @@ class MainAdapter(private val context: Context, @LayoutRes layoutResId: Int, dat
         download.setOnClickListener {
             run {
                 showDialog()
-                MyApplication.retrofitService.getDownLoadUrl(item?.id!!)
+                MyApplication.retrofitService.getDownLoadUrl(item.id!!)
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe { download_bean ->
