@@ -24,12 +24,12 @@ android {
         }
     }
     signingConfigs {
-//        release {
-//            storeFile file("C:\\Users\\Marvin\\Marvin's.jks")
-//            storePassword "274226"
-//            keyAlias "marvin"
-//            keyPassword "274226"
-//        }
+        release {
+            storeFile file("/Users/mapuwen/StudioProjects/SplashedInkKotlin/key/Marvin's.jks")
+            storePassword "274226"
+            keyAlias "marvin"
+            keyPassword "274226"
+        }
     }
     buildTypes {
         debug {
@@ -42,9 +42,18 @@ android {
             // 配置混淆
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
         }
+
+//        android.applicationVariants.all { variant ->
+//            variant.outputs.all  {
+//                variant.getPackageApplication().outputDirectory = new File("/Users/mapuwen/Downloads")
+//
+//                outputFileName = "${project.name}_${defaultConfig.versionName}_${variant.buildType.name}.apk"
+//            }
+//        }
     }
+
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
