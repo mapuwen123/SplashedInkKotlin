@@ -45,13 +45,13 @@ android {
             signingConfig signingConfigs.release
         }
 
-//        android.applicationVariants.all { variant ->
-//            variant.outputs.all  {
-//                variant.getPackageApplication().outputDirectory = new File("/Users/mapuwen/Downloads")
-//
-//                outputFileName = "${project.name}_${defaultConfig.versionName}_${variant.buildType.name}.apk"
-//            }
-//        }
+        android.applicationVariants.all { variant ->
+            variant.outputs.all  {
+                variant.getPackageApplication().outputDirectory = new File("/Users/mapuwen/Downloads")
+
+                outputFileName = "${project.name}_${defaultConfig.versionName}_${variant.buildType.name}.apk"
+            }
+        }
     }
 
     sourceSets {
