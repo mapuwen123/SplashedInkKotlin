@@ -4,9 +4,9 @@ import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.widget.Toolbar
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -28,7 +28,7 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView,
         TextView.OnEditorActionListener,
         BaseQuickAdapter.OnItemClickListener,
         BaseQuickAdapter.RequestLoadMoreListener,
-        SwipeRefreshLayout.OnRefreshListener {
+        androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener {
     private val data: MutableList<SearchBean.ResultsBean> = ArrayList()
 
     private var adapter: SearchAdapter? = null
@@ -80,7 +80,7 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView,
         adapter?.onItemClickListener = this
         adapter?.openLoadAnimation()
 
-        recycler.layoutManager = LinearLayoutManager(this)
+        recycler.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         recycler.adapter = adapter
     }
 

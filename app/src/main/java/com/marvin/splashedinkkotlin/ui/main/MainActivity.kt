@@ -4,10 +4,10 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.v4.app.Fragment
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.widget.Toolbar
+import com.google.android.material.navigation.NavigationView
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.Toolbar
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -35,7 +35,7 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
 
     private val tabs: MutableList<String> = ArrayList()
 
-    private val fragments: MutableList<Fragment> = ArrayList()
+    private val fragments: MutableList<androidx.fragment.app.Fragment> = ArrayList()
 
     private var fTime: Long = 0L
     private var sTime: Long = 0L

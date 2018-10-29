@@ -5,9 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,11 +33,11 @@ import org.jetbrains.anko.support.v4.toast
  * Use the [OldestFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class OldestFragment : Fragment(),
+class OldestFragment : androidx.fragment.app.Fragment(),
         Observer<MutableList<PhotoBean>>,
         BaseQuickAdapter.OnItemClickListener,
         BaseQuickAdapter.RequestLoadMoreListener,
-        SwipeRefreshLayout.OnRefreshListener {
+        androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener {
 
     // TODO: Rename and change types of parameters
     private var mParam1: String? = null
@@ -70,7 +70,7 @@ class OldestFragment : Fragment(),
         adapter?.onItemClickListener = this
         adapter?.openLoadAnimation()
 
-        recycler.layoutManager = LinearLayoutManager(activity)
+        recycler.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         recycler.adapter = adapter
 
         swipe.setOnRefreshListener(this)

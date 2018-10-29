@@ -3,7 +3,7 @@ package com.marvin.splashedinkkotlin.ui.download
 import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
-import android.support.annotation.LayoutRes
+import androidx.annotation.LayoutRes
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade

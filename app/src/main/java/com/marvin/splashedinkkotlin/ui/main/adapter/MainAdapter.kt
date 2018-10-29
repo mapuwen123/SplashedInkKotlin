@@ -3,7 +3,7 @@ package com.marvin.splashedinkkotlin.ui.main.adapter
 import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Color
-import android.support.annotation.LayoutRes
+import androidx.annotation.LayoutRes
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast

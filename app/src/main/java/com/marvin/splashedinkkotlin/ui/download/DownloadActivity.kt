@@ -1,6 +1,6 @@
 package com.marvin.splashedinkkotlin.ui.download
 
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.base.BaseActivity
 import com.marvin.splashedinkkotlin.bean.DiskDownloadBean
@@ -29,7 +29,7 @@ class DownloadActivity : BaseActivity<DownloadView, DownloadPresenter>(), Downlo
     override fun dataInit() {
         adapter.emptyView = layoutInflater.inflate(R.layout.recycler_empty_iew, null)
 
-        recycler.layoutManager = LinearLayoutManager(this)
+        recycler.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         recycler.adapter = adapter
 
         presenter.getDownloadList(this)
