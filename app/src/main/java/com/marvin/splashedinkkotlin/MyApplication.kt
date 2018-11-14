@@ -30,7 +30,7 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
+                // 测试git分支
         context = applicationContext
 
         BuildConfig.image_quality = (SPUtils[context, "QUALITY", 2] as Int?)!!

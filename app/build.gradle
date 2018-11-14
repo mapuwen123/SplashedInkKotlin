@@ -76,7 +76,7 @@ dependencies {
     //noinspection GradleCompatible
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     //noinspection GradleCompatible
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     //noinspection GradleCompatible
     implementation 'com.google.android.material:material:1.0.0'
