@@ -50,7 +50,7 @@ class MainAdapter(private val context: Context, @LayoutRes layoutResId: Int, dat
                 .load(imageUrl)
                 .transition(withCrossFade())
                 .into(image)
-        val download = helper?.getView<ImageView>(R.id.download)
+        val download = helper.getView<ImageView>(R.id.download)
         download.setOnClickListener {
             run {
                 showDialog()
@@ -61,18 +61,18 @@ class MainAdapter(private val context: Context, @LayoutRes layoutResId: Int, dat
                             run {
                                 progress?.dismiss()
                                 Toast.makeText(context, "任务已加入下载队列", Toast.LENGTH_SHORT).show()
-                                val mission = Mission(download_bean.url!!, item?.id + ".jpg", BuildConfig.download_file)
+                                val mission = Mission(download_bean.url!!, item.id + ".jpg", BuildConfig.download_file)
                                 disposable = RxDownload.create(mission)
                                         .observeOn(AndroidSchedulers.mainThread())
                                         .subscribe { status ->
                                             when (status) {
                                                 is Succeed -> {
-                                                    DatabaseUtils.update_download_lists(context, item?.id!!, "0")
+                                                    DatabaseUtils.update_download_lists(context, item.id!!, "0")
                                                     disposable?.dispose()
                                                 }
                                             }
                                         }
-                                DatabaseUtils.insert_download_lists(context, item?.id!!, download_bean.url!!, item?.urls?.regular!!, "1")
+                                DatabaseUtils.insert_download_lists(context, item.id!!, download_bean.url!!, item.urls?.regular!!, "1")
                             }
                         }
             }

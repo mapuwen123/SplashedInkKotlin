@@ -38,14 +38,14 @@ class DownloadAdapter(private val activity: DownloadActivity,
                 .load(item?.preview_url)
                 .transition(withCrossFade())
                 .into(helper!!.getView(R.id.background))
-        val iv_down_status = helper?.getView<ImageView>(R.id.iv_down_status)
-        val iv_down_reset_look = helper?.getView<ImageView>(R.id.iv_down_reset_look)
+        val iv_down_status = helper.getView<ImageView>(R.id.iv_down_status)
+        val iv_down_reset_look = helper.getView<ImageView>(R.id.iv_down_reset_look)
 
         val mission = Mission(item?.url!!,
                 item.photo_id + ".jpg",
                 BuildConfig.download_file)
         if (item.isSuccess == "0") {
-            helper?.setText(R.id.text_photo_id, item.photo_id)
+            helper.setText(R.id.text_photo_id, item.photo_id)
             iv_down_status?.backgroundResource = R.drawable.download_complete
             iv_down_reset_look?.backgroundResource = R.drawable.download_look
             iv_down_reset_look?.tag = "true-false"
@@ -55,19 +55,19 @@ class DownloadAdapter(private val activity: DownloadActivity,
                     .subscribe { status ->
                         when (status) {
                             is Failed -> {
-                                helper?.setText(R.id.text_photo_id, item.photo_id + ":下载失败")
+                                helper.setText(R.id.text_photo_id, item.photo_id + ":下载失败")
                                 iv_down_status?.backgroundResource = R.drawable.download_midway
                                 iv_down_reset_look?.backgroundResource = R.drawable.download_start
                                 iv_down_reset_look?.tag = "true-false"
                             }
                             is Waiting -> {
-                                helper?.setText(R.id.text_photo_id, item.photo_id + ":等待中")
+                                helper.setText(R.id.text_photo_id, item.photo_id + ":等待中")
                                 iv_down_status?.backgroundResource = R.drawable.download_midway
                                 iv_down_reset_look?.backgroundResource = R.drawable.download_start
                                 iv_down_reset_look?.tag = "true-false"
                             }
                             is Succeed -> {
-                                helper?.setText(R.id.text_photo_id, item.photo_id)
+                                helper.setText(R.id.text_photo_id, item.photo_id)
                                 iv_down_status?.backgroundResource = R.drawable.download_complete
                                 iv_down_reset_look?.backgroundResource = R.drawable.download_look
                                 iv_down_reset_look?.tag = "true-false"
@@ -94,7 +94,7 @@ class DownloadAdapter(private val activity: DownloadActivity,
                                 iv_down_reset_look?.tag = "false-false"
                             }
                             is Downloading -> {
-                                helper?.setText(R.id.text_photo_id,
+                                helper.setText(R.id.text_photo_id,
                                         item.photo_id + ":" + status.percent())
                                 iv_down_status?.backgroundResource = R.drawable.download_midway
                                 iv_down_reset_look?.backgroundResource = R.drawable.download_pause

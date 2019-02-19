@@ -95,9 +95,6 @@ object DataCleanManager {
         cleanDatabases(context)
         cleanSharedPreference(context)
         cleanFiles(context)
-        if (filepath == null) {
-            return
-        }
         for (filePath in filepath) {
             cleanCustomCache(filePath)
         }

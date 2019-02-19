@@ -93,7 +93,7 @@ class DatabaseUtils {
         /**
          * 用户搜索记录-查询
          */
-        fun select_history_search(context: Context): MutableList<String>? {
+        fun select_history_search(context: Context): MutableList<String> {
             val datas: MutableList<String>? = ArrayList()
             MyDatabaseOpenHelper.getInstance(context).use {
                 val cursor = query("history_search", null, null, null, null, null, null)
@@ -104,7 +104,7 @@ class DatabaseUtils {
                     cursor.close()
                 }
             }
-            return datas
+            return datas!!
         }
 
     }
