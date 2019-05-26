@@ -44,7 +44,7 @@ abstract class BaseRetrofit : RuntimeException() {
         }
 
 
-        internal var interceptor = { chain: Interceptor.Chain ->
+        private var interceptor = { chain: Interceptor.Chain ->
             val request = chain.request()
             val response = chain.proceed(request)
             var cacheControl = request.cacheControl().toString()

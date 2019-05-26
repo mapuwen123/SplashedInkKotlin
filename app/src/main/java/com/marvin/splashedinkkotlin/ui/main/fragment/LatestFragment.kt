@@ -16,6 +16,7 @@ import com.marvin.splashedinkkotlin.MyApplication
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.bean.PhotoBean
 import com.marvin.splashedinkkotlin.common.BuildConfig
+import com.marvin.splashedinkkotlin.network.NetWorkService
 import com.marvin.splashedinkkotlin.ui.main.adapter.MainAdapter
 import com.marvin.splashedinkkotlin.ui.particulars.ParticularsActivity
 import io.reactivex.Observer
@@ -79,7 +80,7 @@ class LatestFragment : androidx.fragment.app.Fragment(),
 
     fun getPhotos(page: Int, per_page: Int) {
         swipe.isRefreshing = true
-        val observable = MyApplication.retrofitService.getPhotoList(page, per_page, "latest")
+        val observable = NetWorkService.retrofitService.getPhotoList(page, per_page, "latest")
         observable.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this)
@@ -92,7 +93,7 @@ class LatestFragment : androidx.fragment.app.Fragment(),
         }
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
             mListener = context

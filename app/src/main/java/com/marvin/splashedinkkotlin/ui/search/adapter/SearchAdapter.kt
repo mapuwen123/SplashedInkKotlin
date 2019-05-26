@@ -7,6 +7,7 @@ import androidx.annotation.LayoutRes
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -15,7 +16,7 @@ import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.bean.SearchBean
 import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.db.DatabaseUtils
-import com.marvin.splashedinkkotlin.utils.glide.GlideApp
+import com.marvin.splashedinkkotlin.network.NetWorkService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -36,7 +37,7 @@ class SearchAdapter(private val context: Context, @LayoutRes layoutResId: Int, d
         val background = helper.getView<FrameLayout>(R.id.background)
         val image = helper.getView<ImageView>(R.id.item_image)
         background.backgroundColor = Color.parseColor(item.color)
-        GlideApp.with(context)
+        Glide.with(context)
                 .load(item.urls!!.regular)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(image)
@@ -44,7 +45,7 @@ class SearchAdapter(private val context: Context, @LayoutRes layoutResId: Int, d
         download.setOnClickListener {
             run {
                 showDialog()
-                MyApplication.retrofitService.getDownLoadUrl(item.id!!)
+                NetWorkService.retrofitService.getDownLoadUrl(item.id!!)
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe { download_bean ->

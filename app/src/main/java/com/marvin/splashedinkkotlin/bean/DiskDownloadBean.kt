@@ -4,7 +4,7 @@ package com.marvin.splashedinkkotlin.bean
  * Created by Administrator on 2017/7/14.
  */
 
-class DiskDownloadBean {
+class DiskDownloadBean : BaseBean() {
     //    private int progress;
     //    private long size;
     var photo_id: String? = null

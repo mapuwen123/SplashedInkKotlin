@@ -3,9 +3,7 @@ package com.marvin.splashedinkkotlin.ui.search
 import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.appcompat.widget.Toolbar
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -28,7 +26,7 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView,
         TextView.OnEditorActionListener,
         BaseQuickAdapter.OnItemClickListener,
         BaseQuickAdapter.RequestLoadMoreListener,
-        androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener {
     private val data: MutableList<SearchBean.ResultsBean> = ArrayList()
 
     private var adapter: SearchAdapter? = null
@@ -40,10 +38,6 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView,
     private var tv_search_null: TextView? = null
 
     private var imm: InputMethodManager? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun getLayoutId(): Int {
         return R.layout.activity_search

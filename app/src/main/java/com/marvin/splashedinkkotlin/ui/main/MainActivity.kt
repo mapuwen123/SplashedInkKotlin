@@ -60,7 +60,7 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
         return mDrawerToggle?.onOptionsItemSelected(item)!! || super.onOptionsItemSelected(item)
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
+    override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         mDrawerToggle?.onConfigurationChanged(newConfig)
     }

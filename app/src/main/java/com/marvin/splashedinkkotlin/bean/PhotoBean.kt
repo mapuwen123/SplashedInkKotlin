@@ -4,7 +4,7 @@ package com.marvin.splashedinkkotlin.bean
  * Created by Administrator on 2017/7/11.
  */
 
-class PhotoBean {
+class PhotoBean : BaseBean() {
 
     /**
      * id : OL5cqauxUS4

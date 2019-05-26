@@ -4,7 +4,7 @@ package com.marvin.splashedinkkotlin.bean
  * Created by Administrator on 2017/8/4.
  */
 
-class SearchBean {
+class SearchBean : BaseBean() {
 
     /**
      * total : 57

@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.transition.Explode
 import android.view.View
 import android.view.Window
+import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
@@ -16,7 +17,6 @@ import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.base.BaseActivity
 import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.db.DatabaseUtils
-import com.marvin.splashedinkkotlin.utils.glide.GlideApp
 import com.marvin.splashedinkkotlin.utils.snackbar
 import com.marvin.splashedinkkotlin.widget.ParallaxScrollView
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -72,7 +72,7 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
         manager = wallpaperManager
 
         image.layoutParams.height = height
-        GlideApp.with(this)
+        Glide.with(this)
                 .load(image_url)
                 .transition(withCrossFade())
                 .into(image)
@@ -118,10 +118,11 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
         toast(msg)
     }
 
+    @SuppressLint("CheckResult")
     override fun setAuthorHeader(url: String) {
         val options = RequestOptions()
         options.circleCrop()
-        GlideApp.with(this)
+        Glide.with(this)
                 .load(url)
                 .apply(options)
                 .transition(withCrossFade())
@@ -217,7 +218,7 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
             R.id.btn_share -> presenter.doShare(this, image_url)
             R.id.btn_window -> {
                 showProgressDialog("正在设置壁纸,请稍后...")
-                GlideApp.with(this)
+                Glide.with(this)
                         .asBitmap()
                         .load(image_url)
                         .into(object : SimpleTarget<Bitmap>() {

@@ -4,7 +4,7 @@ package com.marvin.splashedinkkotlin.bean
  * Created by Administrator on 2017/7/13.
  */
 
-class PhotoStatusBean {
+class PhotoStatusBean : BaseBean() {
 
     /**
      * id : JRSYzMhMJvE
