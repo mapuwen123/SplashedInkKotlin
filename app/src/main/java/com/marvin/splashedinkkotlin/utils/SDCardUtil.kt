@@ -41,15 +41,14 @@ class SDCardUtil private constructor() {
         val sdCardPath: String
             get() = Environment.getExternalStorageDirectory().absolutePath + File.separator
 
-        val diskCachePath: String
+        val diskCachePath: String?
             get() {
-                var cachePath: String
-                if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) || !Environment.isExternalStorageRemovable()) {
-                    cachePath = MyApplication.context.externalCacheDir.absolutePath
+                return if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
+                        || !Environment.isExternalStorageRemovable()) {
+                    MyApplication.context.externalCacheDir?.absolutePath
                 } else {
-                    cachePath = MyApplication.context.cacheDir.absolutePath
+                    MyApplication.context.cacheDir.absolutePath
                 }
-                return cachePath
             }
 
         /**

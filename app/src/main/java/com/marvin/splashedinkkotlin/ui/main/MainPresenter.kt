@@ -1,5 +1,7 @@
 package com.marvin.splashedinkkotlin.ui.main
 
+import android.util.Log
+import androidx.lifecycle.LifecycleOwner
 import com.marvin.splashedinkkotlin.base.BasePresenter
 import com.marvin.splashedinkkotlin.bean.PhotoBean
 import io.reactivex.Observer
@@ -42,5 +44,12 @@ class MainPresenter : BasePresenter<MainView>(), Observer<MutableList<PhotoBean>
 
     override fun onSubscribe(d: Disposable) {
         disposable = d
+    }
+
+    override fun onCreate(owner: LifecycleOwner) {
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        disposable?.dispose()
     }
 }

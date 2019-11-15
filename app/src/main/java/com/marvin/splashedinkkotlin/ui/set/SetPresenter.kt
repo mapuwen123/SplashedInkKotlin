@@ -1,5 +1,6 @@
 package com.marvin.splashedinkkotlin.ui.set
 
+import androidx.lifecycle.LifecycleOwner
 import com.marvin.splashedinkkotlin.MyApplication
 import com.marvin.splashedinkkotlin.base.BasePresenter
 import com.marvin.splashedinkkotlin.common.BuildConfig
@@ -30,5 +31,11 @@ class SetPresenter : BasePresenter<SetView>() {
         DataCleanManager.deleteFolderFile(cachePath, true)
         getCacheSize(File(cachePath))
         mView?.success("缓存清除成功")
+    }
+
+    override fun onCreate(owner: LifecycleOwner) {
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
     }
 }

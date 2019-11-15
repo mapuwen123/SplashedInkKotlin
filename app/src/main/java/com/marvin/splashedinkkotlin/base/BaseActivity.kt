@@ -21,6 +21,7 @@ abstract class BaseActivity<V, P : BasePresenter<V>> : AppCompatActivity() {
         setContentView(getLayoutId())
         presenter = initPresenter()
         presenter.attach(this as V)
+        lifecycle.addObserver(presenter)
         actionbarInit()
         dataInit()
     }

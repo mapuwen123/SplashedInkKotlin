@@ -1,5 +1,6 @@
 package com.marvin.splashedinkkotlin.ui.search
 
+import androidx.lifecycle.LifecycleOwner
 import com.marvin.splashedinkkotlin.base.BasePresenter
 import com.marvin.splashedinkkotlin.bean.SearchBean
 import io.reactivex.Observer
@@ -44,5 +45,12 @@ class SearchPresenter : BasePresenter<SearchView>(), Observer<SearchBean> {
 
     override fun onNext(t: SearchBean) {
         mView?.upData(t)
+    }
+
+    override fun onCreate(owner: LifecycleOwner) {
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        disposable?.dispose()
     }
 }

@@ -10,7 +10,7 @@ import com.marvin.splashedinkkotlin.utils.SDCardUtil
 object BuildConfig {
     val buglyKey = "e09a5178b8"
 
-    val download_file = MyApplication.context.getExternalFilesDir("Download").absolutePath!!
+    val download_file = MyApplication.context.getExternalFilesDir("Download")?.absolutePath!!
     //    val database_file = MyApplication.context.getExternalFilesDir("Database").absolutePath
     val image_cache = SDCardUtil.diskCachePath + "/image"
 

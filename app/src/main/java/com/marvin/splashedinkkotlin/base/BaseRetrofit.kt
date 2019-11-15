@@ -47,7 +47,7 @@ abstract class BaseRetrofit : RuntimeException() {
         private var interceptor = { chain: Interceptor.Chain ->
             val request = chain.request()
             val response = chain.proceed(request)
-            var cacheControl = request.cacheControl().toString()
+            var cacheControl = request.cacheControl.toString()
             if (TextUtils.isEmpty(cacheControl)) {
                 cacheControl = "public, max-age=60"
             }

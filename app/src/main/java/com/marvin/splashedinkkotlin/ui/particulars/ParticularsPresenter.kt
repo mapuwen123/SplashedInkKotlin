@@ -3,10 +3,12 @@ package com.marvin.splashedinkkotlin.ui.particulars
 import android.content.Context
 import android.content.Intent
 import android.widget.TextView
+import androidx.lifecycle.LifecycleOwner
 import com.marvin.splashedinkkotlin.base.BasePresenter
 import com.marvin.splashedinkkotlin.bean.BaseBean
 import com.marvin.splashedinkkotlin.bean.DownLoadBean
 import com.marvin.splashedinkkotlin.bean.PhotoStatusBean
+import com.orhanobut.logger.Logger
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -126,5 +128,13 @@ class ParticularsPresenter : BasePresenter<ParticularsView>(), Observer<BaseBean
             disposable = d
         }
 
+    }
+
+    override fun onCreate(owner: LifecycleOwner) {
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        disposable?.dispose()
+        Logger.i("照片详情页面已关闭，解除订阅防止内存泄露")
     }
 }

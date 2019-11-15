@@ -1,6 +1,7 @@
 package com.marvin.splashedinkkotlin.ui.download
 
 import android.content.Context
+import androidx.lifecycle.LifecycleOwner
 import com.marvin.splashedinkkotlin.base.BasePresenter
 
 /**
@@ -12,5 +13,11 @@ class DownloadPresenter : BasePresenter<DownloadView>() {
     fun getDownloadList(context: Context) {
         val data = model.getDownloadList(context)
         data?.let { mView?.onUpdata(it) }
+    }
+
+    override fun onCreate(owner: LifecycleOwner) {
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
     }
 }

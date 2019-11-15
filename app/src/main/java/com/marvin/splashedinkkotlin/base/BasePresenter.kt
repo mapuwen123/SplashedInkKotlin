@@ -5,7 +5,7 @@ import java.lang.ref.WeakReference
 /**
  * Created by Administrator on 2017/7/26.
  */
-abstract class BasePresenter<V> {
+abstract class BasePresenter<V> : IPresenter {
     var mView: V? = null
 
     fun attach(mView: V) {
