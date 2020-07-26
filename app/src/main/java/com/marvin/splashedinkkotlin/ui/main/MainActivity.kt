@@ -56,9 +56,9 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return mDrawerToggle?.onOptionsItemSelected(item)!! || super.onOptionsItemSelected(item)
-    }
+//    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+//        return mDrawerToggle?.onOptionsItemSelected(item)!! || super.onOptionsItemSelected(item)
+//    }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)

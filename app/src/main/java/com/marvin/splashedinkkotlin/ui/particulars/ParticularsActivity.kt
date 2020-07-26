@@ -66,9 +66,9 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
     }
 
     override fun dataInit() {
-        photo_id = intent.getStringExtra("PHOTO_ID")
+        photo_id = intent.getStringExtra("PHOTO_ID")!!
         height = intent.getIntExtra("HEIGHT", 0)
-        image_url = intent.getStringExtra("IMAGE_URL")
+        image_url = intent.getStringExtra("IMAGE_URL")!!
         manager = wallpaperManager
 
         image.layoutParams.height = height
