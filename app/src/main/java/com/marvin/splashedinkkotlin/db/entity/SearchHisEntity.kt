@@ -13,6 +13,6 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "search_his")
 data class SearchHisEntity(
-        @PrimaryKey val id: Int,
+        @PrimaryKey(autoGenerate = true) val id: Int = 0,
         @ColumnInfo(name = "search_text") val searchText: String
 )

@@ -1,13 +1,14 @@
 package com.marvin.splashedinkkotlin.ui.download
 
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.os.Handler
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.base.BaseActivity
 import com.marvin.splashedinkkotlin.bean.DiskDownloadBean
+import com.marvin.splashedinkkotlin.db.entity.DiskDownloadEntity
 import kotlinx.android.synthetic.main.activity_down_load.*
 
 class DownloadActivity : BaseActivity<DownloadView, DownloadPresenter>(), DownloadView {
-    private val data: MutableList<DiskDownloadBean> = ArrayList()
+    private val data = mutableListOf<DiskDownloadEntity>()
     private val adapter = DownloadAdapter(this, R.layout.download_item, data)
 
     override fun getLayoutId(): Int {
@@ -51,7 +52,7 @@ class DownloadActivity : BaseActivity<DownloadView, DownloadPresenter>(), Downlo
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onUpdata(data: MutableList<DiskDownloadBean>) {
+    override fun onUpdata(data: List<DiskDownloadEntity>) {
         this.data.clear()
         this.data.addAll(data)
         adapter.notifyDataSetChanged()

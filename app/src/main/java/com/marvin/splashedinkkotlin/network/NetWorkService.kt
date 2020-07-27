@@ -4,6 +4,7 @@ import com.marvin.splashedinkkotlin.bean.DownLoadBean
 import com.marvin.splashedinkkotlin.bean.PhotoBean
 import com.marvin.splashedinkkotlin.bean.PhotoStatusBean
 import com.marvin.splashedinkkotlin.bean.SearchBean
+import com.marvin.splashedinkkotlin.common.APIConfig
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -17,18 +18,18 @@ interface NetWorkService {
         lateinit var retrofitService: NetWorkService
     }
 
-    @GET("photos?client_id=f7f954a8249404b33049059a8cce4b5147303f10b2089965dc0232c29d02f653")
+    @GET("photos?client_id=${APIConfig.Application_ID}")
     fun getPhotoList(@Query("page") page: Int,
                      @Query("per_page") per_page: Int,
                      @Query("order_by") order_by: String): Observable<MutableList<PhotoBean>>
 
-    @GET("photos/{photoId}?client_id=f7f954a8249404b33049059a8cce4b5147303f10b2089965dc0232c29d02f653")
+    @GET("photos/{photoId}?client_id=${APIConfig.Application_ID}")
     fun getPhotoStatus(@Path("photoId") photoId: String): Observable<PhotoStatusBean>
 
-    @GET("photos/{photoId}/download?client_id=f7f954a8249404b33049059a8cce4b5147303f10b2089965dc0232c29d02f653")
+    @GET("photos/{photoId}/download?client_id=${APIConfig.Application_ID}")
     fun getDownLoadUrl(@Path("photoId") photoId: String): Observable<DownLoadBean>
 
-    @GET("search/photos?client_id=f7f954a8249404b33049059a8cce4b5147303f10b2089965dc0232c29d02f653")
+    @GET("search/photos?client_id=${APIConfig.Application_ID}")
     fun searchPhoto(@Query("query") query: String,
                     @Query("page") page: Int,
                     @Query("per_page") per_page: Int): Observable<SearchBean>

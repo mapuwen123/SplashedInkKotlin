@@ -11,11 +11,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.marvin.splashedinkkotlin.MyApplication
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.bean.PhotoBean
 import com.marvin.splashedinkkotlin.common.BuildConfig
-import com.marvin.splashedinkkotlin.db.DatabaseUtils
+import com.marvin.splashedinkkotlin.db.AppDataBase
+import com.marvin.splashedinkkotlin.db.entity.DiskDownloadEntity
 import com.marvin.splashedinkkotlin.network.NetWorkService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -68,12 +68,22 @@ class MainAdapter(private val context: Context, @LayoutRes layoutResId: Int, dat
                                         .subscribe { status ->
                                             when (status) {
                                                 is Succeed -> {
-                                                    DatabaseUtils.update_download_lists(context, item.id!!, "0")
+                                                    val downloadEntity = AppDataBase.db.diskDownloadDao().queryById(item.id!!)
+                                                    downloadEntity.isSuccess = "0"
+                                                    AppDataBase.db.diskDownloadDao().update(downloadEntity)
+//                                                    DatabaseUtils.update_download_lists(context, item.id!!, "0")
                                                     disposable?.dispose()
                                                 }
                                             }
                                         }
-                                DatabaseUtils.insert_download_lists(context, item.id!!, download_bean.url!!, item.urls?.regular!!, "1")
+                                AppDataBase.db.diskDownloadDao()
+                                        .insert(DiskDownloadEntity(
+                                                item.id!!,
+                                                download_bean.url!!,
+                                                item.urls?.regular!!,
+                                                "1"
+                                        ))
+//                                DatabaseUtils.insert_download_lists(context, item.id!!, download_bean.url!!, item.urls?.regular!!, "1")
                             }
                         }
             }

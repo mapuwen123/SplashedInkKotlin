@@ -3,22 +3,27 @@ package com.marvin.splashedinkkotlin.ui.search
 import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.appcompat.widget.Toolbar
-import android.view.*
+import android.view.KeyEvent
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.base.BaseActivity
 import com.marvin.splashedinkkotlin.bean.SearchBean
-import com.marvin.splashedinkkotlin.db.DatabaseUtils
+import com.marvin.splashedinkkotlin.db.AppDataBase
+import com.marvin.splashedinkkotlin.db.entity.SearchHisEntity
 import com.marvin.splashedinkkotlin.ui.particulars.ParticularsActivity
 import com.marvin.splashedinkkotlin.ui.search.adapter.SearchAdapter
 import kotlinx.android.synthetic.main.activity_search.*
 import org.jetbrains.anko.toast
+import kotlin.concurrent.thread
 
 
 class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView,
@@ -39,13 +44,12 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView,
 
     private var imm: InputMethodManager? = null
 
-    override fun getLayoutId(): Int {
-        return R.layout.activity_search
-    }
+    private lateinit var history_search_adapter: ArrayAdapter<String>
+    private val hisList = mutableListOf<String>()
 
-    override fun initPresenter(): SearchPresenter {
-        return SearchPresenter()
-    }
+    override fun getLayoutId(): Int = R.layout.activity_search
+
+    override fun initPresenter(): SearchPresenter = SearchPresenter()
 
     override fun actionbarInit() {
         setSupportActionBar(toolbar)
@@ -59,9 +63,18 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView,
         imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager //得到InputMethodManager的实例
 
         edit_search.clearFocus()
-        val history_search_adapter = ArrayAdapter<String>(this, R.layout.search_item, DatabaseUtils.select_history_search(this))
+
+        history_search_adapter = ArrayAdapter<String>(this, R.layout.search_item, hisList)
         edit_search.setAdapter(history_search_adapter)
         edit_search.setOnEditorActionListener(this)
+
+        thread {
+            hisList.clear()
+            hisList.addAll(AppDataBase.db.searchHisDao().queryAll())
+            runOnUiThread {
+                history_search_adapter.notifyDataSetChanged()
+            }
+        }
 
         swipe.setOnRefreshListener(this)
 
@@ -137,7 +150,15 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView,
 
     override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
         if (p1 == EditorInfo.IME_ACTION_SEARCH) {
-            DatabaseUtils.insert_history_search(this, edit_search.text.toString())
+//            DatabaseUtils.insert_history_search(this, edit_search.text.toString())
+            thread {
+                AppDataBase.db.searchHisDao().insert(SearchHisEntity(searchText = edit_search.text.toString()))
+                hisList.clear()
+                hisList.addAll(AppDataBase.db.searchHisDao().queryAll())
+                runOnUiThread {
+                    history_search_adapter.notifyDataSetChanged()
+                }
+            }
             page = 1
             presenter.doSearch(edit_search.text.toString(), page, per_page)
             edit_search.dismissDropDown()

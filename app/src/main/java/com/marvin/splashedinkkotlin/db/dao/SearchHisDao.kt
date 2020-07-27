@@ -17,6 +17,6 @@ interface SearchHisDao {
     @Insert
     fun insert(vararg searchHisEntity: SearchHisEntity)
 
-    @Query("select * from search_his")
-    fun queryAll(): List<SearchHisEntity>
+    @Query("select search_text from search_his")
+    fun queryAll(): List<String>
 }

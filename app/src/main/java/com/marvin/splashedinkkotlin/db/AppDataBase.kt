@@ -23,7 +23,7 @@ abstract class AppDataBase : RoomDatabase() {
                 MyApplication.context,
                 AppDataBase::class.java,
                 "splashed_ink_data"
-        ).build()
+        ).allowMainThreadQueries().build()
     }
 
     abstract fun diskDownloadDao(): DiskDownloadDao

@@ -16,7 +16,8 @@ import com.bumptech.glide.request.transition.Transition
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.base.BaseActivity
 import com.marvin.splashedinkkotlin.common.BuildConfig
-import com.marvin.splashedinkkotlin.db.DatabaseUtils
+import com.marvin.splashedinkkotlin.db.AppDataBase
+import com.marvin.splashedinkkotlin.db.entity.DiskDownloadEntity
 import com.marvin.splashedinkkotlin.utils.snackbar
 import com.marvin.splashedinkkotlin.widget.ParallaxScrollView
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -189,19 +190,29 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
     }
 
     override fun setDownloadUrl(url: String) {
-        val mission = Mission(url,  "$photo_id.jpg", BuildConfig.download_file)
+        val mission = Mission(url, "$photo_id.jpg", BuildConfig.download_file)
         toast("任务已加入下载队列")
         disposable = RxDownload.create(mission)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { status ->
                     when (status) {
                         is Succeed -> {
-                            DatabaseUtils.update_download_lists(this, photo_id, "0")
+                            val downloadEntity = AppDataBase.db.diskDownloadDao().queryById(photo_id)
+                            downloadEntity.isSuccess = "0"
+                            AppDataBase.db.diskDownloadDao().update(downloadEntity)
+//                            DatabaseUtils.update_download_lists(this, photo_id, "0")
                             disposable?.dispose()
                         }
                     }
                 }
-        DatabaseUtils.insert_download_lists(this, photo_id, url, image_url, "1")
+        AppDataBase.db.diskDownloadDao()
+                .insert(DiskDownloadEntity(
+                        photo_id,
+                        url,
+                        image_url,
+                        "1"
+                ))
+//        DatabaseUtils.insert_download_lists(this, photo_id, url, image_url, "1")
     }
 
     fun showProgressDialog(message: CharSequence) {
