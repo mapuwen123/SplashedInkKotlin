@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.marvin.splashedinkkotlin.MyApplication
 import com.marvin.splashedinkkotlin.R
+import com.marvin.splashedinkkotlin.bean.NewPhotoBeanItem
 import com.marvin.splashedinkkotlin.bean.PhotoBean
 import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.network.NetWorkService
@@ -35,7 +36,7 @@ import org.jetbrains.anko.support.v4.toast
  * create an instance of this fragment.
  */
 class LatestFragment : androidx.fragment.app.Fragment(),
-        Observer<MutableList<PhotoBean>>,
+        Observer<MutableList<NewPhotoBeanItem>>,
         BaseQuickAdapter.OnItemClickListener,
         BaseQuickAdapter.RequestLoadMoreListener,
         androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener {
@@ -44,7 +45,7 @@ class LatestFragment : androidx.fragment.app.Fragment(),
 
     private var mListener: OnFragmentInteractionListener? = null
 
-    private val data: MutableList<PhotoBean> = ArrayList()
+    private val data: MutableList<NewPhotoBeanItem> = ArrayList()
 
     private var adapter: MainAdapter? = null
 
@@ -150,7 +151,7 @@ class LatestFragment : androidx.fragment.app.Fragment(),
 
     var disposable: Disposable? = null
 
-    override fun onNext(t: MutableList<PhotoBean>) {
+    override fun onNext(t: MutableList<NewPhotoBeanItem>) {
         if (t.size != 0) {
             if (page == 1) {
                 this.data.clear()
@@ -189,7 +190,7 @@ class LatestFragment : androidx.fragment.app.Fragment(),
                 "image")
         val intent = Intent(activity, ParticularsActivity::class.java)
         intent.putExtra("PHOTO_ID", data[position].id)
-        var imageUrl: String = when (BuildConfig.image_quality) {
+        val imageUrl: String = when (BuildConfig.image_quality) {
             BuildConfig.imgQuality["RAW"] -> data[position].urls?.raw.toString()
             BuildConfig.imgQuality["FULL"] -> data[position].urls?.full.toString()
             BuildConfig.imgQuality["REGULAR"] -> data[position].urls?.regular.toString()

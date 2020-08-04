@@ -68,13 +68,13 @@ class SearchAdapter(private val context: Context, @LayoutRes layoutResId: Int, d
                                                 }
                                             }
                                         }
-                                AppDataBase.db.diskDownloadDao()
-                                        .insert(DiskDownloadEntity(
-                                                item.id!!,
-                                                download_bean.url!!,
-                                                item.urls?.regular!!,
-                                                "1"
-                                        ))
+//                                AppDataBase.db.diskDownloadDao()
+//                                        .insert(DiskDownloadEntity(
+//                                                item.id!!,
+//                                                download_bean.url!!,
+//                                                item.urls?.regular!!,
+//                                                "1"
+//                                        ))
 //                                DatabaseUtils.insert_download_lists(context, item.id!!, download_bean.url!!, item.urls?.regular!!, "1")
                             }
                         }

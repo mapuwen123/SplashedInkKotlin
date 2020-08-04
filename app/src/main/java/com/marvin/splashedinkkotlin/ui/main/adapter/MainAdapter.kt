@@ -12,6 +12,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withC
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.marvin.splashedinkkotlin.R
+import com.marvin.splashedinkkotlin.bean.NewPhotoBeanItem
 import com.marvin.splashedinkkotlin.bean.PhotoBean
 import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.db.AppDataBase
@@ -29,11 +30,11 @@ import zlc.season.rxdownload3.core.Succeed
  * Created by Administrator on 2017/7/11.
  */
 
-class MainAdapter(private val context: Context, @LayoutRes layoutResId: Int, data: MutableList<PhotoBean>?) : BaseQuickAdapter<PhotoBean, BaseViewHolder>(layoutResId, data) {
+class MainAdapter(private val context: Context, @LayoutRes layoutResId: Int, data: MutableList<NewPhotoBeanItem>?) : BaseQuickAdapter<NewPhotoBeanItem, BaseViewHolder>(layoutResId, data) {
     private var progress: ProgressDialog? = null
     private var disposable: Disposable? = null
 
-    override fun convert(helper: BaseViewHolder, item: PhotoBean) {
+    override fun convert(helper: BaseViewHolder, item: NewPhotoBeanItem) {
         helper.setText(R.id.name, item.user!!.name)
         val background = helper.getView<FrameLayout>(R.id.background)
         val image = helper.getView<ImageView>(R.id.item_image)
@@ -76,13 +77,13 @@ class MainAdapter(private val context: Context, @LayoutRes layoutResId: Int, dat
                                                 }
                                             }
                                         }
-                                AppDataBase.db.diskDownloadDao()
-                                        .insert(DiskDownloadEntity(
-                                                item.id!!,
-                                                download_bean.url!!,
-                                                item.urls?.regular!!,
-                                                "1"
-                                        ))
+//                                AppDataBase.db.diskDownloadDao()
+//                                        .insert(DiskDownloadEntity(
+//                                                item.id!!,
+//                                                download_bean.url!!,
+//                                                item.urls?.regular!!,
+//                                                "1"
+//                                        ))
 //                                DatabaseUtils.insert_download_lists(context, item.id!!, download_bean.url!!, item.urls?.regular!!, "1")
                             }
                         }

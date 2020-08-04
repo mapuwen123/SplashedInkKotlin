@@ -40,7 +40,7 @@ abstract class BaseActivity<V, P : BasePresenter<V>> : AppCompatActivity() {
     }
 
     fun exit() {
-        ActivityUtils.appExit(this)
+        ActivityUtils.appExit()
     }
 
     fun getStatusBarHeight(): Int {

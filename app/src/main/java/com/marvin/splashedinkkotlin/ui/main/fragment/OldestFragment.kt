@@ -14,7 +14,7 @@ import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.marvin.splashedinkkotlin.MyApplication
 import com.marvin.splashedinkkotlin.R
-import com.marvin.splashedinkkotlin.bean.PhotoBean
+import com.marvin.splashedinkkotlin.bean.NewPhotoBeanItem
 import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.network.NetWorkService
 import com.marvin.splashedinkkotlin.ui.main.adapter.MainAdapter
@@ -35,7 +35,7 @@ import org.jetbrains.anko.support.v4.toast
  * create an instance of this fragment.
  */
 class OldestFragment : androidx.fragment.app.Fragment(),
-        Observer<MutableList<PhotoBean>>,
+        Observer<MutableList<NewPhotoBeanItem>>,
         BaseQuickAdapter.OnItemClickListener,
         BaseQuickAdapter.RequestLoadMoreListener,
         androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener {
@@ -45,7 +45,7 @@ class OldestFragment : androidx.fragment.app.Fragment(),
 
     private var mListener: OnFragmentInteractionListener? = null
 
-    private val data: MutableList<PhotoBean> = ArrayList()
+    private val data: MutableList<NewPhotoBeanItem> = ArrayList()
 
     private var adapter: MainAdapter? = null
     private var page = 1
@@ -147,7 +147,7 @@ class OldestFragment : androidx.fragment.app.Fragment(),
 
     var disposable: Disposable? = null
 
-    override fun onNext(t: MutableList<PhotoBean>) {
+    override fun onNext(t: MutableList<NewPhotoBeanItem>) {
         if (t.size != 0) {
             if (page == 1) {
                 this.data.clear()

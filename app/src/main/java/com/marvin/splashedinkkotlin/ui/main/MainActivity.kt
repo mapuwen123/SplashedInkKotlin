@@ -1,5 +1,6 @@
 package com.marvin.splashedinkkotlin.ui.main
 
+import android.Manifest
 import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
@@ -13,6 +14,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.base.BaseActivity
+import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.ui.about.AboutActivity
 import com.marvin.splashedinkkotlin.ui.download.DownloadActivity
 import com.marvin.splashedinkkotlin.ui.main.adapter.PagerAdapter
@@ -21,6 +23,8 @@ import com.marvin.splashedinkkotlin.ui.main.fragment.OldestFragment
 import com.marvin.splashedinkkotlin.ui.main.fragment.PopularFragment
 import com.marvin.splashedinkkotlin.ui.search.SearchActivity
 import com.marvin.splashedinkkotlin.ui.set.SetActivity
+import com.orhanobut.logger.Logger
+import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_pager_main.*
 import kotlinx.android.synthetic.main.drawer_main.*
 import org.jetbrains.anko.toast
@@ -47,7 +51,7 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
 
     override fun onBackPressed() {
         sTime = System.currentTimeMillis()
-        var diff = sTime - fTime
+        val diff = sTime - fTime
         if (diff <= 2000) {
             exit()
         } else {
@@ -96,12 +100,20 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
 
         val adapter = PagerAdapter(tabs, fragments, supportFragmentManager)
         view_pager.adapter = adapter
-        view_pager.offscreenPageLimit = 2
+        view_pager.offscreenPageLimit = 1
 
         view_tab.setupWithViewPager(view_pager)
         indicator.setViewPager(view_pager)
 
         navigation.setNavigationItemSelectedListener(this)
+
+        RxPermissions(this).request(Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe {
+                    if (!it) {
+                        toast("未获取到权限，将导致无法正常下载图片！")
+                    }
+                }
     }
 
     override fun showProgress() {

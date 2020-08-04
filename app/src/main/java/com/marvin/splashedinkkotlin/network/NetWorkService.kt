@@ -1,9 +1,6 @@
 package com.marvin.splashedinkkotlin.network
 
-import com.marvin.splashedinkkotlin.bean.DownLoadBean
-import com.marvin.splashedinkkotlin.bean.PhotoBean
-import com.marvin.splashedinkkotlin.bean.PhotoStatusBean
-import com.marvin.splashedinkkotlin.bean.SearchBean
+import com.marvin.splashedinkkotlin.bean.*
 import com.marvin.splashedinkkotlin.common.APIConfig
 import io.reactivex.Observable
 import retrofit2.http.GET
@@ -21,7 +18,7 @@ interface NetWorkService {
     @GET("photos?client_id=${APIConfig.Application_ID}")
     fun getPhotoList(@Query("page") page: Int,
                      @Query("per_page") per_page: Int,
-                     @Query("order_by") order_by: String): Observable<MutableList<PhotoBean>>
+                     @Query("order_by") order_by: String): Observable<MutableList<NewPhotoBeanItem>>
 
     @GET("photos/{photoId}?client_id=${APIConfig.Application_ID}")
     fun getPhotoStatus(@Path("photoId") photoId: String): Observable<PhotoStatusBean>

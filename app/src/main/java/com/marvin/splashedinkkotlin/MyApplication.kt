@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.graphics.Typeface
+import androidx.room.Room
 import com.marvin.splashedinkkotlin.common.BuildConfig
+import com.marvin.splashedinkkotlin.db.AppDataBase
 import com.marvin.splashedinkkotlin.utils.SDCardUtil
 import com.marvin.splashedinkkotlin.utils.SPUtils
 import com.tencent.bugly.Bugly
@@ -40,6 +42,12 @@ class MyApplication : Application() {
                 File(BuildConfig.image_cache).mkdirs()
             }
         }
+
+        AppDataBase.db = Room.databaseBuilder(
+                this,
+                AppDataBase::class.java,
+                "splashed_ink_data"
+        ).addMigrations(AppDataBase.MIGRATION_1_2).allowMainThreadQueries().build()
     }
 
 

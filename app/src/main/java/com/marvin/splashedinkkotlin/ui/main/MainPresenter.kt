@@ -3,7 +3,7 @@ package com.marvin.splashedinkkotlin.ui.main
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import com.marvin.splashedinkkotlin.base.BasePresenter
-import com.marvin.splashedinkkotlin.bean.PhotoBean
+import com.marvin.splashedinkkotlin.bean.NewPhotoBeanItem
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -12,7 +12,7 @@ import io.reactivex.schedulers.Schedulers
 /**
  * Created by Administrator on 2017/7/28.
  */
-class MainPresenter : BasePresenter<MainView>(), Observer<MutableList<PhotoBean>> {
+class MainPresenter : BasePresenter<MainView>(), Observer<MutableList<NewPhotoBeanItem>> {
     private val model = MainModel()
 
     fun getPhotos(page: Int, per_page: Int) {
@@ -33,7 +33,7 @@ class MainPresenter : BasePresenter<MainView>(), Observer<MutableList<PhotoBean>
         disposable?.dispose()
     }
 
-    override fun onNext(t: MutableList<PhotoBean>) {
+    override fun onNext(t: MutableList<NewPhotoBeanItem>) {
 //        mView?.upData(t)
     }
 

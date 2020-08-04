@@ -48,9 +48,7 @@ class SplashActivity : AppCompatActivity() {
 
         val loggerObs = Observable.just(MyApplication.context).map {
             Logger.addLogAdapter(object : AndroidLogAdapter() {
-                override fun isLoggable(priority: Int, tag: String?): Boolean {
-                    return BuildConfig.isDebug
-                }
+                override fun isLoggable(priority: Int, tag: String?): Boolean = BuildConfig.isDebug
             })
             return@map 1
         }.subscribeOn(Schedulers.newThread())
@@ -66,7 +64,7 @@ class SplashActivity : AppCompatActivity() {
                     var diffValue = System.currentTimeMillis() - openTime
                     if (diffValue < 2000) {
                         diffValue = 2000 - diffValue
-                        Handler().postDelayed({
+                        Handler(mainLooper).postDelayed({
                             run {
                                 startActivity(Intent(this, MainActivity::class.java))
                                 finish()

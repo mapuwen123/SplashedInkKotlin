@@ -6,6 +6,7 @@ import android.content.Context
 import org.jetbrains.anko.coroutines.experimental.asReference
 
 import java.util.Stack
+import kotlin.system.exitProcess
 
 /**
  * Created by Administrator on 2017/6/10.
@@ -51,10 +52,10 @@ object ActivityUtils {
     /**
      * 结束所有的Activit
      */
-    fun removeAllActivity() {
+    private fun removeAllActivity() {
         if (mActivityStack != null && mActivityStack!!.size > 0) {
-            for (activity in mActivityStack!!) {
-                activity.finish()
+            mActivityStack!!.forEach {
+                it.finish()
             }
         }
     }
@@ -62,13 +63,7 @@ object ActivityUtils {
     /**
      * 退出应用
      */
-    fun appExit(context: Context) {
-        try {
-            removeAllActivity()
-            val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-            activityManager.killBackgroundProcesses(context.packageName)
-            System.exit(0)
-        } catch (e: Exception) {
-        }
+    fun appExit() {
+        removeAllActivity()
     }
 }

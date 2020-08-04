@@ -14,8 +14,11 @@ import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.db.AppDataBase
 import com.marvin.splashedinkkotlin.db.entity.DiskDownloadEntity
+import com.marvin.splashedinkkotlin.widget.OnProgressListener
+import com.marvin.splashedinkkotlin.widget.ProgressTextView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import okhttp3.internal.notify
 import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.toast
 import zlc.season.rxdownload3.RxDownload
@@ -40,6 +43,7 @@ class DownloadAdapter(private val activity: DownloadActivity,
                 .into(helper!!.getView(R.id.background))
         val iv_down_status = helper.getView<ImageView>(R.id.iv_down_status)
         val iv_down_reset_look = helper.getView<ImageView>(R.id.iv_down_reset_look)
+        val text_photo_id = helper.getView<ProgressTextView>(R.id.text_photo_id)
 
         val mission = Mission(item?.url!!,
                 item.photoId + ".jpg",
@@ -50,63 +54,93 @@ class DownloadAdapter(private val activity: DownloadActivity,
             iv_down_reset_look?.backgroundResource = R.drawable.download_look
             iv_down_reset_look?.tag = "true-false"
         } else {
-            disposable = RxDownload.create(mission)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { status ->
-                        when (status) {
-                            is Failed -> {
-                                helper.setText(R.id.text_photo_id, item.photoId + ":下载失败")
-                                iv_down_status?.backgroundResource = R.drawable.download_midway
-                                iv_down_reset_look?.backgroundResource = R.drawable.download_start
-                                iv_down_reset_look?.tag = "true-false"
-                            }
-                            is Waiting -> {
-                                helper.setText(R.id.text_photo_id, item.photoId + ":等待中")
-                                iv_down_status?.backgroundResource = R.drawable.download_midway
-                                iv_down_reset_look?.backgroundResource = R.drawable.download_start
-                                iv_down_reset_look?.tag = "true-false"
-                            }
-                            is Succeed -> {
-                                helper.setText(R.id.text_photo_id, item.photoId)
-                                iv_down_status?.backgroundResource = R.drawable.download_complete
-                                iv_down_reset_look?.backgroundResource = R.drawable.download_look
-                                iv_down_reset_look?.tag = "true-false"
-                                MediaStore.Images.Media.insertImage(activity.contentResolver,
-                                        BuildConfig.download_file,
-                                        item.photoId + ".jpg",
-                                        null)
-                                activity.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
-                                        Uri.fromFile(File(BuildConfig.download_file
-                                                + "/" + item.photoId + ".jpg"))))
+            text_photo_id.setDownloadId(item.downloadId).start()
+            text_photo_id.setOnProgressListener(object : OnProgressListener {
+                override fun onError() {
+                    AppDataBase.db.diskDownloadDao()
+                            .update(DiskDownloadEntity(
+                                    item.photoId,
+                                    item.url,
+                                    item.previewUrl,
+                                    "1",
+                                    item.downloadId
+                            ))
+                    helper.setText(R.id.text_photo_id, item.photoId + ":下载失败")
+                    iv_down_status?.backgroundResource = R.drawable.download_midway
+                    iv_down_reset_look?.backgroundResource = R.drawable.download_start
+                }
 
-                                item.isSuccess = "0"
-                                AppDataBase.db.diskDownloadDao().update(item)
-//                                DatabaseUtils.update_download_lists(activity,
-//                                        item.photoId!!,
-//                                        "0")
-
-                                //下载成功后取消订阅
-                                disposable?.dispose()
-                            }
-                            is Suspend -> {
-                                helper?.setText(R.id.text_photo_id,
-                                        item.photoId + ":" + status.percent())
-                                iv_down_status?.backgroundResource = R.drawable.download_midway
-                                iv_down_reset_look?.backgroundResource = R.drawable.download_start
-                                iv_down_reset_look?.tag = "false-false"
-                            }
-                            is Downloading -> {
-                                helper.setText(R.id.text_photo_id,
-                                        item.photoId + ":" + status.percent())
-                                iv_down_status?.backgroundResource = R.drawable.download_midway
-                                iv_down_reset_look?.backgroundResource = R.drawable.download_pause
-                                iv_down_reset_look?.tag = "false-true"
-                            }
-                        }
-                    }
+                override fun onSuccess() {
+                    AppDataBase.db.diskDownloadDao()
+                            .update(DiskDownloadEntity(
+                                    item.photoId,
+                                    item.url,
+                                    item.previewUrl,
+                                    "0",
+                                    item.downloadId
+                            ))
+                    helper.setText(R.id.text_photo_id, item.photoId)
+                    iv_down_status?.backgroundResource = R.drawable.download_complete
+                    iv_down_reset_look?.backgroundResource = R.drawable.download_look
+                }
+            })
+//            disposable = RxDownload.create(mission)
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe { status ->
+//                        when (status) {
+//                            is Failed -> {
+//                                helper.setText(R.id.text_photo_id, item.photoId + ":下载失败")
+//                                iv_down_status?.backgroundResource = R.drawable.download_midway
+//                                iv_down_reset_look?.backgroundResource = R.drawable.download_start
+//                                iv_down_reset_look?.tag = "true-false"
+//                            }
+//                            is Waiting -> {
+//                                helper.setText(R.id.text_photo_id, item.photoId + ":等待中")
+//                                iv_down_status?.backgroundResource = R.drawable.download_midway
+//                                iv_down_reset_look?.backgroundResource = R.drawable.download_start
+//                                iv_down_reset_look?.tag = "true-false"
+//                            }
+//                            is Succeed -> {
+//                                helper.setText(R.id.text_photo_id, item.photoId)
+//                                iv_down_status?.backgroundResource = R.drawable.download_complete
+//                                iv_down_reset_look?.backgroundResource = R.drawable.download_look
+//                                iv_down_reset_look?.tag = "true-false"
+//                                MediaStore.Images.Media.insertImage(activity.contentResolver,
+//                                        BuildConfig.download_file,
+//                                        item.photoId + ".jpg",
+//                                        null)
+//                                activity.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+//                                        Uri.fromFile(File(BuildConfig.download_file
+//                                                + "/" + item.photoId + ".jpg"))))
+//
+//                                item.isSuccess = "0"
+//                                AppDataBase.db.diskDownloadDao().update(item)
+////                                DatabaseUtils.update_download_lists(activity,
+////                                        item.photoId!!,
+////                                        "0")
+//
+//                                //下载成功后取消订阅
+//                                disposable?.dispose()
+//                            }
+//                            is Suspend -> {
+//                                helper?.setText(R.id.text_photo_id,
+//                                        item.photoId + ":" + status.percent())
+//                                iv_down_status?.backgroundResource = R.drawable.download_midway
+//                                iv_down_reset_look?.backgroundResource = R.drawable.download_start
+//                                iv_down_reset_look?.tag = "false-false"
+//                            }
+//                            is Downloading -> {
+//                                helper.setText(R.id.text_photo_id,
+//                                        item.photoId + ":" + status.percent())
+//                                iv_down_status?.backgroundResource = R.drawable.download_midway
+//                                iv_down_reset_look?.backgroundResource = R.drawable.download_pause
+//                                iv_down_reset_look?.tag = "false-true"
+//                            }
+//                        }
+//                    }
         }
         iv_down_reset_look?.setOnClickListener(adapterItemClick(activity, mission, item))
-        helper?.getView<ImageView>(R.id.iv_down_close)?.setOnClickListener(adapterItemClick(activity,
+        helper.getView<ImageView>(R.id.iv_down_close)?.setOnClickListener(adapterItemClick(activity,
                 mission,
                 item))
     }

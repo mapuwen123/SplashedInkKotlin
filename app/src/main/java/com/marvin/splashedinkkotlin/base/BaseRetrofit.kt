@@ -2,6 +2,7 @@ package com.marvin.splashedinkkotlin.base
 
 import android.text.TextUtils
 import com.marvin.splashedinkkotlin.common.APIConfig
+import com.marvin.splashedinkkotlin.network.LoggingInterceptor
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -23,9 +24,11 @@ abstract class BaseRetrofit : RuntimeException() {
         fun getRetrofit(): Retrofit? {
             if (mRetrofit == null) {
 
-                //设定30秒超时,拦截http请求进行监控重写或重试,打印网络请求
-                mHttpClientBuilder.connectTimeout(30, TimeUnit.SECONDS)
+                //设定10秒超时,拦截http请求进行监控重写或重试,打印网络请求
+                mHttpClientBuilder.connectTimeout(10, TimeUnit.SECONDS)
+                        .addInterceptor(LoggingInterceptor())
                         .addInterceptor(interceptor)
+
                 val mOkHttpClient = mHttpClientBuilder.build()
 
 

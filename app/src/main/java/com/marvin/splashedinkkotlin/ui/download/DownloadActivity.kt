@@ -1,9 +1,7 @@
 package com.marvin.splashedinkkotlin.ui.download
 
-import android.os.Handler
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.base.BaseActivity
-import com.marvin.splashedinkkotlin.bean.DiskDownloadBean
 import com.marvin.splashedinkkotlin.db.entity.DiskDownloadEntity
 import kotlinx.android.synthetic.main.activity_down_load.*
 
