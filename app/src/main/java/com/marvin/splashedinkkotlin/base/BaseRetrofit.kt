@@ -1,6 +1,7 @@
 package com.marvin.splashedinkkotlin.base
 
 import android.text.TextUtils
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.marvin.splashedinkkotlin.common.APIConfig
 import com.marvin.splashedinkkotlin.network.LoggingInterceptor
 import okhttp3.Interceptor
@@ -26,7 +27,7 @@ abstract class BaseRetrofit : RuntimeException() {
 
                 //设定10秒超时,拦截http请求进行监控重写或重试,打印网络请求
                 mHttpClientBuilder.connectTimeout(10, TimeUnit.SECONDS)
-                        .addInterceptor(LoggingInterceptor())
+//                        .addInterceptor(LoggingInterceptor())
                         .addInterceptor(interceptor)
 
                 val mOkHttpClient = mHttpClientBuilder.build()
@@ -39,6 +40,8 @@ abstract class BaseRetrofit : RuntimeException() {
                         .addConverterFactory(GsonConverterFactory.create())
                         //配置回调库，采用RxJava
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                        //配置协程回调库
+                        .addCallAdapterFactory(CoroutineCallAdapterFactory.invoke())
                         //设置OKHttpClient为网络客户端
                         .client(mOkHttpClient)
                         .build()

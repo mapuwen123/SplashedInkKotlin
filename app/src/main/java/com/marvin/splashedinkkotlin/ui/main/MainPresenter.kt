@@ -1,55 +1,40 @@
 package com.marvin.splashedinkkotlin.ui.main
 
-import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import com.marvin.splashedinkkotlin.base.BasePresenter
-import com.marvin.splashedinkkotlin.bean.NewPhotoBeanItem
-import io.reactivex.Observer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * Created by Administrator on 2017/7/28.
  */
-class MainPresenter : BasePresenter<MainView>(), Observer<MutableList<NewPhotoBeanItem>> {
+class MainPresenter : BasePresenter<MainView>() {
     private val model = MainModel()
 
     fun getPhotos(page: Int, per_page: Int) {
         if (page == 1) {
             mView?.showProgress()
         }
-        model.getPhotos(page, per_page)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this)
-    }
-
-    private var disposable: Disposable? = null
-
-    override fun onError(e: Throwable) {
-        mView?.hideProgress()
-        mView?.error(e.message.toString())
-        disposable?.dispose()
-    }
-
-    override fun onNext(t: MutableList<NewPhotoBeanItem>) {
-//        mView?.upData(t)
-    }
-
-    override fun onComplete() {
-        mView?.hideProgress()
-        disposable?.dispose()
-    }
-
-    override fun onSubscribe(d: Disposable) {
-        disposable = d
+        GlobalScope.launch {
+            try {
+                val photos = model.getPhotos(page, per_page)
+                if (photos.isNotEmpty()) {
+                    mView?.hideProgress()
+                }
+            } catch (e: Throwable) {
+                mView?.hideProgress()
+                mView?.error(e.message.toString())
+            }
+        }
+//        model.getPhotos(page, per_page)
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(this)
     }
 
     override fun onCreate(owner: LifecycleOwner) {
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        disposable?.dispose()
     }
 }

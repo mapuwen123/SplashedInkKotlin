@@ -16,9 +16,9 @@ interface NetWorkService {
     }
 
     @GET("photos?client_id=${APIConfig.Application_ID}")
-    fun getPhotoList(@Query("page") page: Int,
+    suspend fun getPhotoList(@Query("page") page: Int,
                      @Query("per_page") per_page: Int,
-                     @Query("order_by") order_by: String): Observable<MutableList<NewPhotoBeanItem>>
+                     @Query("order_by") order_by: String): MutableList<NewPhotoBeanItem>
 
     @GET("photos/{photoId}?client_id=${APIConfig.Application_ID}")
     fun getPhotoStatus(@Path("photoId") photoId: String): Observable<PhotoStatusBean>

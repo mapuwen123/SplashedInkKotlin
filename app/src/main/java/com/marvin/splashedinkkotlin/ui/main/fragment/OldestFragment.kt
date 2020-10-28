@@ -5,26 +5,25 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.marvin.splashedinkkotlin.MyApplication
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.bean.NewPhotoBeanItem
 import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.network.NetWorkService
 import com.marvin.splashedinkkotlin.ui.main.adapter.MainAdapter
 import com.marvin.splashedinkkotlin.ui.particulars.ParticularsActivity
-import io.reactivex.Observer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.fragment_oldest.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import zlc.season.ironbranch.mainThread
 
 /**
  * A simple [Fragment] subclass.
@@ -35,10 +34,9 @@ import kotlinx.android.synthetic.main.fragment_oldest.*
  * create an instance of this fragment.
  */
 class OldestFragment : androidx.fragment.app.Fragment(),
-        Observer<MutableList<NewPhotoBeanItem>>,
         BaseQuickAdapter.OnItemClickListener,
         BaseQuickAdapter.RequestLoadMoreListener,
-        androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener {
 
     // TODO: Rename and change types of parameters
     private var mParam1: String? = null
@@ -81,10 +79,42 @@ class OldestFragment : androidx.fragment.app.Fragment(),
 
     fun getPhotos(page: Int, per_page: Int) {
         swipe.isRefreshing = true
-        val observable = NetWorkService.retrofitService.getPhotoList(page, per_page, "oldest")
-        observable.subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this)
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                val response = NetWorkService.retrofitService.getPhotoList(page, per_page, "oldest")
+                if (response.isNotEmpty()) {
+                    if (response.size != 0) {
+                        if (page == 1) {
+                            data.clear()
+                            data.addAll(response)
+                            adapter?.notifyDataSetChanged()
+                        } else {
+                            adapter?.addData(response)
+                        }
+                        if (response.size < 20) {
+                            adapter?.loadMoreEnd()
+                        } else {
+                            adapter?.loadMoreComplete()
+                        }
+                    } else {
+                        adapter?.loadMoreEnd()
+                    }
+                    swipe?.isRefreshing = false
+                }
+            } catch (e: Throwable) {
+                e.message?.let {
+                    mainThread {
+                        Logger.d(it)
+                        Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                swipe?.isRefreshing = false
+            }
+        }
+//        val observable = NetWorkService.retrofitService.getPhotoList(page, per_page, "oldest")
+//        observable.subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(this)
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -143,44 +173,6 @@ class OldestFragment : androidx.fragment.app.Fragment(),
             fragment.arguments = args
             return fragment
         }
-    }
-
-    var disposable: Disposable? = null
-
-    override fun onNext(t: MutableList<NewPhotoBeanItem>) {
-        if (t.size != 0) {
-            if (page == 1) {
-                this.data.clear()
-                this.data.addAll(t)
-                adapter?.notifyDataSetChanged()
-            } else {
-                adapter?.addData(t)
-            }
-            if (t.size < 20) {
-                adapter?.loadMoreEnd()
-            } else {
-                adapter?.loadMoreComplete()
-            }
-        } else {
-            adapter?.loadMoreEnd()
-        }
-    }
-
-    override fun onComplete() {
-        swipe?.isRefreshing = false
-        disposable?.dispose()
-    }
-
-    override fun onSubscribe(d: Disposable) {
-        disposable = d
-    }
-
-    override fun onError(e: Throwable) {
-        e.message?.let {
-            Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
-        }
-        swipe?.isRefreshing = false
-        disposable?.dispose()
     }
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
