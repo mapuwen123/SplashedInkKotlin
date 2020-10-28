@@ -1,17 +1,15 @@
 package com.marvin.splashedinkkotlin.ui.particulars
 
 import android.annotation.SuppressLint
-import android.app.DownloadManager
 import android.app.ProgressDialog
 import android.app.WallpaperManager
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.net.Uri
 import android.transition.Explode
 import android.view.View
 import android.view.Window
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.RequestOptions
@@ -19,25 +17,14 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.base.BaseActivity
-import com.marvin.splashedinkkotlin.common.BuildConfig
-import com.marvin.splashedinkkotlin.db.AppDataBase
-import com.marvin.splashedinkkotlin.db.entity.DiskDownloadEntity
 import com.marvin.splashedinkkotlin.service.DownloadService
 import com.marvin.splashedinkkotlin.utils.snackbar
 import com.marvin.splashedinkkotlin.widget.ParallaxScrollView
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_particulars.*
 import kotlinx.android.synthetic.main.profile_details.*
 import kotlinx.android.synthetic.main.profile_header.*
 import kotlinx.android.synthetic.main.profile_statistics.*
-import org.jetbrains.anko.backgroundColor
-import org.jetbrains.anko.indeterminateProgressDialog
-import org.jetbrains.anko.toast
-import org.jetbrains.anko.wallpaperManager
-import zlc.season.rxdownload3.RxDownload
-import zlc.season.rxdownload3.core.Mission
-import zlc.season.rxdownload3.core.Succeed
 
 class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(), ParticularsView,
         View.OnClickListener,
@@ -75,7 +62,7 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
         photo_id = intent.getStringExtra("PHOTO_ID")!!
         height = intent.getIntExtra("HEIGHT", 0)
         image_url = intent.getStringExtra("IMAGE_URL")!!
-        manager = wallpaperManager
+        manager = WallpaperManager.getInstance(this)
 
         image.layoutParams.height = height
         Glide.with(this)
@@ -113,15 +100,15 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
     }
 
     override fun error(err: String) {
-        toast(err)
+        Toast.makeText(this, err, Toast.LENGTH_SHORT).show()
     }
 
     override fun success(msg: String) {
-        toast(msg)
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     override fun shareSuccess(msg: String) {
-        toast(msg)
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     @SuppressLint("CheckResult")
@@ -155,7 +142,7 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
 
     override fun setColor(color: String) {
         text_color.text = color
-        view_color.backgroundColor = Color.parseColor(color)
+        view_color.setBackgroundColor(Color.parseColor(color))
     }
 
     override fun setAperture(aperture: String) {
@@ -228,7 +215,9 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
     }
 
     fun showProgressDialog(message: CharSequence) {
-        progress_dialog = indeterminateProgressDialog(message.toString(), "", null)
+        progress_dialog = ProgressDialog(this)
+        progress_dialog?.setMessage(message)
+        progress_dialog?.show()
     }
 
     fun hideProgressDialog() {
@@ -248,7 +237,7 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
                             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                                 manager?.setBitmap(resource)
                                 hideProgressDialog()
-                                toast("设置完成")
+                                Toast.makeText(this@ParticularsActivity, "设置完成", Toast.LENGTH_SHORT).show()
                             }
 
                         })

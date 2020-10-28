@@ -4,10 +4,10 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Color
 import android.os.Handler
-import androidx.annotation.LayoutRes
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.LayoutRes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -16,12 +16,10 @@ import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.bean.SearchBean
 import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.db.AppDataBase
-import com.marvin.splashedinkkotlin.db.entity.DiskDownloadEntity
 import com.marvin.splashedinkkotlin.network.NetWorkService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import org.jetbrains.anko.backgroundColor
 import zlc.season.rxdownload3.RxDownload
 import zlc.season.rxdownload3.core.Mission
 import zlc.season.rxdownload3.core.Succeed
@@ -37,7 +35,7 @@ class SearchAdapter(private val context: Context, @LayoutRes layoutResId: Int, d
         helper.setText(R.id.name, item.user!!.name)
         val background = helper.getView<FrameLayout>(R.id.background)
         val image = helper.getView<ImageView>(R.id.item_image)
-        background.backgroundColor = Color.parseColor(item.color)
+        background.setBackgroundColor(Color.parseColor(item.color))
         Glide.with(context)
                 .load(item.urls!!.regular)
                 .transition(DrawableTransitionOptions.withCrossFade())

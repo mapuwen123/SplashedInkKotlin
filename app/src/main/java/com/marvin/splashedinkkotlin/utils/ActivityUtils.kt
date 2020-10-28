@@ -1,12 +1,7 @@
 package com.marvin.splashedinkkotlin.utils
 
 import android.app.Activity
-import android.app.ActivityManager
-import android.content.Context
-import org.jetbrains.anko.coroutines.experimental.asReference
-
-import java.util.Stack
-import kotlin.system.exitProcess
+import java.util.*
 
 /**
  * Created by Administrator on 2017/6/10.

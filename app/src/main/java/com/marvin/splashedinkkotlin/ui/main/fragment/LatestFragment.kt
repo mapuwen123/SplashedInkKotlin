@@ -5,17 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.marvin.splashedinkkotlin.MyApplication
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.bean.NewPhotoBeanItem
-import com.marvin.splashedinkkotlin.bean.PhotoBean
 import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.network.NetWorkService
 import com.marvin.splashedinkkotlin.ui.main.adapter.MainAdapter
@@ -25,7 +22,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_latest.*
-import org.jetbrains.anko.support.v4.toast
 
 /**
  * A simple [Fragment] subclass.
@@ -180,7 +176,9 @@ class LatestFragment : androidx.fragment.app.Fragment(),
     }
 
     override fun onError(e: Throwable) {
-        e.message?.let { toast(it) }
+        e.message?.let {
+            Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
+        }
         swipe?.isRefreshing = false
         disposable?.dispose()
     }

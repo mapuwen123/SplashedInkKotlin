@@ -3,25 +3,22 @@ package com.marvin.splashedinkkotlin.ui.main.adapter
 import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Color
-import androidx.annotation.LayoutRes
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.LayoutRes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.bean.NewPhotoBeanItem
-import com.marvin.splashedinkkotlin.bean.PhotoBean
 import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.db.AppDataBase
-import com.marvin.splashedinkkotlin.db.entity.DiskDownloadEntity
 import com.marvin.splashedinkkotlin.network.NetWorkService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import org.jetbrains.anko.backgroundColor
 import zlc.season.rxdownload3.RxDownload
 import zlc.season.rxdownload3.core.Mission
 import zlc.season.rxdownload3.core.Succeed
@@ -38,7 +35,7 @@ class MainAdapter(private val context: Context, @LayoutRes layoutResId: Int, dat
         helper.setText(R.id.name, item.user!!.name)
         val background = helper.getView<FrameLayout>(R.id.background)
         val image = helper.getView<ImageView>(R.id.item_image)
-        background.backgroundColor = Color.parseColor(item.color)
+        background.setBackgroundColor(Color.parseColor(item.color))
         var imageUrl: String = when (BuildConfig.image_quality) {
             BuildConfig.imgQuality["RAW"] -> item.urls?.raw.toString()
             BuildConfig.imgQuality["FULL"] -> item.urls?.full.toString()

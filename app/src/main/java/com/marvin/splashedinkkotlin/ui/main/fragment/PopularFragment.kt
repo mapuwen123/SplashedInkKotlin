@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.marvin.splashedinkkotlin.MyApplication
 
@@ -25,7 +26,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_popular.*
-import org.jetbrains.anko.support.v4.toast
 
 /**
  * A simple [Fragment] subclass.
@@ -177,7 +177,9 @@ class PopularFragment : androidx.fragment.app.Fragment(),
     }
 
     override fun onError(e: Throwable) {
-        e.message?.let { toast(it) }
+        e.message?.let {
+            Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
+        }
         swipe?.isRefreshing = false
         disposable?.dispose()
     }

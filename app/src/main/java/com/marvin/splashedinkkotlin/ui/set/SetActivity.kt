@@ -1,13 +1,15 @@
 package com.marvin.splashedinkkotlin.ui.set
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.view.View
+import android.widget.Toast
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.base.BaseActivity
 import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.utils.PackageUtils
 import com.tencent.bugly.beta.Beta
 import kotlinx.android.synthetic.main.activity_set.*
-import org.jetbrains.anko.*
 import java.io.File
 
 class SetActivity : BaseActivity<SetView, SetPresenter>(), SetView, View.OnClickListener {
@@ -48,11 +50,11 @@ class SetActivity : BaseActivity<SetView, SetPresenter>(), SetView, View.OnClick
     }
 
     override fun error(err: String) {
-        toast(err)
+        Toast.makeText(this, err, Toast.LENGTH_SHORT).show()
     }
 
     override fun success(msg: String) {
-        toast(msg)
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     override fun setQualityText(text: String) {
@@ -66,23 +68,36 @@ class SetActivity : BaseActivity<SetView, SetPresenter>(), SetView, View.OnClick
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.set_quality -> {
-                val selectorItems = listOf("超清", "高清", "普通", "快速", "极速")
-                selector("请选择图片质量", selectorItems, { _, i ->
-                    when (i) {
-                        0 -> BuildConfig.imgQuality["RAW"]?.let { presenter.setQuality(it) }
-                        1 -> BuildConfig.imgQuality["FULL"]?.let { presenter.setQuality(it) }
-                        2 -> BuildConfig.imgQuality["REGULAR"]?.let { presenter.setQuality(it) }
-                        3 -> BuildConfig.imgQuality["SMALL"]?.let { presenter.setQuality(it) }
-                        4 -> BuildConfig.imgQuality["THUMB"]?.let { presenter.setQuality(it) }
+                val selectorItems = arrayOf("超清", "高清", "普通", "快速", "极速")
+                AlertDialog.Builder(this).apply {
+                    title = "请选择图片质量"
+                    setItems(selectorItems) { dialog, which ->
+                        when (which) {
+                            0 -> BuildConfig.imgQuality["RAW"]?.let { presenter.setQuality(it) }
+                            1 -> BuildConfig.imgQuality["FULL"]?.let { presenter.setQuality(it) }
+                            2 -> BuildConfig.imgQuality["REGULAR"]?.let { presenter.setQuality(it) }
+                            3 -> BuildConfig.imgQuality["SMALL"]?.let { presenter.setQuality(it) }
+                            4 -> BuildConfig.imgQuality["THUMB"]?.let { presenter.setQuality(it) }
+                        }
+                        presenter.getQualityText()
+                        dialog.dismiss()
                     }
-                    presenter.getQualityText()
-                })
+                    show()
+                }
             }
             R.id.set_clear -> {
-                alert("是否要清空缓存？", "提示") {
-                    yesButton { presenter.clearCache(BuildConfig.image_cache) }
-                    noButton { dialog -> dialog.dismiss() }
-                }.show()
+                AlertDialog.Builder(this).apply {
+                    title = "提示"
+                    setMessage("是否要清空缓存？")
+                    setPositiveButton("是") { dialog, _ ->
+                        presenter.clearCache(BuildConfig.image_cache)
+                        dialog.dismiss()
+                    }
+                    setNegativeButton("否") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    show()
+                }
             }
             R.id.set_update -> {
                 Beta.checkUpgrade()

@@ -11,6 +11,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -22,7 +23,6 @@ import com.marvin.splashedinkkotlin.db.entity.SearchHisEntity
 import com.marvin.splashedinkkotlin.ui.particulars.ParticularsActivity
 import com.marvin.splashedinkkotlin.ui.search.adapter.SearchAdapter
 import kotlinx.android.synthetic.main.activity_search.*
-import org.jetbrains.anko.toast
 import kotlin.concurrent.thread
 
 
@@ -106,7 +106,7 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView,
     }
 
     override fun success(msg: String) {
-        toast(msg)
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     override fun upData(data: SearchBean) {

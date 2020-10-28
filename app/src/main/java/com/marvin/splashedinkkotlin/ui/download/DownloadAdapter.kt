@@ -1,11 +1,9 @@
 package com.marvin.splashedinkkotlin.ui.download
 
-import android.content.Intent
-import android.net.Uri
-import android.provider.MediaStore
-import androidx.annotation.LayoutRes
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.annotation.LayoutRes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -16,14 +14,9 @@ import com.marvin.splashedinkkotlin.db.AppDataBase
 import com.marvin.splashedinkkotlin.db.entity.DiskDownloadEntity
 import com.marvin.splashedinkkotlin.widget.OnProgressListener
 import com.marvin.splashedinkkotlin.widget.ProgressTextView
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import okhttp3.internal.notify
-import org.jetbrains.anko.backgroundResource
-import org.jetbrains.anko.toast
 import zlc.season.rxdownload3.RxDownload
-import zlc.season.rxdownload3.core.*
-import java.io.File
+import zlc.season.rxdownload3.core.Mission
 
 /**
  * Created by Administrator on 2017/7/31.
@@ -50,8 +43,8 @@ class DownloadAdapter(private val activity: DownloadActivity,
                 BuildConfig.download_file)
         if (item.isSuccess == "0") {
             helper.setText(R.id.text_photo_id, item.photoId)
-            iv_down_status?.backgroundResource = R.drawable.download_complete
-            iv_down_reset_look?.backgroundResource = R.drawable.download_look
+            iv_down_status?.setBackgroundResource(R.drawable.download_complete)
+            iv_down_reset_look?.setBackgroundResource(R.drawable.download_look)
             iv_down_reset_look?.tag = "true-false"
         } else {
             text_photo_id.setDownloadId(item.downloadId).start()
@@ -66,8 +59,8 @@ class DownloadAdapter(private val activity: DownloadActivity,
                                     item.downloadId
                             ))
                     helper.setText(R.id.text_photo_id, item.photoId + ":下载失败")
-                    iv_down_status?.backgroundResource = R.drawable.download_midway
-                    iv_down_reset_look?.backgroundResource = R.drawable.download_start
+                    iv_down_status?.setBackgroundResource(R.drawable.download_midway)
+                    iv_down_reset_look?.setBackgroundResource(R.drawable.download_start)
                 }
 
                 override fun onSuccess() {
@@ -80,8 +73,8 @@ class DownloadAdapter(private val activity: DownloadActivity,
                                     item.downloadId
                             ))
                     helper.setText(R.id.text_photo_id, item.photoId)
-                    iv_down_status?.backgroundResource = R.drawable.download_complete
-                    iv_down_reset_look?.backgroundResource = R.drawable.download_look
+                    iv_down_status?.setBackgroundResource(R.drawable.download_complete)
+                    iv_down_reset_look?.setBackgroundResource(R.drawable.download_look)
                 }
             })
 //            disposable = RxDownload.create(mission)
@@ -152,7 +145,7 @@ class DownloadAdapter(private val activity: DownloadActivity,
             when (p0?.id) {
                 R.id.iv_down_reset_look -> {
                     if (p0.tag.toString().split("-")[0] == "true") {
-                        activity.toast("点击查看")
+                        Toast.makeText(activity, "点击查看", Toast.LENGTH_SHORT).show()
                     } else {
                         if (p0.tag.toString().split("-")[1] == "true") {
                             RxDownload.stop(mission).subscribe()

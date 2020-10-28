@@ -17,7 +17,6 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_splash.*
-import org.jetbrains.anko.backgroundResource
 import zlc.season.rxdownload3.core.DownloadConfig
 
 class SplashActivity : AppCompatActivity() {
@@ -29,7 +28,7 @@ class SplashActivity : AppCompatActivity() {
 
         val openTime = System.currentTimeMillis()
 
-        img_splash.backgroundResource = R.drawable.splash
+        img_splash.setBackgroundResource(R.drawable.splash)
 
         val retrofitObs = Observable.just(MyApplication.context).map {
             val retrofit = BaseRetrofit.getRetrofit()

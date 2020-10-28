@@ -5,16 +5,15 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
-import com.google.android.material.navigation.NavigationView
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.widget.Toolbar
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.Toolbar
+import com.google.android.material.navigation.NavigationView
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.base.BaseActivity
-import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.ui.about.AboutActivity
 import com.marvin.splashedinkkotlin.ui.download.DownloadActivity
 import com.marvin.splashedinkkotlin.ui.main.adapter.PagerAdapter
@@ -23,11 +22,9 @@ import com.marvin.splashedinkkotlin.ui.main.fragment.OldestFragment
 import com.marvin.splashedinkkotlin.ui.main.fragment.PopularFragment
 import com.marvin.splashedinkkotlin.ui.search.SearchActivity
 import com.marvin.splashedinkkotlin.ui.set.SetActivity
-import com.orhanobut.logger.Logger
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_pager_main.*
 import kotlinx.android.synthetic.main.drawer_main.*
-import org.jetbrains.anko.toast
 
 class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
         NavigationView.OnNavigationItemSelectedListener,
@@ -56,7 +53,7 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
             exit()
         } else {
             fTime = System.currentTimeMillis()
-            toast("再次返回退出应用")
+            Toast.makeText(this, "再次返回退出应用", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -111,7 +108,7 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .subscribe {
                     if (!it) {
-                        toast("未获取到权限，将导致无法正常下载图片！")
+                        Toast.makeText(this, "未获取到权限，将导致无法正常下载图片！", Toast.LENGTH_SHORT).show()
                     }
                 }
     }
@@ -125,11 +122,11 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView,
     }
 
     override fun error(err: String) {
-        toast(err)
+        Toast.makeText(this, err, Toast.LENGTH_SHORT).show()
     }
 
     override fun success(msg: String) {
-        toast(msg)
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
