@@ -19,7 +19,7 @@ interface DiskDownloadDao {
     fun queryAll(): List<DiskDownloadEntity>
 
     @Query("select * from disk_download where photoId = :photoId")
-    fun queryById(photoId: String): DiskDownloadEntity
+    fun queryById(photoId: String): DiskDownloadEntity?
 
     @Delete
     fun delete(diskDownloadEntity: DiskDownloadEntity)

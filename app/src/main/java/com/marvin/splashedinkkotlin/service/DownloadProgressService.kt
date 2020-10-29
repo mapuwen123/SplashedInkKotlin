@@ -79,7 +79,8 @@ class DownloadProgressService : JobIntentService(), Handler.Callback {
                                 url,
                                 imageUrl,
                                 "0",
-                                downloadId
+                                downloadId,
+                                0
                         ))
             }
             16 -> {
@@ -89,7 +90,8 @@ class DownloadProgressService : JobIntentService(), Handler.Callback {
                                 url,
                                 imageUrl,
                                 "1",
-                                downloadId
+                                downloadId,
+                                0
                         ))
             }
             else -> {

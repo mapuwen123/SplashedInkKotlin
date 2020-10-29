@@ -3,15 +3,12 @@ package com.marvin.splashedinkkotlin.service
 import android.app.DownloadManager
 import android.content.Context
 import android.content.Intent
-import android.database.ContentObserver
 import android.net.Uri
-import android.os.Handler
-import android.os.Message
+import android.widget.Toast
 import androidx.core.app.JobIntentService
-import com.marvin.splashedinkkotlin.common.BuildConfig
 import com.marvin.splashedinkkotlin.db.AppDataBase
 import com.marvin.splashedinkkotlin.db.entity.DiskDownloadEntity
-import com.orhanobut.logger.Logger
+import zlc.season.ironbranch.mainThread
 
 /**
  *
@@ -21,8 +18,6 @@ import com.orhanobut.logger.Logger
  * @CreateDate:     2020/7/27 11:12
  */
 class DownloadService : JobIntentService() {
-
-    private lateinit var handler: Handler
 
     private lateinit var dm: DownloadManager
     private var downloadId = 0L
@@ -41,22 +36,49 @@ class DownloadService : JobIntentService() {
         url = intent.getStringExtra("URL")!!
         photoId = intent.getStringExtra("PHOTO_ID")!!
         imageUrl = intent.getStringExtra("IMAGE_URL")!!
+        val photo = AppDataBase.db.diskDownloadDao().queryById(photoId)
         dm = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        val resource = Uri.parse(url)
-        val request = DownloadManager.Request(resource)
-        request.setDestinationInExternalFilesDir(this, "/download", "$photoId.jpg")
-        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-        request.setTitle("$photoId.jpg")
-        downloadId = dm.enqueue(request)
-        AppDataBase.db.diskDownloadDao()
-                .insert(DiskDownloadEntity(
-                        photoId,
-                        url,
-                        imageUrl,
-                        "1",
-                        downloadId
-                ))
+        if (photo == null) {
+            val resource = Uri.parse(url)
+            val request = DownloadManager.Request(resource)
+            request.setDestinationInExternalFilesDir(this, "/download", "$photoId.jpg")
+            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            request.setTitle("$photoId.jpg")
+            downloadId = dm.enqueue(request)
+            AppDataBase.db.diskDownloadDao()
+                    .insert(DiskDownloadEntity(
+                            photoId,
+                            url,
+                            imageUrl,
+                            "1",
+                            downloadId,
+                            0L
+                    ))
+        } else {
+            if (photo.isError != 0L) {
+                mainThread {
+                    Toast.makeText(this, "该任务已在下载计划中", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                val resource = Uri.parse(url)
+                val request = DownloadManager.Request(resource)
+                request.setDestinationInExternalFilesDir(this, "/download", "$photoId.jpg")
+                request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                request.setTitle("$photoId.jpg")
+                downloadId = dm.enqueue(request)
+                AppDataBase.db.diskDownloadDao()
+                        .update(DiskDownloadEntity(
+                                photoId,
+                                url,
+                                imageUrl,
+                                "1",
+                                downloadId,
+                                0L
+                        ))
+            }
+        }
     }
 
 //    override fun onCreate() {

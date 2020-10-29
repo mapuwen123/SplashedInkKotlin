@@ -17,5 +17,6 @@ data class DiskDownloadEntity(
         @ColumnInfo val url: String,
         @ColumnInfo(name = "preview_url") val previewUrl: String,
         @ColumnInfo(name = "is_success") var isSuccess: String,
-        @ColumnInfo(name = "download_id") val downloadId: Long
+        @ColumnInfo(name = "download_id") val downloadId: Long,
+        @ColumnInfo(name = "is_error") val isError: Long
 )

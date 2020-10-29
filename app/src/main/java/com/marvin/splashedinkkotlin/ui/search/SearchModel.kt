@@ -9,6 +9,6 @@ import io.reactivex.Observable
  * Created by Administrator on 2017/8/3.
  */
 class SearchModel {
-    fun doSearch(query: String, page: Int, per_page: Int): Observable<SearchBean> =
+    suspend fun doSearch(query: String, page: Int, per_page: Int): SearchBean =
             NetWorkService.retrofitService.searchPhoto(query, page, per_page)
 }

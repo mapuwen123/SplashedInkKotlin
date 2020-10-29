@@ -18,7 +18,9 @@ import com.marvin.splashedinkkotlin.db.AppDataBase
 import com.marvin.splashedinkkotlin.network.NetWorkService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import zlc.season.rxdownload3.RxDownload
 import zlc.season.rxdownload3.core.Mission
 import zlc.season.rxdownload3.core.Succeed
@@ -51,39 +53,31 @@ class MainAdapter(private val context: Context, @LayoutRes layoutResId: Int, dat
                 .into(image)
         val download = helper.getView<ImageView>(R.id.download)
         download.setOnClickListener {
-            run {
-                showDialog()
-                NetWorkService.retrofitService.getDownLoadUrl(item.id!!)
-                        .subscribeOn(Schedulers.newThread())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe { download_bean ->
-                            run {
-                                progress?.dismiss()
-                                Toast.makeText(context, "任务已加入下载队列", Toast.LENGTH_SHORT).show()
-                                val mission = Mission(download_bean.url!!, item.id + ".jpg", BuildConfig.download_file)
-                                disposable = RxDownload.create(mission)
-                                        .observeOn(AndroidSchedulers.mainThread())
-                                        .subscribe { status ->
-                                            when (status) {
-                                                is Succeed -> {
-                                                    val downloadEntity = AppDataBase.db.diskDownloadDao().queryById(item.id!!)
-                                                    downloadEntity.isSuccess = "0"
-                                                    AppDataBase.db.diskDownloadDao().update(downloadEntity)
-//                                                    DatabaseUtils.update_download_lists(context, item.id!!, "0")
-                                                    disposable?.dispose()
-                                                }
-                                            }
+            showDialog()
+            GlobalScope.launch(Dispatchers.Main) {
+                try {
+                    val response = NetWorkService.retrofitService.getDownLoadUrl(item.id)
+                    progress?.dismiss()
+                    Toast.makeText(context, "任务已加入下载队列", Toast.LENGTH_SHORT).show()
+                    val mission = Mission(response.url.toString(), item.id + ".jpg", BuildConfig.download_file)
+                    disposable = RxDownload.create(mission)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe { status ->
+                                when (status) {
+                                    is Succeed -> {
+                                        val downloadEntity = AppDataBase.db.diskDownloadDao().queryById(item.id)
+                                        if (downloadEntity != null) {
+                                            downloadEntity.isSuccess = "0"
+                                            AppDataBase.db.diskDownloadDao().update(downloadEntity)
                                         }
-//                                AppDataBase.db.diskDownloadDao()
-//                                        .insert(DiskDownloadEntity(
-//                                                item.id!!,
-//                                                download_bean.url!!,
-//                                                item.urls?.regular!!,
-//                                                "1"
-//                                        ))
-//                                DatabaseUtils.insert_download_lists(context, item.id!!, download_bean.url!!, item.urls?.regular!!, "1")
+//                                                    DatabaseUtils.update_download_lists(context, item.id!!, "0")
+                                        disposable?.dispose()
+                                    }
+                                }
                             }
-                        }
+                } catch (e: Throwable) {
+
+                }
             }
         }
     }

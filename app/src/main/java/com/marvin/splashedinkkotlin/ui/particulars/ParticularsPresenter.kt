@@ -5,19 +5,14 @@ import android.content.Intent
 import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import com.marvin.splashedinkkotlin.base.BasePresenter
-import com.marvin.splashedinkkotlin.bean.BaseBean
-import com.marvin.splashedinkkotlin.bean.DownLoadBean
-import com.marvin.splashedinkkotlin.bean.PhotoStatusBean
-import com.orhanobut.logger.Logger
-import io.reactivex.Observer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * Created by Administrator on 2017/7/28.
  */
-class ParticularsPresenter : BasePresenter<ParticularsView>(), Observer<BaseBean> {
+class ParticularsPresenter : BasePresenter<ParticularsView>() {
     private val model = ParticularsModel()
 
     private val typeNameMap = mapOf(
@@ -35,18 +30,56 @@ class ParticularsPresenter : BasePresenter<ParticularsView>(), Observer<BaseBean
     )
 
     fun getPhotoStatus(photoId: String) {
-        model.getPhotoStatus(photoId)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this)
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                val response = model.getPhotoStatus(photoId)
+                response.user?.profile_image?.medium?.let { mView?.setAuthorHeader(it) }
+                response.user?.name?.let { mView?.setAuthorName(it) }
+
+                response.created_at?.substring(0, 9)?.let { mView?.setCreateTime(it) }
+
+                mView?.setSize("${response.width}*${response.height}")
+
+                response.exif?.exposure_time?.let { mView?.setShutterTime(it) }
+                response.exif?.aperture?.let { mView?.setAperture(it) }
+                response.exif?.focal_length?.let { mView?.setFocal(it) }
+                response.exif?.model?.let { mView?.setCameraName(it) }
+                response.exif?.iso?.let { mView?.setExposure(it.toString()) }
+
+                response.color?.let { mView?.setColor(it) }
+
+                response.location?.title?.let { mView?.setAddr(it) }
+
+                response.likes.let { mView?.setLikes(it.toString()) }
+                response.views.let { mView?.setViews(it.toString()) }
+                response.downloads.let { mView?.setDownloads(it.toString()) }
+            } catch (e: Throwable) {
+                mView?.hideProgress()
+                mView?.error(e.message.toString())
+            }
+        }
+//        model.getPhotoStatus(photoId)
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(this)
     }
 
     fun getDownloadUrl(photoId: String) {
         mView?.showProgress()
-        model.getDownloadUrl(photoId)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this)
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                val response = model.getDownloadUrl(photoId)
+                mView?.hideProgress()
+                response.url?.let { mView?.setDownloadUrl(it) }
+            } catch (e: Throwable) {
+                mView?.hideProgress()
+                mView?.error(e.message.toString())
+            }
+        }
+//        model.getDownloadUrl(photoId)
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(this)
     }
 
     fun doShare(context: Context, url: String) {
@@ -62,79 +95,9 @@ class ParticularsPresenter : BasePresenter<ParticularsView>(), Observer<BaseBean
         mView?.showSnackbar("$typeName: ${text.text}")
     }
 
-    private var disposable: Disposable? = null
-
-    override fun onSubscribe(d: Disposable) {
-        disposable = d
-    }
-
-    override fun onComplete() {
-        disposable?.dispose()
-    }
-
-    override fun onNext(t: BaseBean) {
-        if (t is PhotoStatusBean) {
-            t.user?.profile_image?.medium?.let { mView?.setAuthorHeader(it) }
-            t.user?.name?.let { mView?.setAuthorName(it) }
-
-            t.created_at?.substring(0, 9)?.let { mView?.setCreateTime(it) }
-
-            mView?.setSize("${t.width}*${t.height}")
-
-            t.exif?.exposure_time?.let { mView?.setShutterTime(it) }
-            t.exif?.aperture?.let { mView?.setAperture(it) }
-            t.exif?.focal_length?.let { mView?.setFocal(it) }
-            t.exif?.model?.let { mView?.setCameraName(it) }
-            t.exif?.iso?.let { mView?.setExposure(it.toString()) }
-
-            t.color?.let { mView?.setColor(it) }
-
-            t.location?.title?.let { mView?.setAddr(it) }
-
-            t.likes.let { mView?.setLikes(it.toString()) }
-            t.views.let { mView?.setViews(it.toString()) }
-            t.downloads.let { mView?.setDownloads(it.toString()) }
-        } else if(t is DownLoadBean) {
-            //下载
-            mView?.hideProgress()
-            t.url?.let { mView?.setDownloadUrl(it) }
-        }
-    }
-
-    override fun onError(e: Throwable) {
-        mView?.hideProgress()
-        mView?.error(e.message.toString())
-        disposable?.dispose()
-    }
-
-    inner class DownLoadUrlObservable : Observer<DownLoadBean> {
-
-        override fun onNext(t: DownLoadBean) {
-            t.url?.let { mView?.setDownloadUrl(it) }
-        }
-
-        override fun onError(e: Throwable) {
-            mView?.hideProgress()
-            mView?.error(e.message.toString())
-            disposable?.dispose()
-        }
-
-        override fun onComplete() {
-            mView?.hideProgress()
-            disposable?.dispose()
-        }
-
-        override fun onSubscribe(d: Disposable) {
-            disposable = d
-        }
-
-    }
-
     override fun onCreate(owner: LifecycleOwner) {
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        disposable?.dispose()
-        Logger.i("照片详情页面已关闭，解除订阅防止内存泄露")
     }
 }

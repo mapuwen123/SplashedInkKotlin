@@ -10,9 +10,9 @@ import io.reactivex.Observable
  * Created by Administrator on 2017/7/28.
  */
 class ParticularsModel {
-    fun getPhotoStatus(photoId: String): Observable<PhotoStatusBean>
+    suspend fun getPhotoStatus(photoId: String): PhotoStatusBean
             = NetWorkService.retrofitService.getPhotoStatus(photoId)
 
-    fun getDownloadUrl(photoId: String): Observable<DownLoadBean>
+    suspend fun getDownloadUrl(photoId: String): DownLoadBean
             = NetWorkService.retrofitService.getDownLoadUrl(photoId)
 }

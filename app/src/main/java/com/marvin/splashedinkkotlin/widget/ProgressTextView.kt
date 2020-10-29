@@ -6,10 +6,6 @@ import android.content.Context
 import android.os.Handler
 import android.os.Message
 import android.util.AttributeSet
-import com.marvin.splashedinkkotlin.db.AppDataBase
-import com.marvin.splashedinkkotlin.db.entity.DiskDownloadEntity
-import com.marvin.splashedinkkotlin.utils.ThreadUtils
-import com.marvin.splashedinkkotlin.utils.execute
 import com.orhanobut.logger.Logger
 
 /**
@@ -79,6 +75,7 @@ class ProgressTextView : androidx.appcompat.widget.AppCompatTextView, Handler.Ca
                 val size = message.arg2.toFloat()
                 val progress: Int = (far / size * 100).toInt()
                 text = "$progress%"
+                mOnProgressListener?.onDownloading(progress)
                 updateView()
             }
             8 -> {

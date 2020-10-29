@@ -18,7 +18,7 @@ import com.marvin.splashedinkkotlin.db.entity.SearchHisEntity
  * @Author:         mapw
  * @CreateDate:     2020/7/26 17:56
  */
-@Database(entities = [DiskDownloadEntity::class, SearchHisEntity::class], version = 2)
+@Database(entities = [DiskDownloadEntity::class, SearchHisEntity::class], version = 3)
 abstract class AppDataBase : RoomDatabase() {
     companion object {
         lateinit var db: AppDataBase
@@ -26,6 +26,12 @@ abstract class AppDataBase : RoomDatabase() {
         val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE disk_download ADD COLUMN download_id INTEGER NOT NULL DEFAULT 10")
+            }
+        }
+
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE disk_download ADD COLUMN is_error INTEGER NOT NULL DEFAULT 0")
             }
         }
     }

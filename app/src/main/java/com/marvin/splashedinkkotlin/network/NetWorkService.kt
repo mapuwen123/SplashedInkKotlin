@@ -21,13 +21,13 @@ interface NetWorkService {
                      @Query("order_by") order_by: String): MutableList<NewPhotoBeanItem>
 
     @GET("photos/{photoId}?client_id=${APIConfig.Application_ID}")
-    fun getPhotoStatus(@Path("photoId") photoId: String): Observable<PhotoStatusBean>
+    suspend fun getPhotoStatus(@Path("photoId") photoId: String): PhotoStatusBean
 
     @GET("photos/{photoId}/download?client_id=${APIConfig.Application_ID}")
-    fun getDownLoadUrl(@Path("photoId") photoId: String): Observable<DownLoadBean>
+    suspend fun getDownLoadUrl(@Path("photoId") photoId: String): DownLoadBean
 
     @GET("search/photos?client_id=${APIConfig.Application_ID}")
-    fun searchPhoto(@Query("query") query: String,
+    suspend fun searchPhoto(@Query("query") query: String,
                     @Query("page") page: Int,
-                    @Query("per_page") per_page: Int): Observable<SearchBean>
+                    @Query("per_page") per_page: Int): SearchBean
 }

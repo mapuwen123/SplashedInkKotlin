@@ -182,36 +182,11 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
     }
 
     override fun setDownloadUrl(url: String) {
-
         val intent = Intent()
         intent.putExtra("URL", url)
         intent.putExtra("PHOTO_ID", photo_id)
         intent.putExtra("IMAGE_URL", image_url)
         DownloadService.enqueueWork(this, intent)
-
-//        val mission = Mission(url, "$photo_id.jpg", BuildConfig.download_file)
-//        toast("任务已加入下载队列")
-//        disposable = RxDownload.create(mission)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe { status ->
-//                    when (status) {
-//                        is Succeed -> {
-//                            val downloadEntity = AppDataBase.db.diskDownloadDao().queryById(photo_id)
-//                            downloadEntity.isSuccess = "0"
-//                            AppDataBase.db.diskDownloadDao().update(downloadEntity)
-////                            DatabaseUtils.update_download_lists(this, photo_id, "0")
-//                            disposable?.dispose()
-//                        }
-//                    }
-//                }
-//        AppDataBase.db.diskDownloadDao()
-//                .insert(DiskDownloadEntity(
-//                        photo_id,
-//                        url,
-//                        image_url,
-//                        "1"
-//                ))
-//        DatabaseUtils.insert_download_lists(this, photo_id, url, image_url, "1")
     }
 
     fun showProgressDialog(message: CharSequence) {
