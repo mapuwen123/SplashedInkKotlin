@@ -17,8 +17,8 @@ class FileSaveUtils(private val listener: DownloadProgressListener) {
         return file
     }
 
-    fun savePhoto(body: ResponseBody) {
-        val file = File("${getPhotoPath().absolutePath}${File.separator}a.jpeg")
+    fun savePhoto(photoId: String, body: ResponseBody) {
+        val file = File("${getPhotoPath().absolutePath}${File.separator}$photoId.jpeg")
         var inputStream: InputStream? = null
         var outputStream: OutputStream? = null
         try {

@@ -74,22 +74,36 @@ class DownloadManager : DownloadProgressListener {
             runBlocking(Dispatchers.Default) {
                 AppDataBase.db.photoDao().insert(photoEntity!!)
             }
-            download(url, 0)
+            DownloadQueues.instance.enqueueTask(this)
         } else {
             when (photoEntity?.status) {
                 statusSuccess, statusStart -> Logger.i("当前任务已在队列中")
-                statusError -> download(url, 0)
-                statusStop -> photoEntity?.readLength?.let { download(url, it) }
+                statusError -> {
+                    photoEntity?.readLength = 0
+                    photoEntity?.status = statusStart
+                    DownloadQueues.instance.enqueueTask(this)
+                }
+                statusStop -> {
+                    photoEntity?.status = statusStart
+                    DownloadQueues.instance.enqueueTask(this)
+                }
             }
         }
     }
 
-    private fun download(url: String, startBytes: Long) {
+    fun download() {
         GlobalScope.launch {
             try {
-                val responseBody = DownloadService.retrofitService.download("bytes=$startBytes-", url)
+                val responseBody =
+                        photoEntity?.url?.let {
+                            DownloadService.retrofitService.download("bytes=${photoEntity?.readLength}-", it)
+                        }
                 onStart()
-                mFileSaveUtils?.savePhoto(responseBody)
+                responseBody?.let { response ->
+                    photoEntity?.photoId?.let { photoId ->
+                        mFileSaveUtils?.savePhoto(photoId, response)
+                    }
+                }
             } catch (e: Throwable) {
                 Logger.e("下载出错！")
                 onError(e)
@@ -102,7 +116,6 @@ class DownloadManager : DownloadProgressListener {
         runBlocking(Dispatchers.Default) {
             photoEntity?.let { AppDataBase.db.photoDao().update(it) }
         }
-        DownloadQueues.instance.enqueueTask(this)
     }
 
     override fun onProgress(read: Long, contentLength: Long) {
