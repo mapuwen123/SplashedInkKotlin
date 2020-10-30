@@ -3,7 +3,6 @@ package com.marvin.splashedinkkotlin.ui.particulars
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.app.WallpaperManager
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.transition.Explode
@@ -17,9 +16,11 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.marvin.splashedinkkotlin.R
 import com.marvin.splashedinkkotlin.base.BaseActivity
-import com.marvin.splashedinkkotlin.service.DownloadService
+import com.marvin.splashedinkkotlin.network.download.DownloadManager
+import com.marvin.splashedinkkotlin.network.download.DownloadProgressListener
 import com.marvin.splashedinkkotlin.utils.snackbar
 import com.marvin.splashedinkkotlin.widget.ParallaxScrollView
+import com.orhanobut.logger.Logger
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_particulars.*
 import kotlinx.android.synthetic.main.profile_details.*
@@ -182,11 +183,12 @@ class ParticularsActivity : BaseActivity<ParticularsView, ParticularsPresenter>(
     }
 
     override fun setDownloadUrl(url: String) {
-        val intent = Intent()
-        intent.putExtra("URL", url)
-        intent.putExtra("PHOTO_ID", photo_id)
-        intent.putExtra("IMAGE_URL", image_url)
-        DownloadService.enqueueWork(this, intent)
+//        val intent = Intent()
+//        intent.putExtra("URL", url)
+//        intent.putExtra("PHOTO_ID", photo_id)
+//        intent.putExtra("IMAGE_URL", image_url)
+//        DownloadService.enqueueWork(this, intent)
+        DownloadManager().start(photo_id, url)
     }
 
     fun showProgressDialog(message: CharSequence) {

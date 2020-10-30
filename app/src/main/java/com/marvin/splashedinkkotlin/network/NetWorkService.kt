@@ -2,10 +2,7 @@ package com.marvin.splashedinkkotlin.network
 
 import com.marvin.splashedinkkotlin.bean.*
 import com.marvin.splashedinkkotlin.common.APIConfig
-import io.reactivex.Observable
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 /**
  * Created by Administrator on 2017/7/28.

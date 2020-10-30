@@ -46,7 +46,8 @@ class MyApplication : Application() {
         AppDataBase.db = Room.databaseBuilder(this, AppDataBase::class.java, "splashed_ink_data")
                 .addMigrations(AppDataBase.MIGRATION_1_2)
                 .addMigrations(AppDataBase.MIGRATION_2_3)
-                .allowMainThreadQueries().build()
+                .addMigrations(AppDataBase.MIGRATION_3_4)
+                .build()
     }
 
 
